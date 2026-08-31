@@ -1,0 +1,2509 @@
+-> class
+----------
+- a blueprint or template used to create objects
+- defines the data(fields/variables) and behavior(methods) that object of that class will have
+
+syntax:
+class ClassName {
+    // Fields (variables)
+    // Constructors
+    // Methods
+}
+
+
+-> new keyword - NEW Keyword Sends request to the class, & class creates Object. Once the Object is created, NEW keyword will get Object’s address in a reference variable.
+
+-> garbage collector-Garbage Collector on regular basis keeps removing unused objects from RAM, thus avoiding overflow of memory, this helps us manage memory efficiently.
+
+-> non-static/instance variable->
+	- created inside class but outside method without using “static” keyword.
+	- Without creating object this variable cannot be accessed
+
+-> static variable
+	- created inside the class & outside method using “static” keyword,
+	- these variables belong to the class and can be accessed with class name.
+
+
+-> methods
+	- static or non-static
+
+-> variables
+	- local
+	- static
+	- non-static
+	- reference
+
+example:
+public class VariablesDemo {
+    static String college = "ABC College";  ----> Static Variable (Shared by all objects)
+    String name = "Rahul";  		    ----> Non-Static (Instance) Variable
+
+    public void show() {
+        int age = 20;  ----> Local Variable
+
+        System.out.println("Name : " + name);
+        System.out.println("Age : " + age);
+        System.out.println("College : " + college);
+    }
+
+    public static void main(String[] args) {
+        // Reference Variable
+        VariablesDemo obj = new VariablesDemo();
+
+        obj.show();
+    }
+}
+
+
+
+-> stack and heap memory
+---------------------------
+   Stack->stores method execution data->(local variables, method calls, references)
+	->automatically allocated and deallocated as methods are called and return.
+	->faster
+
+   Heap ->stores objects and instance variables.
+	->managed by java's Garbage Collector->which frees memory occupied by
+	  unreachable objects.
+	
+
+public class Student {
+
+    int age = 22;          // Instance variable -> Heap
+    String name = "John";  // Instance variable -> Heap
+
+    public void display() {
+        int marks = 95;    // Local variable -> Stack
+
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("Marks: " + marks);
+    }
+
+    public static void main(String[] args) {
+
+        Student s1 = new Student(); // s1 -> Stack, Object -> Heap
+        int id = 101;               // Local variable -> Stack
+
+        s1.display();
+    }
+}
+
+                    STACK MEMORY
++-------------------------------------------------+
+| main()                                          |
+|-------------------------------------------------|
+| s1 ------------------------------+              |
+| id = 101                         |              |
++----------------------------------|--------------+
+                                   |
+                                   |
+                                   v
+                    HEAP MEMORY
+          +---------------------------------+
+          | Student Object                  |
+          |---------------------------------|
+          | age = 22                        |
+          | name = "John"                   |
+          +---------------------------------+
+
+When display() is called:
+
+                    STACK MEMORY
++-------------------------------------------------+
+| display()                                       |
+|-------------------------------------------------|
+| marks = 95                                      |
++-------------------------------------------------+
+
+
+
+-> data types
+-------------
+byte
+short
+int
+long
+float
+double
+char
+Boolean
+String
+var-dynamic
+
+-------------------------
+-> naming conventions in Java
+-------------------------
+all keywords -> lowercase: - new, class, static, int, short
+
+class name -> Start with an uppercase letter, PascalCase (Upper Camel Case)
+
+variable name -> Start with a lowercase letter, camelCase
+	
+method name -> Start with a lowercase letter, Follow camelCase
+
+Constant Names -> UPPERCASE, Words separated by underscores (_)
+
+Package Names -> All lowercase
+
+examples:
+--------
+class    ----> class BankAccount {}
+variable ----> int studentName;
+method   ----> void displayMarks() {}
+constant ----> final int MAX_VALUE = 100;
+package  ----> package com.example.project;
+
+
+Identifier	 _ and $ Allowed	   Recommended?
+Class Name	     ✅			Usually avoid both
+Variable Name	     ✅			Prefer camelCase without _ or $
+Method Name	     ✅			Prefer camelCase without _ or $
+Constant Name	     ✅			Use _; avoid $
+Package Name	     ✅			Technically allowed, but avoid both; use lowercase letters
+
+------------
+-> methods - a block of code that performs a specific task, It can take input (parameters) and may return a value.
+-----------
+void - void means a function does not return any value.
+return value
+return
+
+
+
+
+example
+---------
+public class MethodsDemo {
+    static void greet() { ----> 1. void method (no return value)
+        System.out.println("Welcome to Java!");
+    }
+
+    static void checkAge(int age) { -----> 2. void method with return;
+        if (age < 18) {
+            System.out.println("Not Eligible");
+            return;    // Exits the method
+        }
+        System.out.println("Eligible");
+    }
+ 
+    void display() {
+        System.out.println("Hello");
+        return;   // Optional
+    }
+
+    static int add(int a, int b) { -----> 3. Method that returns a value
+        return a + b;  // Returns the sum
+    }
+
+}
+
+
+
+-----------------
+-> constructors: special method - used to initialize the object
+----------------
+same name as that of Class
+permanently void
+cannot be-> abstract, static, final
+cannot return-> any value
+
+--------------------------
+-> constructor overloading
+--------------------------
+more than one constructor in same class provided they are different no. of arguments & different type of arguments.
+
+syntax: for both constructor and constructor overloading
+----------------------------------------------------
+class A{
+   A(){};  -----------------> default / no-argument constructor
+   A(int x, int y){}; ------> parameterized constructor
+}
+
+----------------
+-> this keyword
+---------------
+this keyword refers ->  to the current object (current class instance).
+used to access the current object's variables and methods, especially when local variables and instance variables have the same name.
+
+this.variable → access current object's instance variable
+this.method() → call current object's method
+this() → call another constructor in the same class (constructor chaining)
+
+
+class Student {
+    int id;
+    String name;
+
+    Student() { ----> Default constructor using this()
+        this(101, "John");-----> Calls parameterized constructor
+    }
+ 
+    Student(int id, String name) { -----> Parameterized constructor
+        this.id = id;----------> this.variable refers to instance variable
+        this.name = name;------> this.variable refers to instance variable
+    }
+
+    void display() {  ------------> Method using this.method()
+        this.showDetails();  -----> Calls current object's method
+    }
+
+    void showDetails() {
+        System.out.println("ID: " + this.id);
+        System.out.println("Name: " + this.name);
+    }
+
+    public static void main(String[] args) {
+        Student s = new Student(); -----> Creates object
+        s.display();
+    }
+}
+
+------------------------
+-> constructor chaining
+-----------------------
+When we call one constructor from another constructor is called as constructor chaining.
+super() vs this() in Constructor Chaining -> must be the first statement in a constructor.
+constructor -> can use either super() or this()
+super() doesn't need to write in default constructor or zero-parameter constructor
+-------------------------------------------------------------------------------------------
+| Keyword   | Used For                                          | Called From             |
+| --------- | ------------------------------------------------- | ----------------------- |
+|  super()  | Calling the parent class constructor              | Child class constructor |
+|  this()   | Calling another constructor of the same class     | Same class constructor  |
+-------------------------------------------------------------------------------------------
+
+
+Example:
+---------
+using super()
+------------
+class A{
+     A(){};
+}
+
+class B extends A{
+    B(){
+	super(); ---> calls class A constructor
+    };
+}
+
+----------------------------------
+constructor Chaining Flow : super()
+----------------------------------
+B constructor starts
+        |
+        ↓
+super() calls A constructor
+        |
+        ↓
+B constructor continues
+
+
+--------------
+using this()
+--------------
+class A(){
+A(){
+         this("mike");
+    }
+
+    A(String name){
+        this(22,"Delhi");
+    }
+ 
+    A(int age, String Address){
+	
+    }
+}
+
+constructor Chaining Flow: this()
+--------------
+A()
+ |
+ | this("Mike")
+ ↓
+A(String name)
+ |
+ | this(22, "Delhi")
+ ↓
+A(int age, String address)
+k
+
+
+----------
+->OOPs
+---------
+inheritance
+polymorphism
+encapsulation
+abstraction
+
+
+
+-> unary operator
+------------------
+A unary operator in Java is an operator that works on a single operand (one variable or value).
+Pre-Increment
+Pre-Decrement
+Post-Increment
+Post- Decrement
+
+
+------------
+-> packages
+------------
+Packages in Java are used to group related classes and interfaces.
+They provide better code organization, prevent naming conflicts, enable reuse, and support access control.
+
+key points:-
+-----------
+package statement must be the first line - in a Java file
+package name cannot be a keyword
+it should be in lowercase
+
+-------------------------------
+-> access specifiers/modifiers
+-------------------------------
+Private   -> Only Me
+Default   -> My Package
+Protected -> My Package + My Children (Subclasses)
+Public    -> Everyone
+
++-----------------------------------+---------+---------+-----------+--------+
+| Access Level                      | Private | Default | Protected | Public |
++-----------------------------------+---------+---------+-----------+--------+
+| Same Class                        |   Yes   |   Yes   |    Yes    |  Yes   |
+| Same Package (Subclass)           |   No    |   Yes   |    Yes    |  Yes   |
+| Same Package (Non-Subclass)       |   No    |   Yes   |    Yes    |  Yes   |
+| Different Package (Subclass)      |   No    |   No    |    Yes    |  Yes   |
+| Different Package (Non-Subclass)  |   No    |   No    |    No     |  Yes   |
++-----------------------------------+---------+---------+-----------+--------+
+
+========================================================================================================================
+---------------
+-> IIB and SIB
+--------------
+
+------------------------------------
+IIB (Instance Initialization Block)
+----------------------------------
+IIB executes only when an object is created.
+No object created → IIB is not executed.
+If 2 objects are created → IIB executes 2 times.
+IIB executes before the constructor.
+If there are multiple IIBs, they execute in the order they are written.
+An IIB can initialize both static and non-static variables
+	(though static variables are typically initialized in a static block).
+
+class IIBDemo {
+    static int companyId;  ------> Static variable
+    int employeeId;	   ------> Instance variable
+
+    static { -----> Static Initialization Block (executes only once)
+        companyId = 100;
+        System.out.println("Static Block Executed");
+    }
+
+    { -----> Instance Initialization Block 1
+        System.out.println("IIB 1 Executed");
+        employeeId = 1;      // Initializing instance variable
+        companyId = 200;     // IIB can also modify static variable
+    }
+
+    { -----> Instance Initialization Block 2
+        System.out.println("IIB 2 Executed");
+    }
+
+    IIBDemo() { ----> Constructor
+        System.out.println("Constructor Executed");
+        System.out.println("Company ID : " + companyId);
+        System.out.println("Employee ID: " + employeeId);
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Creating First Object");
+        IIBDemo obj1 = new IIBDemo();
+
+        System.out.println();
+
+        System.out.println("Creating Second Object");
+        IIBDemo obj2 = new IIBDemo();
+    }
+}
+
+Output-
+------
+Static Block Executed
+Creating First Object
+IIB 1 Executed
+IIB 2 Executed
+Constructor Executed
+Company ID : 200
+Employee ID: 1
+
+Creating Second Object
+IIB 1 Executed
+IIB 2 Executed
+Constructor Executed
+Company ID : 200
+Employee ID: 1
+
+
+---------------------------------
+SIB (Static Initialization Block)
+---------------------------------
+SIB is declared inside a class using the static keyword.
+Executes once when the class is loaded, before the main() method.
+No object creation is required for SIB to execute.
+If there are multiple SIBs, they execute in the order they are written.
+SIB is mainly used to initialize static variables.
+SIB cannot directly access or initialize non-static (instance) variables because no object exists yet.
+SIB executes before IIB, constructors, and object creation.
+
+
+class SIBDemo {
+    static int companyId;   ------> Static variable
+    int employeeId = 10;    ------>Instance variable
+
+    static {----> Static Initialization Block 1
+        System.out.println("SIB 1 Executed");
+        companyId = 100;   // Initializing static variable
+    }
+
+    static {----> Static Initialization Block 2
+        System.out.println("SIB 2 Executed");
+        companyId = 200;
+    }
+ 
+    { -----> Instance Initialization Block
+        System.out.println("IIB Executed");
+    }
+
+    SIBDemo() { ------> Constructor
+        System.out.println("Constructor Executed");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Main Method Started");
+        System.out.println("Company ID = " + companyId);
+
+        System.out.println("\nCreating First Object...");
+        new SIBDemo();
+
+        System.out.println("\nCreating Second Object...");
+        new SIBDemo();
+    }
+}
+
+Output:
+--------------
+SIB 1 Executed
+SIB 2 Executed
+Main Method Started
+Company ID = 200
+
+Creating First Object...
+IIB Executed
+Constructor Executed
+
+Creating Second Object...
+IIB Executed
+Constructor Executed
+========================================================================================================================
+
+----------------
+-> Polymorphism
+----------------
+Polymorphism is the ability of an object or method to take multiple forms. It allows the same
+method name to perform different behaviors depending on the arguments or the object type.
+
+Polymorphism
+│
+├── Compile-Time Polymorphism
+│       │
+│       ├── Method Overloading
+│       └── Constructor Overloading
+│
+└── Run-Time Polymorphism
+        │
+        └── Method Overriding
+
+
+----------------------
+i. Overriding/Runtime:
+---------------------
+Method overriding is a feature in Java where a child class provides its own implementation
+of a method that is already defined in the parent class with the same method signature
+(same name, parameters, and return type compatibility).
+The method to execute is decided at runtime based on the actual object type.
+
+note: Constructor cannot be overridden ❌ because constructors are not inherited.
+
+class A{
+     A(){};
+     void display(){};
+     void showData(){};
+}
+
+class B extends A{
+    /*B(){--------> Constructor cannot be overridden ❌
+        super()--------> calls class A constructor using super()
+	System.out.println("class B constructor implementation");
+    }; */
+
+    @Override
+    void display(){ -------> class A display method implementation
+       System.out.println("Class A method implementation");
+    }
+
+    /* @Override
+    String showData(){ -------> // ❌ Compile-time error, Cannot override showData() because the return type is incompatible.
+       return "Hello";
+    }*/
+}
+
+Covariant Return Type (Allowed)
+----------------------------------
+class Animal {}
+
+class Dog extends Animal {}
+
+class Parent {
+    Animal getAnimal() {
+        return new Animal();
+    }
+}
+
+class Child extends Parent {
+    @Override
+    Dog getAnimal() {
+        return new Dog();
+    }
+}
+
+
+
+ii. Overloading/Compile-Time
+-----------------------------
+Method overloading is a feature in Java where a class contains multiple methods with
+the same name but different parameter lists (number, type, or order of parameters).
+The compiler decides which method to call at compile time, so it is called compile-time
+polymorphism.
+
+class A{
+   A(){};  -------------------------------> default / no-argument constructor
+   A(int x, int y){}; --------------------> parameterized constructor
+   void print(){}; -----------------------> method with no parameters
+   void print(String name){}; ------------> Method with one parameter
+   public print(String name, int age){};----> Method with two parameters & with modifier public
+}
+
+--------------------------------------------------------------------------------
+|		Type	         |              Example			       |
+|--------------------------------|---------------------------------------------|
+| Different number of parameters | add(int,int) and add(int,int,int)	       |
+| Different parameter data types | add(int,int) and add(double,double)	       |
+| Different order of parameters  | details(String,int) and details(int,String) |
+--------------------------------------------------------------------------------
+
+Method overloading depends on:
+✅ Number of parameters
+✅ Type of parameters
+✅ Order of parameters
+
+It does not depend on:
+❌ Return type
+❌ Access modifier (public, private, etc.)
+
+
+---------------------------------------------------------
+| Compile-Time Polymorphism | Runtime Polymorphism      |
+| ------------------------- | ------------------------- |
+| Method Overloading        | Method Overriding         |
+| Decided by compiler       | Decided by JVM at runtime |
+| Same class                | Parent-child relationship |
+| Static binding            | Dynamic binding           |
+| Faster                    | Slightly slower           |
+---------------------------------------------------------
+
+------------------
+-> Encapsulation
+------------------
+Encapsulation is the process of hiding data by making variables private and providing
+controlled access through public methods like getters and setters. It improves security,
+data protection, and maintainability.
+
+private - variable
+public - getters & setters
+
+class A {
+    private int x; -----> variable
+    private int y; -----> variable
+
+    public void setValue(int x, int y){ ----> Setter method
+        this.x = x;
+        this.y = y;
+    }
+
+    public void getValue() { ----> Getter method
+        System.out.println(x + y);
+    }
+}
+
+
+--------------------
+-> final keyword
+--------------------
+variable	- value once initialized then cannot be changed
+static/non-static variable - initialization is mandatory
+variable - in Uppercase
+class- inheritance is not allowed
+method - overriding is not allowed
+
+
+final class FinalExample {
+    final int AGE = 25;-------> final variable value cannot be changed
+    final static String COMPANY="OpenAI";----->static final constant value cannot be changed
+    final String name;----->final variable must be initialized once
+
+    FinalExample(String name) {
+        this.name = name;-----> initializing final variable using constructor
+    }
+
+    final void display(){------>final method cannot be overridden
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + AGE);
+        System.out.println("Company: " + COMPANY);
+    }
+
+    public static void main(String[] args) {
+        FinalExample obj = new FinalExample("John");
+
+        obj.display();
+
+        // obj.AGE = 30; // cannot modify final variable
+        // obj.name = "Mike"; // cannot modify final variable
+        // FinalExample.COMPANY = "Google"; // cannot modify static final variable
+    }
+}
+
+-----------
+-> casting
+-----------
+Casting is converting one data type into another.
+
+Widening Casting (Implicit / Automatic)
+-----------------------------------------
+Converts a smaller data type to a larger data type.
+Done automatically by Java.
+
+	byte -> short -> int -> long -> float -> double -> char -> boolean
+
+int num = 100;
+double value = num;----->int → double
+
+2. Narrowing Casting (Explicit / Manual)
+-------------------------------------------
+Converts a larger data type to a smaller data type.
+You must use the casting operator.
+
+       byte <- short <- int <- long <- float <- double <- char <- boolean
+
+double value = 99.99;
+int num = (int) value; // double → int
+
+
+
+Object/Class casting
+-------------------------
+Class casting is converting an object reference from one class type to another
+   compatible class type.
+ 
+ - upcasting   - Child object -> Parent reference
+ - downcasting - Parent reference -> Child reference
+
+note: to perform downcasting we have to do firstly upcasting
+
+----------------------------------------------------------------------------------------
+| Casting     | Syntax                 | Description                                   |
+| ----------- | -----------------------| --------------------------------------------- |
+| Upcasting   | Animal a = new Dog();  | Child object → Parent reference (implicit)    |
+| Downcasting | Dog d = (Dog) a;`      | Parent reference → Child reference (explicit) |
+----------------------------------------------------------------------------------------
+
+class Animal {
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class CastingDemo {
+    public static void main(String[] args) {
+        // -----------------------------
+        // Upcasting: Child object -> Parent reference
+        // -----------------------------
+        Animal a = new Dog(); // Upcasting (implicit)
+        a.sound();
+
+        // a.bark(); // Compile-time Error
+        // Parent reference cannot directly access child methods.
+
+        // -----------------------------
+        // Downcasting : Parent reference -> Child reference
+        // -----------------------------
+        Dog d = (Dog) a; // Downcasting (explicit)
+        d.sound();
+        d.bark();
+    }
+}
+
+Output
+------
+Animal makes a sound
+Animal makes a sound
+Dog barks
+
+
+--------------
+-> Interface
+--------------
+An interface is a contract that defines what a class must do.
+A class implements an interface and provides the implementation of its methods.
+Interfaces are mainly used for abstraction and achieving multiple inheritance in Java.
+
+	Class	  -	extends		->	Class/Abstract Class
+	Interface -	extends		->	Interface
+	Class	  -	implements	->	Interface
+
+achieve by using the interface
+--------------------------------
+	- abstraction
+	- multiple inheritance
+	- loose coupling
+
+
+-------------------
+Before Java -8
+------------------
+
+-> Interface
+------------
+every variable - final and static by default
+reference variable - can be created
+object - cannot be created
+methods - public abstract by default
+
+interface Animal {
+    int AGE = 10;    ------> public static final (why->final declare with Captial Letters)
+    void sound();    ------> public abstract
+}
+
+class Dog implements Animal {
+    public void sound() {
+        System.out.println("Dog Barks");
+    }
+}
+
+public class Demo {
+    public static void main(String[] args) {
+        Animal a; ----------> ✔ Reference variable
+
+        // Animal a = new Animal(); ----->❌ Compile-time Error
+
+        a = new Dog(); -------->✔ Interface reference to child object
+        a.sound();
+        System.out.println(Animal.AGE); -----> Accessing interface constant using interface name
+	// System.out.println(Dog.AGE); -----> Interface constant inherited by Dog class
+    }
+}
+
+
+--------------------------
+-> Java 8 new features
+=========================
+functional interface
+lambda expression
+default keyword
+stream api
+optional class
+date & time API
+
+
+-> Functional Interface - can consist of exactly one incomplete method in it
+-----------------------
+Annotation - @FunctionalInterface
+
+
+@FunctionalInterface
+interface Calculator {
+    int add(int a, int b);  // Single abstract method
+
+    default void display() {
+        System.out.println("Default method");
+    }
+
+    static void show() {
+        System.out.println("Static method");
+    }
+}
+
+----------------------
+-> Lambda Expression
+----------------------
+only be applicable on functional interface
+
+@FunctionalInterface
+interface Animal {
+    void sound();
+}
+
+public class Demo {
+    public static void main(String[] args) {
+        Animal a = () -> System.out.println("Dog Barks"); --->lambda expression
+        a.sound();
+    }
+}
+
+
+-------------
+Interface
+-----------
+-> default keyword
+--------------------
+java version -8
+create complete methods -> using default keyword
+functional interface-> consist one incomplete method, but can have any number of complete methods.
+
+add main method in interface
+develop complete static methods
+
+
+interface Demo {
+    void display(); ------> Abstract method (incomplete)
+
+    default void show() { -------> Default method (complete)
+        System.out.println("Default Method");
+    }
+
+    static void message() { ------> Static method (complete)
+        System.out.println("Static Method");
+    }
+
+    public static void main(String[] args) { -------> Main method inside interface
+        System.out.println("Main Method Inside Interface");
+        message();
+    }
+}
+
+------------------------------------------------------------------------
+| Feature              | Before Java 8 | Java 8                        |
+| -------------------- | ------------- | ------------------------------|
+| Abstract methods     | ✅ Yes	       | ✅ Yes                       |
+| default methods      | ❌ No        | ✅ Yes                        |
+| static methods       | ❌ No        | ✅ Yes                        |
+| main() method        | ❌ No        | ✅ Yes                        |
+| Functional Interface | ❌ No        | ✅ Yes (@FunctionalInterface) |
+------------------------------------------------------------------------
+
+---------------
+-> Abstraciton
+=============
+abstraction achieved -> using interface and abstract class
+
+in interface
+--------------
+abstract keyword - helps us to define incomplete methods
+interface A {
+    abstract void show();
+}
+
+
+in abstract class
+-----------------
+abstract keyword - helps us to define incomplete methods & makes class abstract
+
+can have static and non-static variables
+An abstract class can have multiple constructors
+incomplete methods
+complete methods -(concrete methods)
+main method
+object can't be created directly
+static, final and nested classes/methods
+parent abstract class's abstract methods implementation is necessary in if the child class is not abstract.
+
+An abstract class can be 0% to 100% incomplete.
+------------------------------------------------
+0% incomplete (100% complete methods) → No abstract methods, but class is still declared abstract.
+Partially incomplete → Contains both abstract and concrete methods.
+100% incomplete → All methods are abstract.
+
+
+abstract class Animal {
+    static int x = 10;  ----> Static variable
+    int y = 20; ------> Instance variable
+ 
+    Animal() { ----->Constructor
+        System.out.println("Abstract Class Constructor");
+    }
+
+    abstract void sound(); -----> Abstract method
+
+    void display() { ------> Concrete method
+        System.out.println("Concrete Method");
+    }
+
+    static void show() { -----> Static method
+        System.out.println("Static Method");
+    }
+
+    final void test() { ------> Final method
+        System.out.println("Final Method");
+    }
+
+    public static void main(String[] args) { -----> Main method
+        System.out.println("Main Method");
+    }
+
+    static class Inner { -----> Nested static class
+        void message() {
+            System.out.println("Nested Static Class");
+        }
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {----->class Animal abstract sound() method implementation
+        System.out.println("Dog Barks");
+    }
+
+    public static void main(String[] args) {
+        Dog d = new Dog();
+
+        d.sound();
+        d.display();
+        d.test();
+
+        Animal.show();
+
+        Animal.Inner obj = new Animal.Inner();
+        obj.message();
+    }
+}
+
+-----------------
+-> super keyword
+-----------------
+Access parent variables → super.variable
+Access parent methods → super.method()
+Call parent constructor → super()
+super() must be the first statement in a constructor.
+Can access static and non-static parent members.
+Cannot be used inside static methods.
+this() and super() -> can't be used in same method
+no-argument constructor -> automatically added by the compiler if parent class has
+argument constructor -> by passing value in super(values)
+calls an interface default method -> InterfaceName.super.method()
+
+class Parent {
+    int x = 10; ----------------> Non-static variable
+    static int y = 20; ---------> Static variable
+
+    Parent() {---------> no-argument constructor
+        System.out.println("Parent Constructor");
+    }
+
+    void display() {
+        System.out.println("Parent Non-static Method");
+    }
+
+    static void show() {
+        System.out.println("Parent Static Method");
+    }
+}
+
+class Child extends Parent {
+    int x = 100;
+
+    Child() { -------> Child Constructor
+        super();-----> Rule 1: Calls parent constructor
+                       Rule 2: Must be the first statement
+    }
+
+    void demo() {
+        int x = super.x; -----------> Rule 3: Access parent variable
+        super.display(); -----------> Rule 4: Access parent method
+        static int y = super.y;-----> Rule 5: Access static member
+        super.show();---------------> Rule 5: Access static method
+    }
+
+    static void staticDemo() {
+        // super.display();   // ❌ ERROR------> Rule 6: Cannot be used inside static methods.
+        // super.x;           // ❌ ERROR------> Rule 6: Cannot be used inside static methods.
+    }
+
+   /* Child(int a) { -------> Rule 7: this() and super() cannot be used in the same constructor        super();
+         suepr();
+         this();   // ❌ ERROR
+      }
+   */
+}
+
+for multiple inheritance super()
+
+interface A{
+   default void show(){
+      System.out.println("A default method");
+   }
+}
+
+interface B{
+   default void display(){
+      System.out.println("B default method");
+   }
+}
+
+class C implements A, B{
+    public void show(){
+	A.super.show();----> Calls A's default method
+	B.super.display();----> Calls B's default method
+   }
+}
+
+-----------
+-> Exception
+-----------
+Whenever a bad user input is given, it will halt the program execution abruptly. This is called
+as “exception”.
+
+try{
+
+}catch(){
+
+}
+
+“printStackTrace()":- To know the exact line number where exception has occurred
+
+
+types-> Runtime and Compile Time/checked exception
+----------------------------------------------------
+CompileTime/Checked Exception -> .java to .class
+Runtime/Unchecked Exception	 -> run .class file
+
+
+
+--------
+-> Loops
+--------
+for
+while
+do-while
+
+
+-----
+break- terminate loop and  used in switch statements
+-----
+
+------------
+-> continue - used only in loops
+------------
+
+------------------------------
+-> Conditional Statements
+--------------------------
+if else
+else if
+switch
+
+-----------------
+-> Scanner class : used to read input from the keyboard
+----------------
+
+
+---------
+-> Arrays
+---------
+An array is a fixed-size collection of elements of the same data type stored in contiguous
+memory locations, accessed using an index starting from 0.
+
+
+
+========================================================================================================================
+-> File Handling- means reading and writing data to a file
+========================================================================================================================
+
+File f=new File("file path");
+
+methods
+--------
+exists()         → Check existence
+createNewFile()  → Create file
+mkdir()          → Create folder
+delete()         → Delete file/folder
+list()           → Show files/folders
+length()         → File size (bytes)
+
+
+File Reader-> Used to read character data from a file.
+============================
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+try {
+    FileReader fr = new FileReader("file path");
+
+    // Read one character
+    int data = fr.read();
+    System.out.println((char) data);
+
+    fr.close();
+
+} catch (IOException e) {
+    e.printStackTrace();
+}
+
+Creating FileReader using a File object
+-----------------------------------------
+File f = new File("file path");
+FileReader fr = new FileReader(f);
+
+Important Methods
+fr.read();          // Reads one character and returns its ASCII/Unicode value (int)
+(char) fr.read();   // Converts the returned int to a character
+
+Read Entire File
+-----------------------
+File f = new File("file path");
+FileReader fr = new FileReader(f);
+
+char[] data = new char[(int) f.length()];
+
+fr.read(data);      // Reads all characters into the array
+
+System.out.println(data);
+
+fr.close();
+
+
+-> FileWriter
+==============
+package-> java.io.FileWriter
+
+try{
+	FileWriter f=new FileWriter("file path");
+}catch(IOException e){
+	e.printStackTrace();
+}
+
+Append Mode
+------------
+FileWriter fw = new FileWriter("file path", true);
+false (default) → Overwrites the existing file.
+true → Appends new data to the end of the file.
+
+
+methods
+--------
+write()
+
+
+
+-> Buffered Reader and Writer
+==============================
+BufferedReader->
+improve file reading performance
+has an exclusive readLine() method that reads the content line by line
+
+package-> java.io.BufferedReader
+
+// without filereader class BufferedReader can't work
+FileReader fr=new FileReader("file path");
+BufferReader br=new BufferedReader(fr);
+
+methods-
+-------
+readLine() ------> read line by line content
+
+//to read all the content from a text file using while loop
+int i;
+while((i=br.read())!=-1){
+   System.out.print((char)i);
+}
+
+
+BufferedWriter->
+---------------
+improves file writing performance
+has an exclusive newLine() method that writes the content in new line
+
+package-> java.io.BufferedWriter
+
+// without filewriter class BufferedWriter can't work
+FileWriter fw=new FileWriter("file path");
+BufferedWriter bw=new BufferedWriter(fr);
+
+methods
+--------
+write()
+newLine()
+
+
+
+-> Serialization and De-Serialization
+-----------------------------------------
+all the objects we create -> stored -> in RAM(Heap Memory)-> temporary memory
+
+to store it permanently-> .ser file
+
+serialization-> convert object into zeros and ones -> store the object state permanently in a file
+deserialization -> read binaries from the file and reconstruct the object back
+
+
+transient keyword
+
+--------------------
+-> marker interface : does not contain any methods or variables
+-------------------
+interface InterfaceName {
+    // No methods
+}
+
+--------------
+-> Object Class - the super most class in java
+--------------
+
+
+-----------------------
+-> Immutable Class
+-----------------------
+declare the class as final
+make variable private & final
+initialize the variable using constructor
+read variable value using getter method
+
+final class Student {
+    // private and final variables
+    private final int id;
+    private final String name;
+
+    // Constructor to initialize variables
+    public Student(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    // Getter methods (read only)
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+
+
+----------------
+-> Date and Time
+-----------------
+
+Date and Time APIs
+│
+├── Legacy API (Before Java 8)
+│    └── java.util
+│           ├── Date
+│           ├── Calendar
+│           └── SimpleDateFormat
+│
+├── Modern API (Java 8+)
+│     └── java.time
+│           ├── LocalDate
+│           ├── LocalTime
+│           └── LocalDateTime
+│
+└── JDBC / SQL Types
+       └── java.sql
+             ├── Date
+             ├── Time
+             └── Timestamp
+
+
+
+
+epoch:- miliseconds -> fixed date and time
+------
+Allocates a Date object and initializes it to represent the specified number of milliseconds
+since the standard base time known as "the epoch", namely January 1, 1970, 00:00:00 GMT.
+params: date – the milliseconds since January 1, 1970, 00:00:00 GMT.
+
+
+-> java.time
+------------
+In Java, now() is usually used to get the current date, time, or both from the modern Java Time API (java.time package).
+
+it replaces old classes like:
+Date
+Calendar
+GregorianCalender
+
+Main Classes in java.time
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+|     Class         | 					Purpose                                              |              Example                    |
+| ----------------- | -------------------------------------------------------------------------------------- | --------------------------------------- |
+| LocalDate         | date -> (year, month, day)                                                 	     | 2026-07-29                              |
+| LocalTime         | time -> (hour, minute, second, nanosecond)                                 	     | 10:30:45                                |
+| LocalDateTime     | date and time -> without timezone                                                      | 2026-07-29T10:30:45                     |
+| Instant           | specific moment on the UTC timeline -> (milliseconds/nanoseconds since the Unix Epoch) | 2026-07-29T05:00:45Z                    |
+| Duration          | time-based amount -> such as hours, minutes, and seconds                               | 5 hours, 30 minutes                     |
+| Period            | date-based amount -> such as years, months, and days                                   | 2 years 3 months                        |
+| ZoneId            | Represents a -> time zone                                                              | "Asia/Kolkata"                          |
+| ZonedDateTime     | date and time -> with a timezone                                                       | 2026-07-29T10:30:45+05:30[Asia/Kolkata] |
+| OffsetDateTime    | date and time with a UTC offset                                       	             | 2026-07-29T10:30:45+05:30`              |
+| DateTimeFormatter | Formats and parses dates and times                                                     | "dd-MM-yyyy"`                           |
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+LocalDate
+--------
+LocalDate today = LocalDate.now();
+System.out.println(today);
+
+methods:
+today.getYear();
+today.getMonth();
+today.getDayOfMonth();
+today.plusDays(5);
+today.minusMonths(1);
+
+2. LocalTime
+---------------
+LocalTime time = LocalTime.now();
+
+time.getHour();
+time.getMinute();
+time.plusHours(2);
+
+
+3. LocalDateTime
+-----------------
+LocalDateTime dt = LocalDateTime.now();
+
+
+4. Instant
+-----------
+Instant instant = Instant.now();
+
+5. Duration
+------------
+Duration duration = Duration.ofHours(5);
+Duration.between(startTime, endTime);
+
+6. Period
+-------------
+Period period = Period.of(1, 2, 10);
+Period.between(startDate, endDate);
+
+7. ZoneId
+-----------
+ZoneId zone = ZoneId.of("Asia/Kolkata");
+
+ZoneId.of("America/New_York");
+ZoneId.of("Europe/London");
+
+8. ZonedDateTime
+-----------------
+ZonedDateTime zdt = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
+
+System.out.println(zdt);
+
+9. OffsetDateTime
+------------------
+OffsetDateTime odt = OffsetDateTime.now();
+
+
+10. DateTimeFormatter
+----------------------
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+String formatted = LocalDate.now().format(formatter);
+
+========================================================================================================================
+
+-------------------
+-> String in Java
+===================================
+
+String Pool or String Intern Pool
+---------------------------------------------------
+special memory area -> that store "String literals"
+helps to optimize memory usage and performance when dealing with strings.
+or
+The String Pool is a special area inside the JVM Heap where Java stores only
+one copy of each unique string literal.
+When the same literal is used again, Java reuses the existing object instead of
+creating a new one.
+
+-> intern() method :
+used to add string to the pool explicitly
+if the string already in the pool intern() returns the existing reference.
+
+
+String s1 = "Java";  -------> Stored in String Pool
+String s2 = "Java";  -------> Reuses the same object from String Pool
+
+s1 == s2   -----------------> true -> same reference (same address)
+s1.equals(s2) --------------> true -> same content (value)
+
+
+String s3 = new String("Java"); ------> New object in Heap memory
+String s4 = new String("Java"); ------> Another new object in Heap memory
+
+s3 == s4 -------------------> false-> different references (different addresses)
+s3.equals(s4)---------------> true -> same content (value)
+
+
+String s5 = new String("Java").intern();---------> Returns String Pool reference
+
+s1 == s5 ---------------> true  -> same reference (same address)
+s1.equals(s5)-----------> true  -> same content (value)
+
+
+------------------------------------------
+-> how will check string is empty or not?
+------------------------------------------
+Memory Tip 🧠
+-------------
+isEmpty() → Length = 0
+isBlank() → Only whitespace (or empty)
+null → No object exists
+
+Rule to remember:
+----------------
+"" → Empty
+" " → Blank
+null → No String object
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------------------
+-> text blocks in Java -> Version-13
+They allow you to write multi-line string literals without using \n or string concatenation (+).
+
+String text = """
+        Java says "Hello"
+        Welcome\tto\tJava
+        """;
+
+System.out.println(text);
+
+output
+------
+Java says "Hello"
+Welcome    to    Java
+---------------------------------------------------------------------------------
+
+
+
+Common Java String Methods:
+---------------------------
+---------------------------------------------------------------------------------------------------------------
+|           Category            |                           Methods                                           |
+| ----------------------------- | --------------------------------------------------------------------------- |
+| **Length & Character Access** | length(), charAt(), toCharArray(), getBytes()	                              |
+| **Comparison**                | equals(), equalsIgnoreCase(), compareTo(), compareToIgnoreCase(), matches() |
+| **Searching**                 | contains(), indexOf(), lastIndexOf(), startsWith(), endsWith()              |
+| **Extraction**                | substring(), split()                                                        |
+| **Modification**              | concat(), replace(), replaceAll(), replaceFirst(), repeat()                 |
+| **Case Conversion**           | toUpperCase(), toLowerCase()                                                |
+| **Whitespace Handling**       | trim(), strip()                                                             |
+| **Validation**                | isEmpty(), isBlank()                                                        |
+| **Conversion**                | valueOf(), intern()                                                         |
+| **Utility**                   | join(), format()                                                            |
+---------------------------------------------------------------------------------------------------------------
+
+===========================================================================================
+
+
+=======================================================================================================
+Collection
+==========================
+_____________________________________________________________________________________________
+Collection	|	                 Real-world Project Topics		            |
+________________|___________________________________________________________________________|
+ArrayList	| Student Management System, Employee Management System, Shopping Cart,	    |
+		| Library Management System, Movie Booking System			    |
+----------------|---------------------------------------------------------------------------|
+LinkedList	| Browser History, Music Playlist, Train Reservation Queue, Undo/Redo 	    |
+		| Feature, Navigation History						    |
+----------------|---------------------------------------------------------------------------|
+HashSet		| User Registration (Unique Emails), Unique Tags System, Attendance System, |
+		| Coupon Code Validation						    |
+----------------|---------------------------------------------------------------------------|
+LinkedHashSet	| Recent Search History, Ordered Unique Products, Recently Viewed Items	    |
+----------------|---------------------------------------------------------------------------|
+TreeSet		| Leaderboard, Ranking System, Event Scheduler, Dictionary Application	    |
+----------------|---------------------------------------------------------------------------|
+HashMap		| Login System, Employee Directory, Product Catalog, Banking System, 	    |
+		| Inventory Management							    |
+----------------|---------------------------------------------------------------------------|
+LinkedHashMap	| LRU Cache, Recently Accessed Files, Ordered Configuration Settings	    |
+----------------|---------------------------------------------------------------------------|
+TreeMap		| Phone Directory, Student Ranking, Stock Price Records, Exam Results	    |
+----------------|---------------------------------------------------------------------------|
+PriorityQueue	| Hospital Emergency Queue, Task Scheduler, CPU Process Scheduling, 	    |
+		| Ticket Booking Priority						    |
+----------------|---------------------------------------------------------------------------|
+ArrayDeque/Deque| Undo/Redo System, Browser Back/Forward, Sliding Window Problems	    |
+----------------|---------------------------------------------------------------------------|
+Stack		| Expression Evaluation, Undo Operation, Text Editor, Bracket Matching	    |
+----------------|---------------------------------------------------------------------------|
+Queue		| Printer Queue, Customer Service Queue, Food Order System, Call Center     |
+		| Management								    |
+---------------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------
+# collection framework:
+-------------------------------------------
+A set of interfaces and classes used to store, manipulate, and retrieve groups of objects efficiently.
+
+-> Is Map part of the Collection Framework?
+Map is part of the Java Collections Framework, but it does not extend the Collection interface.
+
+-> Difference between Collection and Collections?
+Collection → Interface
+Collections → Utility class with static methods
+
+-> Why use Collections instead of Arrays?
+Dynamic size
+Rich API
+Easier insertion, deletion, searching, and sorting
+
+
+                 Object
+                    |
+        -------------------------
+        |                       |
+    Collection                Map
+        |                       |
+   ------------          ----------------
+   |     |     |          |      |       |
+ List   Set  Queue    HashMap TreeMap LinkedHashMap
+
+---------------------------------------------------------------------------------
+
+-----------------
+# ArrayList
+-----------------
+
+Java 21+
+-----------
+Object                      (Class)
+   │
+   ▼
+Iterable<E>                 (Interface)
+   │
+   ▼
+Collection<E>               (Interface)
+   │
+   ▼
+SequencedCollection<E>      (Interface)
+   │
+   ▼
+List<E>                     (Interface)
+   │
+   ▼
+AbstractCollection<E>       (Abstract Class)
+   │
+   ▼
+AbstractList<E>             (Abstract Class)
+   │
+   ▼
+ArrayList<E>                (Class)
+
+
+arraylist
+---------
+dynamic array
+maintain order of insertaion
+supports duplicate element
+
+SequencedCollection
+It is a new interface that represents collections with a well-defined encounter order (first element, last element, and ordered traversal).
+Key methods: getFirst(), getLast(), addFirst(), addLast(), removeFirst(), removeLast(), reversed()
+
+
+
+A common interview question is: What is the difference between Iterable and Iterator?
+----------------------------------------------------------------------------------------
+Iterable: An interface that allows an object to be traversed. It defines the iterator() method.
+Iterator: An interface that actually performs the traversal using methods such as hasNext(), next(), and remove().
+
+ArrayList<String> list = new ArrayList<>();
+
+Iterator<String> it = list.iterator();
+
+while (it.hasNext()) {
+    System.out.println(it.next());
+}
+
+
+-> mutable and immutable list
+--------------------------------
+mutable: A mutable list can be modified after it is created
+----------
+List<String> list = new ArrayList<>();
+list.add("Apple");
+list.add("Banana");
+list.set(0, "Mango");
+list.remove("Banana");
+
+
+immutable: An immutable list cannot be modified after it is created.
+-----------
+List<String> list = List.of("Apple", "Banana", "Orange");
+list.add("Mango");   // UnsupportedOperationException
+--------------------------------------------------------------------------------------------------
+
+----------------------
+# Linked List
+---------------------
+
+                    Object
+                       │
+                       ▼
+         AbstractCollection<E>
+                       │
+                       ▼
+             AbstractList<E>
+                       │
+                       ▼
+      AbstractSequentialList<E>
+                       │
+                       ▼
+              LinkedList<E>
+                /   |    |    \
+               /    |    |     \
+              ▼     ▼    ▼      ▼
+          List<E> Deque<E> Cloneable Serializable
+                    │
+                    ▼
+                Queue<E>
+                    │
+                    ▼
+        SequencedCollection<E>   (Added in Java 21)
+                    │
+                    ▼
+             Collection<E>
+                    │
+                    ▼
+              Iterable<E>
+
+• Dynamic size (grows and shrinks automatically)
+• Maintains insertion order
+• Supports duplicate elements
+• null elements : allows any numbers
+• Implemented as a doubly linked list
+• Fast insertion and deletion (especially at the beginning and end)
+• Slow random access (access by index is O(n))
+• Implements List, Deque, Queue, Cloneable, and Serializable
+• Not synchronized (not thread-safe)
+• Suitable for queue, deque, and stack operations
+
+
+internal working:
+----------------
+uses doubly linked list
+
+-------------
+# Object
+------------
+Superclass of all classes.
+every class in Java directly or indirectly inherits from the Object class
+
+Declaration: Object obj=new Object();
+
+Common methods-> toString(), equals(Object obj), hasCode(), getClass(), clone(), finalize(), wait(),
+	notify(), notifyAll()
+
+An Object reference can point to any Java object:
+	Object obj = "Hello";
+	Object num = 100;
+	Object student = new Student();
+
+To access subclass-specific methods, you must downcast:
+	Student s = (Student) obj;
+
+--------------------------
+# Wrapper classes
+------------------------
+wrapper classes are classes that represent primitive data types as objects.
+part of the -> java.lang package.
+
+-> Why Do We Need Wrapper Classes?
+Primitive types are not objects, so they cannot be used where objects are required.
+
+-> Wrapper classes are useful for:
+Using primitives in collections like ArrayList
+Converting between strings and numbers
+Providing utility methods (e.g., parseInt(), valueOf())
+Supporting autoboxing and unboxing
+
+-------------------------
+# Autoboxing & Unboxing
+-----------------------
+Java is an object-oriented language, but it also supports primitive data types.
+Autoboxing and Unboxing bridge the gap between primitives and objects.
+
+-> Autoboxing - converting a primitive value into its corresponding wrapper object automatically
+   int num = 100; 	             // Primitive
+   Integer i = num; 		     // Autoboxing
+   Integer j = Integer.valueOf(num); // Explicit conversion
+
+-> Unboxing - converting a wrapper object into its corresponding primitive value automatically.
+   Integer i = 100;		// Wrapper Object
+   int num = i;			// Unboxing
+   int num = i.intValue();	// Explicit unboxing
+
+	Primitive---Autoboxing--->Wrapper class----Unboxing--->Unboxing
+
+Example:
+	int a = 50 	 // primitive
+	Integer b = a 	 // autoboxing (valueOf())
+	Integer c = 200  // wrapper object
+	int d = c	 // unboxing (intValue())
+
+
+---------------------
+# Generics in Java
+---------------------
+powerful feature that allows you to define classes, interfaces and methods with placeholder
+   for types, providing greater flexibility and type safety.
+
+Erasure
+
+Generic Class	   ->	 class Box<T> {}
+Generic Method	   ->	 public static <T> void printData(T data){}
+Bounded Generics   ->	 class Calculator<T extends Number> {}
+
+Wildcards
+---------
+Unbounded wildcard		List<?> list;
+Upper-bounded wildcard		List<? extends Number> list;
+Lower-bounded wildcard		List<? super Integer> list;
+
+Easy way to remember (PECS Rule)
+Producer Extends (? extends T) → Read from the collection.
+Consumer Super (? super T) → Write (add) to the collection.
+
+
+Advantages of Generics
+----------------------
+✅ Compile-time type checking
+✅ Eliminates explicit type casting
+✅ Reusable code
+✅ Improves readability
+✅ Reduces runtime errors
+---------------------------------
+
+-----------------
+HashMap
+---------------
+ 	  Map
+  	   |
+	HashMap
+
+HashMap is a class that implements the Map interface.
+It stores data as key:value pairs and uses hashing for
+   fast insertion, deletion, and lookup.
+it uses a hash function to determine the index(bucket) to store the key
+if multiple keys map to the same index (collision),
+collision handle-
+Linked List	-> before java 8
+Red-Black Tree	-> java 8+  -> to improve performace
+        (Black)
+          10
+        /    \
+     (R)5    (R)20
+      / \       \
+   (B)2 (B)7   (B)30
+
+
+" A HashMap converts a bucket's linked list into a Red-Black Tree only
+when more than 8 entries are present in the same bucket and the HashMap's
+capacity is at least 64."
+
+Threshold Value in HashMap
+--------------------------
+The threshold is the maximum number of entries a HashMap can
+hold before it resizes (rehashes).
+	Formula: Threshold = Capacity × Load Factor
+
+Default Values:
+    Initial Capacity: 16
+    Load Factor: 0.75
+
+	Threshold = 16 × 0.75 = 12
+
+"This means when the 13th element is inserted, the HashMap resizes."
+
+
+
+-> How does HashMap work internally?
+------------------------------------
+Uses hashCode() to find bucket
+Uses equals() to check key inside bucket
+Stores data in array of buckets
+
+
+-> HashMap key-features
+-----------------------
+stores data -> key-value pair
+keys -> unique,	null key  -> one
+values -> duplicate,	null values-> multiple
+order -> not guarantee any order
+
+
+-> HashMap Declaration
+---------------------
+HashMap<Integer, String> hashmap = new HashMap<>();
+vs
+Map<Integer, String> map = new HashMap<>();
+
+-> Key Difference
+--------------
+---------------------------------------------------------
+| Aspect        |   HashMap reference |   Map reference |
+| ------------- |-------------------- | --------------- |
+| Type          | Concrete class      | Interface       |
+| Flexibility   | Low                 | High            |
+| Coupling      | Tight coupling      | Loose coupling  |
+| Best practice | Not recommended     | Recommended     |
+---------------------------------------------------------
+
+Why Map is Preferred?
+------------------------
+Map<Integer, String> map = new HashMap<>(); is preferred because it follows
+programming to an interface, which provides flexibility to change implementations
+like LinkedHashMap or TreeMap without modifying code.
+Using HashMap<Integer, String> directly creates tight coupling to a
+specific implementation.
+
+Does HashMap convert the entire structure into a Red-Black Tree
+   when collisions occur, or is the conversion done only for a single bucket?
+-----------------------------------------------
+HashMap does not convert the entire structure into a Red-Black Tree.
+Only a single bucket is treeified when the number of nodes in that
+bucket exceeds 8 and the capacity is at least 64. Other buckets
+remain unchanged.
+
+Ways to Iterate HashMap
+---------------------------
+entrySet()
+-------------
+for (Map.Entry<Integer, String> entry : map.entrySet()) {
+    System.out.println(entry.getKey() + " " + entry.getValue());
+}
+
+2. keySet()
+-----------
+for (Integer key : map.keySet()) {
+    System.out.println(key + " " + map.get(key));
+}
+
+3. values()
+-----------
+for (String value : map.values()) {
+    System.out.println(value);
+}
+
+4. Iterator(entrySet)
+---------------------
+Iterator<Map.Entry<Integer, String>> it = map.entrySet().iterator();
+
+while (it.hasNext()) {
+    Map.Entry<Integer, String> entry = it.next();
+    System.out.println(entry.getKey() + " " + entry.getValue());
+}
+
+5. forEach(Lambda)
+------------------
+map.forEach((key, value) -> {
+    System.out.println(key + " " + value);
+});
+
+6. stream API
+-------------
+map.entrySet().stream().forEach(entry -> {
+    System.out.println(entry.getKey() + " " + entry.getValue());
+});
+
+-------------------------------------------------
+| Method           | Recommended                |
+| ---------------- | ---------------------------|
+| entrySet()       | ⭐⭐⭐⭐⭐ Best		|
+| forEach (Java 8) | ⭐⭐⭐⭐ Modern          |
+| keySet()         | ⭐⭐ Avoid in large data  |
+| Iterator         | ⭐ Useful for removal	|
+| values()         | ⭐ Only values needed	|
+--------------------------------------------------
+
+Note:
+----
+-> reverse ordering in HashMap
+--------------
+HashMap does not guarantee any order, there is no concept of reversing it,
+which is why it does not implement SequencedMap.
+
+------------------------------------------------------------------------------------------------------------
+
+---------------
+TreeMap
+---------------
+
+Map
+ ├── SortedMap
+ │     └── NavigableMap
+ │            └── TreeMap
+ └── SequencedMap
+       └── LinkedHashMap
+
+-----------------------
+   Map
+    │
+    ▼
+SequencedMap → Defines a map with a well-defined encounter sequence
+                (first, last, reverse traversal)
+    │
+    ▼
+SortedMap → Defines that keys are kept in sorted order
+    │
+    ▼
+NavigableMap → Adds navigation operations
+                (lower, floor, ceiling, higher, etc.)
+    │
+    ▼
+ TreeMap→ Implementation of all the above
+------------------------
+
+TreeMap is a class that implements the Map interface.
+It stores data as key:value pairs
+use red-black tree internally
+
+TreeMap key-features
+--------------------
+stores data - key-value pair
+keys-> unique,	null key  -> no
+values-> duplicate,	null values-> multiple
+order -> maintain(sorted order -> ascending by default)
+
+
+-> TreeMap implements both SortedMap and SequencedMap because they represent
+different concepts.
+-----------------------------------------------
+SortedMap answers: How are the keys ordered?
+Keys are sorted according to their natural ordering or a Comparator.
+It provides sorting-specific methods like subMap(), headMap(), tailMap(),
+firstKey(), and lastKey().
+
+SequencedMap answers: Can I traverse the map from first to last (and in reverse)?
+It provides a common API for ordered maps, such as firstEntry(), lastEntry(),
+reversed(), and sequencedKeySet().
+
+
+
+-> To reverse a TreeMap in Java
+--------------------------------
+1. Using Collections.reverseOrder()
+------------------------------------
+  TreeMap<Integer, String> map = new TreeMap<>(Collections.reverseOrder());
+ 
+  map.put(1, "One");
+  map.put(2, "Two");
+  map.put(3, "Three");
+
+  System.out.println(map);
+
+2. Using descendingMap()
+---------------------
+TreeMap<Integer, String> map = new TreeMap<>();
+
+map.put(1, "One");
+map.put(2, "Two");
+map.put(3, "Three");
+
+System.out.println(map.descendingMap());
+------------------------------------------------------------------------------
+
+
+------------------------
+LinkedHashMap
+------------------------
+LinkedHashMap is a class in Java that implements the Map interface.
+It stores key-value pairs while maintaining the insertion order (or access order if configured).
+
+               Map
+              /   \
+             /     \
+      HashMap   SequencedMap ----> (provide reversed() method etc)-> java-21
+          \         /
+           \       /
+          LinkedHashMap
+
+
+Key Features
+-------------
+Maintains insertion order by default.
+Allows one null key and multiple null values.
+Unique keys (duplicate keys overwrite the old value).
+Not synchronized (not thread-safe).
+Internally uses:
+     - Hash Table for fast lookup.
+     - Doubly Linked List to maintain order.
+
+
+Reverse
+-------
+Map<Integer,String> m -> map reference will not work for reverse method
+LinkedHashMap<Integer,String> m = new LinkedHashMap<>();
+m.put(13, "mike");
+m.put(5, "adam");
+m.put(7, "stalling");
+
+System.out.println(m); 		   //{13=mike, 5=adam, 7=stalling}
+System.out.println(m.reversed());  //{7=stalling, 5=adam, 13=mike}
+
+
+Ordering
+----------
+----------------------------------------------------
+| Map Type      | Order Type      | Example Output |
+| ------------- | --------------- | -------------- |
+| HashMap       | No order        | Random         |
+| LinkedHashMap | Insertion order | 3, 1, 2        |
+| TreeMap       | Sorted order    | 1, 2, 3        |
+----------------------------------------------------
+
+Why introduce SequencedMap at all?
+--------------------------------------
+SequencedMap was introduced to represent the capability of ordered maps. Classes like LinkedHashMap and
+TreeMap implement it because they maintain a well-defined encounter order, while HashMap does not.
+---------------------------------------------------------------------------------------
+
+-------------
+Set
+-----------
+unique elements
+Does not allow duplicate elements.
+Can contain at most one null element (implementation-dependent).
+Does not provide indexed access like a List.
+
+Iterable
+    │
+    ▼
+Collection
+    │
+    ▼
+   Set
+    │
+    ├── HashSet
+    ├── LinkedHashSet
+    ├── SortedSet
+    │      │
+    │      ▼
+    │   NavigableSet
+    │      │
+    │      ▼
+    │    TreeSet
+    │
+    └── EnumSet
+
+
+----------------
+HashSet
+----------
+doesn't in key:value pair
+order->not maintained
+reversing elements-> not possible because it doesn't maintain order
+
+Key Characteristics
+✅ Stores unique elements (no duplicates).
+✅ Allows one null value.
+✅ No guaranteed order of elements.
+✅ Backed by a hash table.
+✅ Average time complexity:
+	add() → O(1)
+	remove() → O(1)
+	contains() → O(1)
+
+
+internal working
+---------------
+Hashing
+has table
+hashmap
+
+-> A HashSet does not store values directly. Instead, it internally uses a HashMap.
+Set<String> arr = new HashSet<>();
+arr.add("India");	Internally-> map.put("India", PRESENT);
+arr.add("USA");		Internally-> map.put("USA", PRESENT);
+arr.add("UK");		Internally-> map.put("UK", PRESENT);
+arr.add("China");	Internally-> map.put("China", PRESENT);
+arr.add("India"); //This will not add because Set doesn't
+
+Internally
+--------
+  Key : Value
+India : PRESENT
+  USA : PRESENT
+   UK : PRESENT
+
+
+Iterate
+-------
+Iterator<String> itr = arr.iterator();
+while(itr.hasNext()){
+	System.out.println(itr.next());|
+}
+
+contains method
+------------
+boolean isRemoved=arr.remove("India");
+System.out.println(isRemoved); //true
+
+remove method
+----------
+boolean isPresent=arr.contains("India");
+System.out.println(isPresent); //true
+
+reverse
+---------------
+not possible because it doesn't maintain order
+
+
+---------------------------------
+-> LinkedHashSet<E>
+----------------------------------
+doesn't in key:value pair
+order-> insertion order maintained
+reversing elements-> based on insertion order
+internally uses -> LinkedHashMap
+
+	      Iterable<E>
+   		  │
+	     Collection<E>
+                  │
+      ┌───────────────-----┐
+      │                    │
+    Set<E>         SequencedCollection<E>
+      │                    │
+      └──────--─┬───────---┘
+                │
+      	   SequencedSet<E>
+                ▲
+                │
+          LinkedHashSet<E>
+
+internalworking
+-----------
+Hashing
+Hash Table (Buckets)
+LinkedHashMap (which maintains insertion order using a doubly linked list)
+
+-> SequencedSet
+---------------
+reversed()
+getFirst()
+getLast()
+addFirst()
+addLast()
+removeFirst()
+removeLast()
+
+
+-> A LinkedHashSet does not store values directly. Instead, it internally uses a LinkedHashMap.
+---------------
+Set<String> arr = new LinkedHashSet<>();
+
+arr.add("India");   // Internally -> map.put("India", PRESENT);
+arr.add("USA");     // Internally -> map.put("USA", PRESENT);
+arr.add("UK");      // Internally -> map.put("UK", PRESENT);
+arr.add("China");   // Internally -> map.put("China", PRESENT);
+arr.add("India");   // Duplicate
+
+
+//reverse
+---------
+LinkedHashSet<String> arr = new LinkedHashSet<>();
+
+arr.add("India");
+arr.add("USA");
+arr.add("UK");
+arr.add("China");
+arr.add("India");
+
+System.out.println(arr); 	     //[India, USA, UK, China]
+System.out.println(arr.reversed());  //[China, UK, USA, India]
+
+--------------------------------------------------------------------------------
+| Interface/Class |    Ordering         | Duplicates | Null Allowed            |
+| --------------- | ------------------- | ---------- | ----------------------  |
+| `HashSet`       | No guaranteed order | ❌        | ✅ One `null`           |
+| `LinkedHashSet` | Insertion order     | ❌        | ✅ One `null`           |
+| `TreeSet`       | Sorted order        | ❌        | ❌ (`null` not allowed) |
+--------------------------------------------------------------------------------
+
+-----------------
+TreeSet
+-----------------
+key features
+------------
+✅ Stores data-> unique elements.
+✅ order-> Maintains sorted (ascending) order by default.
+✅ Uses a Red-Black Tree internally.
+✅ Supports natural ordering or custom ordering with a Comparator.
+❌ Does not preserve insertion order.
+❌ Does not allow null.
+⏱️ add(), remove(), and contains() are O(log n).
+✅ Provides navigation methods like first(), last(), higher(), lower(), ceiling(), and floor().
+
+   Set
+    │
+SequencedSet (Java 21)
+    │
+SortedSet
+    │
+NavigableSet
+    │
+TreeSet
+
+
+TreeSet<String> names=new TreeSet<>();
+names.add("mike");
+names.add("john");
+names.add("jane");
+names.add("mike"); //duplicate
+System.out.println(names); 	//[jane, john, mike]
+
+// reversed
+System.out.println(names.reversed());   //[mike, john, jane]
+
+
+Set Operations
+-----------------
+Union
+Intersection
+Difference
+
+Union
+------
+Set<Integer> x = new HashSet<>();
+x.add(10);
+x.add(1);
+
+Set<Integer> y = new HashSet<>();
+x.add(5);
+x.add(7);
+
+x.addAll(y);
+System.out.println(x);  **// x = [10, 1, 5, 7] ->**order is not guaranteed.
+System.out.println(y);
+
+
+
+
+
+
+
+---------
+-> Enum
+---------
+an enum (enumeration) is a special type used to define a fixed set of constants.
+It improves code readability, type safety, and maintainability.
+
+Use an enum whenever a variable can have only a predefined set of values, such as:
+Days of the week
+Months
+Order status (PENDING, SHIPPED, DELIVERED)
+User roles (ADMIN, USER, GUEST)
+Traffic signals (RED, YELLOW, GREEN)
+
+------------------------
+enum PaymentStatus {
+    PENDING,
+    SUCCESS,
+    FAILED,
+    REFUNDED
+}
+-------------------------
+
+public class Main {
+    public static void main(String[] args) {
+        PaymentStatus status = PaymentStatus.SUCCESS;
+
+        if (status == PaymentStatus.SUCCESS) {
+            System.out.println("Payment completed.");
+        }
+    }
+}
+========================================================================================
+
+-----------------------------------------
+Functional Interface
+--------------------------------------
+contains exactly one abstract method.
+can have multiple default and static methods.
+widely used with Lambda Expressions and the Stream API.
+
+Types of Functional Interfaces
+------------------------------
+
+1. Predicate Functional Interface
+---------------------------
+Represents a condition (returns boolean).
+Method: boolean test(T t)
+	Predicate<Integer> isEven = n -> n % 2 == 0;
+	System.out.println(isEven.test(10)); // true
+
+
+2. Consumer Functional Interface
+--------------------
+Accepts input but returns nothing.
+Method: void accept(T t)
+	Consumer<String> print = s -> System.out.println(s);
+	print.accept("Hello");
+
+
+3. Supplier Functional Interface
+--------------------
+Supplies a value without taking input.
+Method: T get()
+      Supplier<String> message = () -> "Welcome";
+      System.out.println(message.get());
+
+4. Function Functional Interface
+--------------------
+Takes one input and produces one output.
+Method: R apply(T t)
+     Function<Integer, String> convert = n -> "Number: " + n;
+     System.out.println(convert.apply(5));
+
+5. UnaryOperator
+--------------------
+Special type of Function where input and output are the same type.
+     UnaryOperator<Integer> square = n -> n * n;
+     System.out.println(square.apply(4)); // 16
+
+6. BinaryOperator
+-----------------
+Special type of BiFunction where both inputs and output are the same type.
+     BinaryOperator<Integer> add = (a, b) -> a + b;
+     System.out.println(add.apply(10, 20)); // 30
+
+7. BiPredicate
+--------------
+Takes two inputs and returns a boolean.
+     BiPredicate<Integer, Integer> isGreater = (a, b) -> a > b;
+     System.out.println(isGreater.test(10, 5)); // true
+
+8. BiConsumer
+-------------
+Takes two inputs and returns nothing.
+BiConsumer<String, Integer> display = (name, age) ->
+        System.out.println(name + " : " + age);
+
+display.accept("John", 25);
+
+9. BiFunction
+--------------------
+Takes two inputs and returns a result.
+     BiFunction<Integer, Integer, Integer> multiply = (a, b) -> a * b;
+     System.out.println(multiply.apply(4, 5)); // 20
+
+-------------------------------
+-> Custom Functional Interface
+------------------------------
+@FunctionalInterface
+interface Calculator {
+    int calculate(int a, int b);
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator add = (a, b) -> a + b;
+        System.out.println(add.calculate(10, 20));
+    }
+}
+
+---------------------------------------
+| Interface         | Input | Output  |
+| ----------------- | ----- | ------- |
+| Predicate<T>      | 1     | boolean |
+| Consumer<T>       | 1     | void    |
+| Supplier<T>       | 0     | T       |
+| Function<T,R>     | 1     | R       |
+| UnaryOperator<T>  | 1     | T       |
+| BinaryOperator<T> | 2     | T       |
+| BiPredicate<T,U>  | 2     | boolean |
+| BiConsumer<T,U>   | 2     | void    |
+| BiFunction<T,U,R> | 2     | R       |
+---------------------------------------
+
+
+
+
+
+
+###########
+Stream API
+###########
+----------------
+What is Stream?
+----------------
+A stream  is a sequence of elements that supports functional-style operations.
+not a data structure
+does not store data
+operations are pipelined
+lazy evaluation
+can be processed in parallel
+
+--------------------
+Types Of Operations
+--------------------
+INTERMEDIATE: Return a stream(can be chained)
+	filter(),map(),sorted(),distinct(),limit(),skip(),peek(),flatMap(), etc.
+
+TERMINAL: Return a result or side-effect
+	forEach(),collect(),reduce(),count(),anyMatch(),allMatch(),findFirst(),ect.
+
+SHORT-CIRCUIT: May not process all elements
+	anyMatch(),allMatch(),findFirst(),findAny(),limit(), etc
+
+
+3. CREATE STREAM
+--------------------
+list.stream();		// from collection
+Arrays.stream(arr); 	// from array
+Stream.of(1,2,3,4); 	// from values
+list.parallelStream();  // from parallel stream ->note: use only when working with large data & idependent operations
+
+
+4. INTERMEDIATE OPERATIONS (Return Stream)
+------------------------------------------------
+filter(): selects elements that match the condition
+	List<Integer> even=nums.stream().filter(n->n%2==0).toList(); //[2,4,6]
+map(): transforms each element
+	List<Integer> squares=nums.stream().map(n->n*n).toList(); //[1,4,9,16,25,36]
+flatMap(): Flattens nested structures
+	List<List<Integer>> list=List.of(list.of(1,2),List.of(3,4);
+	List<Integer> flat=list.stream().flatMap(List::stream).toList(); //[1,2,3,4]
+distinct():
