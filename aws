@@ -1,0 +1,912 @@
+AWS
+-----
+
+On-Prem Infrastructure
+------------------------
+1. Servers and hardware to be purchased
+2. Skilled Workforce to manage this infrastructure
+3. Scalability issue
+4. Upgradation issue
+5. High Maintenance Cost
+
+Cloud Infrastructure
+---------------------
+1. U are taking servers on rent (pay as you go)
+2. No headache of maintenance
+3. Cost effective
+4. Easy to scale
+
+
+--------------------
+Cloud Providers
+-------------------
+Amazon Web Services (AWS)
+Microsoft Azure
+Google Cloud Platform (GCP)
+IBM Cloud
+Oracle Cloud
+Alibaba Cloud
+Salesforce
+Digital0cean
+Linode (Now Akamai Cloud)
+
+-----------------------------------
+## Popular Cloud Service Models: ##
+-----------------------------------
+
+IaaS (Infrastructure as a Service):
+------------------------------------
+Provides virtualized computing resources (e.g., AWS EC2, Google Compute Engine).
+-> Machine + Network + Storage + OS
+-> We need to install required softwares explicitly to run our application in the server after deployment
+
+PaaS (Platform as a Service):
+-------------------------------
+Offers development platforms and tools (e.g., Azure App Services, Google App Engine).
+->Machine + Network + Storage + OS + Softwares to run application
+-> We just worry about deployment
+
+SaaS (Software as a Service):
+------------------------------
+Delivers software applications via the cloud (e.g., Salesforce, Microsoft 365).
+
+Example Salesforce CRM is provided on their cloud platform to run our
+business
+
+--------------------------------------
+## AWS EC2 (Elastic Compute Cloud)
+-----------------------------------
+
+-> Key Points to Remember
+----------------------------
+* **EC2** = Virtual Machine in AWS
+* **Instance** = Running virtual server
+* **EBS** = Persistent storage attached to EC2
+* **Free Tier** = 750 instance-hours/month for 12 months (eligible accounts)
+* **Free EBS Storage** = 30 GB
+* **Maximum EBS Volume Size** = 64 TiB
+* **Common Free Tier Instance Types** = t2.micro / t3.micro (depending on region)
+
+-> Billing
+------------
+
+Old Billing (Before Oct 2, 2017)
+------------------------------
+ 5 minutes → 1 hour charged
+25 minutes → 1 hour charged
+59 minutes → 1 hour charged
+61 minutes → 2 hours charged
+
+Current Billing (Oct 2, 2017 – Present)
+---------------------------------
+       30 seconds → 60 seconds charged (minimum)
+        5 minutes → 5 minutes charged
+       25 minutes → 25 minutes charged
+1 hour 10 minutes → 1 hour 10 minutes charge
+
+
+-> To create EC2 instance we should know the following
+-------------------------------------------------------
+1. AMI -> Amazon  Machine Image (Application and OS Images)
+2. Instance Type
+3. Key pairs ( We can use one key pair to connect with multiple machines, no charges applicable)
+4. Network (VPC)
+5. Security Group (One Security Group can be used for multiple machines, no charges applicable)
+6. EBS Volume
+7. public IP
+8. Private IP
+
+----------------------------------------------------------
+| Component      |             Purpose                   |
+| -------------- | ------------------------------------- |
+| AMI            | Template to create the EC2 instance   |
+| Instance Type  | CPU, RAM, and hardware configuration  |
+| Key Pair       | Secure login (SSH/RDP)                |
+| VPC            | Virtual private network               |
+| Security Group | Virtual firewall controlling traffic  |
+| EBS Volume     | Persistent storage                    |
+| Public IP      | Internet access to the instance       |
+| Private IP     | Internal communication within the VPC |
+----------------------------------------------------------
+
+
+
+Inbound rules
+Outbound rules
+
+
+private ip
+public ip
+elastic ip
+
+----------------
+-> key-pair(EC2)
+----------------
+
+-> type-2
+----------
+1. RSA     -> Windows and Linux
+2. ED25519 -> Linux only
+
+-> private key file format
+--------------------------
+-------------------------------------------------------------
+| File Format | Used With | Operating System                |
+| ----------- | --------- | ------------------------------- |
+|  .pem       | OpenSSH   | Linux, macOS, Windows (OpenSSH) |
+|  .ppk       | PuTTY     | Windows                         |
+-------------------------------------------------------------
+
+
+-------------------
+-> Security Groups
+-------------------
+firewall -> where incoming traffic accepted or not
+
+-------------------------------------------------------------
+| Service | Protocol | Port | Source                        |
+| ------- | -------- | ---- | ----------------------------- |
+| SSH     | TCP      | 22   | Your IP                       |
+| HTTP    | TCP      | 80   | Anywhere (0.0.0.0/0)          |
+| HTTPS   | TCP      | 443  | Anywhere (0.0.0.0/0)          |
+| MySQL   | TCP      | 3306 | Specific IP or Security Group |
+-------------------------------------------------------------
+
+
+---------------------------
+-> EC2 IP Address Behavior
+---------------------------
+
+private ip
+public ip
+elastic ip
+
+-> Private IP: Used for communication within the VPC. It is automatically assigned and is not accessible from the Internet.
+-> Public IP: Used for Internet access. It is automatically assigned (if enabled) and may change when the instance is stopped and started.
+-> Elastic IP: A static public IPv4 address that remains the same until you release it. It is commonly used for production servers that require a permanent public IP.
+
+-----------------------------------------------------------------------------------------------------------------------------
+| Action             |  Private IP |         Public IP          |                Elastic IP                                 |
+| ------------------ | ----------- | -------------------------- |-----------------------------------------------------------|
+| Start Instance     | ✅ Same     | ❌ May change             | ✅ Same                                                   |
+| Stop Instance      | ✅ Retained | ❌ Released               | ✅ Same (if associated)                                   |
+| Start After Stop   | ✅ Same     | ❌ New Public IP assigned | ✅ Same                                                   |
+| Reboot Instance    | ✅ Same     | ✅ Same                   | ✅ Same                                                   |
+| Terminate Instance | ❌ Lost     | ❌ Lost                   | ✅ Returned to your AWS account (if it was an Elastic IP) |
+-----------------------------------------------------------------------------------------------------------------------------
+
+Interview Question
+--------------------------------
+Q: Can we delete an Elastic IP?
+Answer:
+Yes. An Elastic IP can be released (deleted) from your AWS account. If it is associated with an EC2 instance, you must first disassociate it and then release it. Once released, the IP address is returned to AWS and cannot be guaranteed to be allocated to you again.
+
+----------------------------------------
+-> EBS - Elastic Block Storage in AWS
+----------------------------------------
+-> EBS Stand for Elastic Block Storage (HDD / SSD)
+-> When a instance is created EBS volume for that is automatically
+   created. This EBS Volume is called as root volume
+-> EBS has two types of volumes
+	1. Root Volume - For Linux 8GB and for windows 30GB
+	2. Additional Volume -
+
+
+-------------
+-> Throughput = How much data can be transferred in a given amount of time.
+-------------
+Usually measured in:
+	MB/s = Megabytes per second
+	GB/s = Gigabytes per second
+	Gbps = Gigabits per second
+
+              AWS Region
+             ap-south-1
+                  │
+        ┌─────────┴─────────┐
+        │                         │
+     ap-south-1a               ap-south-1b
+         │                        │
+   ┌────┴─────┐                │
+   │   EC2       │                │
+   │ Instance    │                │
+   └────┬─────┘                │
+          │
+   ┌────▼─────┐
+   │   EBS       │
+   │  Volume     │
+   └──────────┘
+ 
+   ✅ Same AZ
+
+-------------------------------------------
+| EC2         | EBS         | Can attach? |
+| ----------- | ----------- | ----------- |
+| ap-south-1a | ap-south-1a | ✅ Yes     |
+| ap-south-1a | ap-south-1b | ❌ No      |
+| ap-south-1a | ap-south-1c | ❌ No      |
+-------------------------------------------
+
+
+
+lsblk
+sudo mkfs -t ext4 /dev/xvdb
+
+cd / -->root folder
+ls -l
+
+
+------------------------------------------------------
+| ## AWS Region 🌍 and Availability Zone (AZ) 🏢 ## |
+------------------------------------------------------
+-----------------
+1. AWS Region 🌍: A Region is a geographical area where AWS has multiple data centers.
+-----------------
+
+AWS
+│
+├── Mumbai Region (ap-south-1)
+│
+├── Singapore Region (ap-southeast-1)
+│
+├── Tokyo Region (ap-northeast-1)
+│
+└── N. Virginia Region (us-east-1)
+
+-----------------------------
+2. Availability Zone (AZ) 🏢: An Availability Zone is an isolated location inside a Region.
+-----------------------------
+For example, Mumbai (ap-south-1) has multiple AZs:
+
+Mumbai Region
+ap-south-1
+│
+├── ap-south-1a
+├── ap-south-1b
+└── ap-south-1c
+
+
+
+--------------------------------
+EC2
+ap-south-1a
+    │
+    │ attach
+    ▼
+EBS Volume
+ap-south-1a       ✅
+
+
+EC2
+ap-south-1a
+    │
+    │ attach
+    ▼
+EBS Volume
+ap-south-1b       ❌
+-------------------------------------
+
+how will tackle situation when you lost your .pem key?
+
+-----------------------
+### Load Blancing ###
+-----------------------
+Step:1 Create 2 instance with below this
+
+-----------------------------------------------------------------
+----------
+User Data
+-----------
+
+Useful to run certain scripts when we launch instance
+
+#!/bin/bash
+sudo yum install -y httpd
+sudo systemctl enable httpd
+sudo systemctl start httpd
+
+echo "<html><body><h1>Welcome to My Static Website !< /h1></body></html>"
+sudo tee /var/www/html/index.html > /dev/null
+-----------------------------------------------------------------------
+
+-------------------------------------------------------------------------
+-> For an Amazon Linux 2023 EC2 instance, I recommend this version:
+
+
+#!/bin/bash
+
+# Update packages
+sudo dnf update -y
+
+# Install Apache HTTP Server
+sudo dnf install -y httpd
+
+# Start Apache automatically on boot
+sudo systemctl enable httpd
+sudo systemctl start httpd
+
+# Create a simple web page
+sudo tee /var/www/html/index.html > /dev/null <<'EOF'
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My AWS Website</title>
+</head>
+<body>
+    <h1>Welcome to My Static Website!</h1>
+    <p>This page was created using EC2 User Data.</p>
+</body>
+</html>
+EOF
+------------------------------------------------------------------
+
+Step2: Go load balancing
+-------------------------------
+target groups: -> create target group
+	       -> target type: instance,
+               -> target group name: ------,
+
+Register Targets:
+	Select Web-Server-1
+	Select Web-Server-2
+
+	Click Include as Pending Below
+
+	Click Create Target Group
+
+Step 3: Create Application Load Balancer
+----------------------------------------
+Go to:  EC2 → Load Balancers
+	Click Create Load Balancer
+
+
+
+
+--------------------------------------------------------------------------------------------
+database-1
+
+Rajanb1052
+
+-------------------------------------------------------------------
+
+-------------------
+### S3 Services ###
+-------------------
+Amazon S3 (Simple Storage Service) is a highly scalable object storage service provided by AWS.
+It is used to store and retrieve any amount of data from anywhere over the internet.
+
+Bucket name-->unique globally
+---------------
+
+Object Ownership
+------------------
+ACLs->
+
+-------------------------
+host static website on s3
+-------------------------
+- create bucket->upload static files
+- go to bucket ->properties->static website hosting->enable->upload -index.html, error.html
+
+
+S3 Versioning in AWS
+-----------------------
+Versioning in Amazon S3 is a feature that keeps multiple versions of the same object in an S3 bucket.
+
+It helps protect your files from accidental deletion or accidental overwrite.
+
+-------or------------
+
+S3 Versioning = keeping multiple versions of an object so that you can recover from accidental changes or deletions.
+
+
+Example
+--------
+Suppose you upload: index.html
+
+Initially: index.html → Version 1
+
+Then you modify it and upload again: index.html → Version 2
+
+S3 keeps both:
+S3 Bucket
+│
+└── index.html
+      ├── Version 1
+      └── Version 2  ← Current version
+
+So if you accidentally overwrite index.html, you can restore the previous version.
+
+
+How to Enable Versioning
+---------------------------
+Go to: S3 → Bucket → Properties → Bucket Versioning → Edit
+Select: Enable
+
+
+------------------------------------------
+## Identity and Access Management (IAM) ##
+------------------------------------------
+
+
+------------
+I AM User
+-------------
+
+-> first way:
+--------------
+
+step-1: Specify user details
+-------
+user name -
+Provide user access to the AWS Management Console - optional
+
+step-2: Set permissions
+-------
+permissions options:
+-Add user to group
+-copy permissions ------>
+-attach policies directly
+
+
+-> second way usig user group
+----------
+user group: which helps to create group
+
+create group:
+--------------
+Name the group :
+Attach permissions policies - Optional:
+
+
+create user
+-------------
+user name - xyz
+Provide user access to the AWS Management Console - optional
+
+step-2: Set permissions
+-------
+permissions options:
+-Add user to group ----> group-xyz
+-copy permissions
+-attach policies directly
+
+
+
+purpose of create user
+give them a console access
+accessing programmatically aws services
+
+-----------
+Roles : inter-communication between aws services
+-----------
+
+roles it allow particular service to interact with other service
+
+step1: Select trusted entity
+----------------------------
+trusted entity type
+- aws service
+- aws accout
+- we identity
+- SAML 2.0 federation
+- custom trust policy
+
+use case
+--------
+service or use case:
+
+
+step2: Add permissions
+-----------------------
+- Use existing policy:
+- Create inline policy
+
+
+step3: Name, review, and create
+--------------------------------
+Role details
+-------------
+Role name:
+Description:
+
+
+----------------------------
+-> Policies
+----------------------------
+ways create 2
+
+-------------------------------------------------------------
+
+
+------------------------------
+## AWS CLI ###
+-------------------------------
+
+
+C:\Windows\System32>aws --version
+aws-cli/2.35.11 Python/3.14.5 Windows/11 exe/AMD64
+
+C:\Windows\System32>
+C:\Windows\System32>aws configure
+AWS Access Key ID [****************test]: 
+AWS Secret Access Key [****************test]:
+Default region name [us-east-1]: ap-south-1
+Default output format [json]: json
+
+-> s3 bucket
+-----------------
+
+C:\Windows\System32>aws s3 mb s3://rajan-00
+make_bucket: rajan-00
+
+C:\Windows\System32>aws s3 ls
+2026-07-03 14:29:36 cf-templates-a8wtir5dzoq0-eu-north-1
+2026-06-29 12:35:01 elasticbeanstalk-eu-north-1-535659317805
+2026-08-27 15:25:01 rajan-00
+
+D:\aws key pair>aws s3 cp test.txt s3://rajan-00
+upload: .\test.txt to s3://rajan-00/test.txt
+
+C:\Windows\System32>aws s3 rm s3://rajan-00/test.txt
+delete: s3://rajan-00/test.txt
+
+C:\Windows\System32>aws s3 rb s3://rajan-00
+remove_bucket: rajan-00
+
+
+------------------------------------------------------------------------------
+
+-------------------
+## Cloud Watch ##
+--------------------
+-> Amazon SNS
+--------------
+-create topic
+-create subscription
+	protocol:
+	endpoint:
+
+-> launch ec2
+-> select ec2 -> action->Manage CloudWatch alarms
+-> ec2 instance->connect with gitbash
+
+  touch sample.txt
+  dd if=/dev/zero of=samplefile.txt bs=1M count=250
+
+
+-------------------------------------------------------------------------------
+
+------------------------------
+## AWS Elastic Beanstalk ##
+------------------------------
+
+AWS Elastic Beanstalk is a Platform as a Service (PaaS) offering that makes it easy to deploy, manage, and scale web applications without having to manually configure the underlying infrastructure.
+
+How it works
+------------------
+You upload your application code, and Elastic Beanstalk automatically:
+
+-Provisions EC2 instances
+-Configures load balancers
+-Sets up Auto Scaling
+-Monitors application health
+-Manages deployments
+-Applies platform updates (optional)
+
+
+step-1
+-------
+go->IAM Role
+-create role
+-policies
+    AWSElasticBeanstalkMulticontainerDocker
+    AWSElasticBeanstalkWebTier
+    AWSElasticBeanstalkWorkerTier
+
+step-2
+--------
+create elastic beanstalk
+upload project jar file
+update server_port:5000
+---------------------------------------------------------------------------------------
+
+---------------------------------
+## VPC (Virtual Private Cloud) ##
+---------------------------------
+
+VPC = Network
+Subnet = Section of the network
+Route Table = Traffic direction
+IGW = Internet connection
+NAT Gateway = Private subnet → Internet outbound
+Security Group = Resource firewall
+NACL = Subnet firewall
+
+
+-> What is VPC (Virtual Private Cloud)?
+--------------------------------------
+A VPC (Virtual Private Cloud) is a virtual network within the AWS cloud
+that provides a secure, isolated environment for you to run your AWS
+resources. It free Service in AWS. It is region specific.
+
+
+-> Important Terminologies
+---------------------------
+Types of IPs: IPv4 vs IPv6
+
+IPV4 (Internet Protocol Version 4)
+------------------------------------
+IPv4 is the most widely used version of the Internet Protocol. It uses
+32-bit addresses, which are divided into four octets (each 8 bits long).
+
+The format of an IPv4 address is a series of four decimal numbers
+separated by periods, with each number ranging from 0 to 255. This
+results in a total of 4.3 billion unique IP addresses.
+
+Example: 192.168.32.101
+
+IPv4 addresses are running out due to the explosion in the number of
+internet-connected devices. This is why we are seeing a transition to
+IPv6.
+
+
+
+IPV6 (Internet Protocol Version 6)
+----------------------------------
+IPv6 was introduced to address the limitations of IPv4, particularly the
+exhaustion of IP addresses. It uses 128-bit addresses, which are split
+into eight octets.
+
+The format of an IPv6 address is alphanumeric and uses colons to
+separate each block of the address. It provides a far larger address
+space compared to IPv4.
+
+Example: 2001:0db8 : 85a3 :0000 : 0000 : 8a2e : 0370:7334
+
+IPv6 can accommodate a virtually unlimited number of unique IP addresses
+(around 340 undecillion addresses, which is a number so large it could
+assign unique addresses to every atom on Earth many times over). This
+allows for growth in the number of devices connected to the internet
+without worrying about running out of addresses.
+
+-> CIDR (Classless Inter-Domain Routing)-Sider
+---------------------------------------
+CIDR is used to define IP address ranges and to allocate IP addresses
+efficiently.
+
+CIDR notation represents IP addresses with a suffix that indicates the
+number of bits used for the network (the subnet portion) of the address
+
+Example: 10.0.0.0/24
+
+	 172.31.0.0/16--------->2^(32-16)=65536
+	 172.31.0.0/24--------->2^(32-24)=
+
+
+
+
+VPC--->CIDR---->Reserved IP Addresses 172.31.0.0/16
+_________________________________________________________
+|							|
+|     172.31.16.0/20   172.31.32.0/20	172.31.0.0/20	|
+|	---------	 ---------	 ---------	|
+|	|	|	 |	 |	 |     	 |	|
+|	|	|	 |	 |	 |	 |	|			|
+|	---------	 ---------	 ---------	|
+|	Subnet-1	  Subnet-2	  Subnet-3	|
+|_______________________________________________________|
+
+
+
+A subnet is a segment of the IP address range of your VPC that allows
+you to organize and isolate your resources based on their function,
+access needs, or security requirements.
+
+-> Types of Subnets:
+-----------------
+Public Subnet:
+--------------
+A subnet that is connected to the internet. Resources in
+this subnet (like web servers) can send and receive traffic from the
+internet.
+
+Incoming and Outgoing Traffic: Public subnets allow both inbound and
+outbound traffic. For example, if you launch an EC2 instance in a public
+subnet, it can be accessed directly from the internet.
+
+Private Subnet:
+----------------
+A subnet that does not have direct internet access.
+Resources in private subnets (like database servers) cannot directly
+access or be accessed from the internet.
+
+
+
+-> Route Table
+----------------
+A route table defines how traffic should be routed within the VPC and
+to/from external networks.
+
+
+-> Internet Gateway (IGW)
+---------------------------
+An Internet Gateway (IGW) is a component that allows communication
+between instances in your VPC and the internet.
+
+Note: If an Internet Gateway is associated with a route table for a
+      subnet, that subnet is considered a public subnet.
+
+Attach an Internet Gateway (IGW) to your VPC: This will allow internet
+traffic to flow into and out of your VPC.
+
+
+-> NAT Gateway
+-----------
+Definition: A NAT Gateway (Network Address Translation Gateway) is a
+managed AWS service that allows instances in a private subnet to access
+the internet, but it does not allow inbound traffic from the internet to
+those instances. Essentially, a NAT Gateway provides only outbound
+internet access for resources in a private subnet.
+
+Use Case: Resources in a private subnet, like a database or application
+server, may need to access the internet for tasks such as downloading
+updates
+
+How It Works: When an instance in a private subnet tries to access the
+internet, the traffic is routed to the NAT Gateway, which then forwards
+the request to the internet and sends the response back to the instance.
+This keeps the instance in the private subnet protected from direct
+inbound internet traffic.
+
+Cost: The NAT Gateway is a commercial service in AWS, meaning you are
+charged for its use. There are costs associated with data processing
+(how much data goes through the NAT Gateway) and data transfer (outbound
+traffic to the internet). The pricing can accumulate quickly, so it's
+important to monitor usage carefully.
+
+
+Note:
+------------------------------------------
+| Resource                     | Default |
+| ---------------------------- | ------- |
+| VPCs per Region              |   **5** |
+| Subnets per VPC              | **200** |
+| IPv4 CIDR blocks per VPC     |   **5** |
+| IPv6 CIDR blocks per VPC     |   **5** |
+| Internet Gateways per Region |   **5** |
+| NAT Gateways per AZ          |   **5** |
+------------------------------------------
+
+
+----------------------
+## VPC Peering ##
+----------------------
+
+VPC Peering is the process of establishing a network connection between
+two VPCs (either within the same region or across regions) in AWS,
+enabling resources in one VPC to communicate with resources in another
+VPC.
+
+Example of Non-Overlapping /24 Networks:
+----------------------------------------
+   Network 1: 10.0.0.0/24 - IP range: 10.0.0.0 to 10.0.0.255
+   Network 2: 10.0.1.0/24 - IP range: 10.0.1.0 to 10.0.1.255
+   Network 3: 10.0.2.0/24 - IP range: 10.0.2.0 to 10.0.2.255
+
+
+
+Without some connectivity between them:
+------------------------------------
+   VPC-A                            VPC-B
+   EC2 ────────── X ──────────────── RDS
+
+
+With VPC Peering:
+----------------------
+VPC-A                           VPC-B
+10.0.0.0/16                    20.0.0.0/16
+
+EC2-A ───── VPC Peering ───── EC2-B
+
+
+
+                       VPC Peering
+                  ┌─────────────────┐
+                  │                 │
+                  ▼                 ▼
+        ┌────────────────┐   ┌───────────────┐
+        │     VPC-A      │   │     VPC-B     │
+        │ 10.0.0.0/16    │   │ 20.0.0.0/16   │
+        │                │   │               │
+        │ EC2-A          │   │ EC2-B         │
+        │ 10.0.1.10      │   │ 20.0.1.10     │
+        └────────────────┘   └───────────────┘
+              │                     │
+              │ Route               │ Route
+              │ 20.0.0.0/1          │ 10.0.0.0/16
+              │ → Peering           │ → Peering
+              └─────────────────────┘
+
+
+
+
+-> S3
+--------------
+- Object Storage
+- Used for storing files/objects
+- Access through HTTP / HTTPS
+- AWS SDK / REST API available
+- Commonly used for:
+    → Images
+    → Videos
+    → Resumes
+    → PDFs
+    → Backups
+    → Static website files
+
+- Highly scalable
+- Suitable for very large amounts of data
+- Files are stored in Buckets
+- Each file is an Object
+
+
+
+-> EFS
+------------
+- File Storage
+- Managed NFS file system
+- Can be mounted to EC2
+- Multiple EC2 instances can access the same file system
+- Files appear like a normal Linux directory
+- Mainly used when applications need a shared file system
+
+
+                 EFS
+                  │
+        ┌─────────┼─────────┐
+        │         │         │
+       EC2-1    EC2-2     EC2-3
+        │         │         │
+        └─────────┼─────────┘
+                  │
+            Shared Files
+
+
+
+
+-> Terraform
+--------------
+-> It is IAAC (Infrastructure As A Code)
+-> We we HCL as language
+-> Work with most of the Cloud platforms like AWS, GCP,
+
+Azure etc
+-> Install Terrfaorm
+-> Install VS Code
+
+
+
+HCL Syntax:
+
+Blocks -
+----------
+  blocks {
+	key= value ( value can be string, number, boolean, list, map )
+  }
+
+Example block to create ec2-instance
+
+resource "aws_instance" "example" {
+	ami= "ami-12345678"
+	instance_type= "t2.micro"
+	key_name= "my-key-pair"
+	subnet_id= "subnet-abc123"
+
+	security_groups = ["sg-123456"]
+
+	tags = {
+	   Name = "MyEC2Instance"
+	   Environment = "Production"
+	}
+}
