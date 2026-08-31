@@ -1,0 +1,1238 @@
+-> Hibernate is an ORM (Object relation mapping) tool
+-> It helps developers map Java classes to database tables and automate CRUD operations
+   (Create, Read, Update, Delete) without writing complex SQL queries.
+
+
+making variable private->data hiding
+
+// ordinary class
+class Student{ //->encapsulation
+	private int id;
+	private String name;
+	private String email;
+	
+	 getters & setters
+}
+
+// entity class - special class which is capable of generating objects and that object data can be save into database.
+@Entity
+class Student{ //->encapsulation
+	@Id // to define pk(primary key)
+	private int id;
+	private String name;
+	private String email;
+	
+	 getters & setters
+}
+1. @Entity - “This annotation maps Java class to a table in the database.”
+2. @Id   - Indicates the primary key column, and is mandatory to define inside entity class
+
+-----------------------------------------------------
+
+JPA Vs Hibernate
+----------------
+JPA -> Jakarta Persistence API
+-> jpa is just like a interface.
+-> jpa  is abstract.
+-> jpa defines what needs to be develop.
+-> inside JPA a set of methods/annotations.
+
+
+Hibernate-> logics are implemented
+
+
+
+JPA (Jakarta Persistence API)
+----------------------------
+JPA stands for Jakarta Persistence API.
+It is a specification (set of rules/guidelines), not an implementation.
+Similar to an interface, it only defines what should be done, not how it should be done.
+ 
+
+JPA provides:
+-----------
+Annotations (@Entity, @Table, @Id, etc.)
+Interfaces (EntityManager, Entity Transaction, etc.)
+Rules for ORM (Object Relational Mapping)
+JPA defines these annotations but does not provide the actual logic.
+
+Hibernate
+---------
+Hibernate is an ORM Framework.
+Hibernate is an implementation of JPA.
+It provides the actual logic for all JPA operations.
+
+Responsible for:
+--------------
+Saving objects into the database
+Updating records
+Deleting records
+Fetching records
+Generating SQL queries
+
+------------------------------------------------------------------
+
+
+Normalization: Normalization is the process of organizing data in a database to:
+Reduce data redundancy (duplicate data)
+Improve data consistency
+Avoid insertion, update, and deletion anomalies
+
+Normalization types
+1NF
+2NF
+3NF
+
+1. 1NF (First Normal Form)
+---------------------------
+-> Should have atomic values
+-> Identify each record uniquely
+-> No repeating groups
+
+----------------------------------
+| StudentID | Name  | Subjects   |
+| --------- | ----- | ---------- |
+| 101       | Alice | Java, DBMS |
+| 102       | Bob   | C, Python  |
+----------------------------------
+	
+1NF
+-------------------------------
+| StudentID | Name  | Subject |
+| --------- | ----- | ------- |
+| 101       | Alice | Java    |
+| 101       | Alice | DBMS    |
+| 102       | Bob   | C       |
+| 102       | Bob   | Python  |
+-------------------------------
+
+
+
+2. 2NF (Second Normal Form)
+------------------------------
+-> Table must already be in 1NF.
+-> Group the columns based on entity & separate that to different tables
+---------------------------------------------------
+| StudentID | StudentName | CourseID | CourseName |
+| --------- | ----------- | -------- | ---------- |
+| 101       | Alice       | C101     | Java       |
+| 101       | Alice       | D102     | DBMS       |
+| 102       | Bob         | C101     | Java       |
+---------------------------------------------------
+
+
+
+--------------------------------
+| StudentID (PK) | StudentName |
+| -------------- | ----------- |
+| 101            | Alice       |
+| 102            | Bob         |
+--------------------------------
+
+------------------------------
+| CourseID (PK) | CourseName |
+| ------------- | ---------- |
+| C101          | Java       |
+| D102          | DBMS       |
+------------------------------
+
+----------------------------------
+| StudentID (FK) | CourseID (FK) |
+| -------------- | ------------- |
+| 101            | C101          |
+| 101            | D102          |
+| 102            | C101          |
+----------------------------------
+
+
+
+3. 3 NF (Third Normal Form)
+----------------------------
+-> Remove all duplicate/redundant values
+-> Ensure each record is uniquely identified by a Primary Key
+-> Create relations between tables using Foreign Keys
+---------------------------------------
+| EmpID | EmpName | DeptID | DeptName |
+| ----- | ------- | ------ | -------- |
+| E101  | Rahul   | D1     | HR       |
+| E102  | Priya   | D2     | Sales    |
+| E103  | Aman    | D1     | HR       |
+---------------------------------------
+
+
+--------------------------------------
+| EmpID (PK) | EmpName | DeptID (FK) |
+| ---------- | ------- | ----------- |
+| E101       | Rahul   | D1          |
+| E102       | Priya   | D2          |
+| E103       | Aman    | D1          |
+--------------------------------------
+
+--------------------------
+| DeptID (PK) | DeptName |
+| ----------- | -------- |
+| D1          | HR       |
+| D2          | Sales    |
+--------------------------
+
+
+Business intelligence team -> work create ER Diagram in company
+-------------------------
+
+
+-> Hibernate Mapping
+--------------------
+mapping is the process of defining how records of one table are related to records of another table.
+
+-> Types of Mapping:
+---------------
+1. One-to-One (1:1)
+2. One-to-Many (1:N)
+3. Many-to-One (N:1)
+4. Many-to-Many (M:N)
+
+-> Communication Type = Who can navigate the relationship?
+---------------------
+Unidirectional (one-way)  =>	Student -------> Address
+Bidirectional (two-way)   =>	Student <-------> Address
+
+
+--------------------
+owning side
+inverse side
+@JoinCOulmn(name="") ----> owning side (used mainly in @ManyToMany)
+@mappedBy   ------> inverse side
+@JoinTable()
+----------------------
+
+
+-> Java Code Interact with database
+------------------------------------
+-> Purely Hibernaate
+---------------------
+connect to the database(db url,un,pwd)
+Perform crud operations
+close database connection
+
+Java Application
+        ↓
+   Hibernate
+        ↓
+Database Connection (URL, Username, Password)
+        ↓
+Perform CRUD (Create, Read, Update, Delete)
+        ↓
+Close Session & Connection
+
+
+
+
+-> Spring Data JPA- Advantages i will get
+-----------------------------------------
+connect to the database(db url,un,pwd)
+Perform crud operations
+close database connection
+
+
+Java Application
+        ↓
+ Spring Data JPA
+        ↓
+Auto Database Connection
+        ↓
+Built-in CRUD Methods
+        ↓
+Automatic Transaction & Connection Management
+=============================================================
+
+Dpendency Injection in Spring Boot
+-----------------------------------
+Tightly Coupled: Classes are highly dependent on each other, so changing one class often requires changes in the other.
+Loosely Coupled: Classes interact through interfaces or abstractions, so one class can change or be replaced with minimal impact on the other.
+
+
+Tight Coupling  = Depends on a Class ❌
+Loose Coupling  = Depends on an Interface ✅
+
+
+tightly coupled
+----------------
+public class EmailService {
+    public void sendEmail(String message) {
+        System.out.println("Email sent: " + message);
+    }
+}	public class Notification {
+    private EmailService emailService = new EmailService(); // creating directly
+
+    public void send(String msg) {
+        emailService.sendEmail(msg);
+    }
+}
+
+loosely coupled
+================
+// Step 1: Define an interface
+public interface MessageService {
+    void sendMessage(String msg);
+}
+
+// Step 2: Implement the interface
+public class EmailService implements MessageService {
+    public void sendMessage(String msg) {
+        System.out.println("Email sent: " + msg);
+    }
+}	public class WhatsAppService implements MessageService {
+    public void sendMessage(String msg) {
+        System.out.println("WhatsApp message sent: " + msg);
+    }
+}
+
+// Step 3: Notification depends on the interface, not the implementation
+public class Notification {
+    private MessageService messageService;
+
+    // Inject dependency via constructor
+    public Notification(MessageService messageService) {
+        this.messageService = messageService;
+    }
+
+    public void send(String msg) {
+        messageService.sendMessage(msg);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Step 2: Create the implementation instance
+        MessageService emailService = new EmailService();
+
+        // Step 3: Inject the dependency via constructor
+        Notification notification = new Notification(emailService);
+
+        // Use the Notification service
+        notification.send("Hello! This is a test message.");
+    }
+}
+
+
+==================================================
+
+interface A{}
+class B implements A{}
+create object in java----> A a1=new B();
+------------------------------------------
+In SpringBoot to create Object
+@Autowired
+private A a1;//<= new B()
+
+Spring IOC(Inversion of Control)
+---------------------------------
+-> Responsible to create objects and then inject it address into the reference variable when @Autowired is used.
+-> Complete Life Cycle of object
+Object->Bean
+
+
+
+1. Field Injection
+-------------------
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository repo;
+}
+
+Pros:
+Less code.
+Easy to write.
+
+Cons:
+Dependencies are hidden.
+Harder to unit test.
+Can't make the field final.
+The object can exist in an incomplete state until Spring injects the dependency.
+
+2. Constructor Injection (Preferred)
+------------------------------------
+@Service
+public class UserService {
+    private final UserRepository repo;
+
+    public UserService(UserRepository repo) {
+        this.repo = repo;
+    }
+}
+
+Pros:
+Dependencies are explicit.
+Supports final fields.
+Easier to write unit tests.
+The object cannot be created without its required dependencies.
+
+Cons:
+Slightly more code (though modern IDEs generate constructors easily).
+
+
+3. Setter Injection
+-----------------------
+@Service
+public class UserService {
+    private UserRepository repo;
+
+    @Autowired
+    public void setUserRepository(UserRepository repo) {
+        this.repo = repo;
+    }
+}
+
+Pros:
+Good for optional dependencies.
+You can change the dependency after object creation if needed.
+
+Cons:
+The object may be used before the setter is called.
+Required dependencies are not enforced.
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+Drawbacks of Hibernates
+------------------------
+required dependencies
+hibernate configuration file
+entity class
+main class
+-> we have to create file hibernate.cfg.xml
+
+
+
+-----------------------------------------
+Maven-> maven helps us to create project structure
+mvn->search jdk in system
+
+JAVA_HOME: jdk without bin path
+path: maven file path
+
+group id-default package name-> reverse name of domain name->com.tcs
+artifact id-during deployment name is need
+group name and package name are same
+
+
+https://mvnrepository.com/
+Maven Local Repository
+
+The Maven Local Repository is a folder on your computer where Maven stores downloaded dependencies, plugins, and project artifacts.
+C:\Users\<username>\.m2\repository
+
+
+----------------------------------------
+| Version          | Type              |
+| ---------------- | ----------------- |
+| `3.5.0`          | Release / Stable  |
+| `3.5.1-SNAPSHOT` | Snapshot          |
+| `3.5.0-Alpha1`   | Alpha             |
+| `3.5.0-Beta1`    | Beta              |
+| `3.5.0-RC1`      | Release Candidate |
+| `3.5.0-M1`       | Milestone         |
+----------------------------------------
+
+No suffix           -> Stable Release
+-SNAPSHOT           -> Snapshot
+-Alpha              -> Alpha
+-Beta               -> Beta
+-RC                 -> Release Candidate
+-M                  -> Milestone
+
+MAJOR.MINOR.PATCH
+
+3.5.2
+│ │ │
+│ │ └── PATCH
+│ └──── MINOR
+└────── MAJOR
+
+| Change          | Meaning                 |
+| --------------- | ----------------------- |
+| `1.2.3 → 2.0.0` | Major change (breaking) |
+| `1.2.3 → 1.3.0` | New features added      |
+| `1.2.3 → 1.2.4` | Bug/security fix        |
+
+
+| Version          | Change Type |
+| ---------------- | ----------- |
+| `3.4.5 → 3.4.6`  | Patch       |
+| `3.4.5 → 3.5.0`  | Minor       |
+| `2.7.18 → 3.0.0` | Major       |
+
+Repository types
+--------------
+central-public
+remote-private
+local-.m2 directory
+
+maven command
+------
+clean
+compile
+test
+package
+
+---------------------------------------
+Skip JUnit Tests
+----------------
+mvn clean package -DskipTests=true
+
+OR
+
+mvn clean package -DskipTests
+
+Skip Test Compilation & Execution
+---------------------------------
+mvn clean package -Dmaven.test.skip=true
+
+
+---------------------------------------------------
+What is a Plugin?
+-----------------
+A plugin is a software component that adds extra features or functionality to an existing application without changing its core code.
+Real-Life Example
+
+Think of a smartphone:
+
+Phone = Main Application
+Apps  = Plugins
+
+Relate with maven
+----------------------
+Maven is like a smartphone, and plugins are like apps.
+The smartphone provides the platform, while apps provide specific features.
+Similarly, Maven provides the build framework, and plugins perform tasks such as compilation, testing, packaging, and running applications.
+-------------------------------------------------
+
+Junit
+----------------------------------------
+package com.example.demo;
+
+// JUnit 5 lifecycle annotations
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+// Spring Boot testing support
+import org.springframework.boot.test.context.SpringBootTest;
+
+/*
+ * @SpringBootTest
+ * Loads the complete Spring Boot application context.
+ * Used for integration testing.
+ */
+@SpringBootTest
+class DemoApplicationTests {
+
+    /*
+     * @Test
+     * Marks this method as a test case.
+     * This test will fail because of ArithmeticException (10/0).
+     */
+    @Test
+    void test1() {
+        int x = 10 / 0; // Exception occurs here
+        System.out.println("From test 1");
+    }
+
+    /*
+     * Another test case.
+     * This test will execute successfully.
+     */
+    @Test
+    void test2() {
+        System.out.println("From test 2");
+    }
+
+    /*
+     * @BeforeEach
+     * Executes before every test method.
+     *
+     * Execution Order:
+     * Before Test -> test1
+     * Before Test -> test2
+     */
+    @BeforeEach
+    void beforeTest() {
+        System.out.println("Before Test");
+    }
+
+    /*
+     * @AfterEach
+     * Executes after every test method,
+     * even if the test fails.
+     */
+    @AfterEach
+    void afterTest() {
+        System.out.println("After Test");
+    }
+
+    /*
+     * @BeforeAll
+     * Executes only once before all test methods.
+     * Must be static.
+     */
+    @BeforeAll
+    static void beforeClass() {
+        System.out.println("Before All");
+    }
+
+    /*
+     * @AfterAll
+     * Executes only once after all test methods finish.
+     * Must be static.
+     */
+    @AfterAll
+    static void afterClass() {
+        System.out.println("After All");
+    }
+}
+
+
+OUTPUT
+-----------
+Before All
+
+Before Test
+After Test
+
+Before Test
+From test 2
+After Test
+
+After All
+
+
+---------------------------
+connect db in springboot
+-------------------------
+
+application.properties file
+------------------
+# Database Connection
+spring.datasource.url=jdbc:mysql://localhost:3306/hibernate_db
+spring.datasource.username=root
+spring.datasource.password=admin
+
+spring.jpa.hibernate.ddl-auto=create
+
+-------------------------------------------
+Optional Class ->
+-------------------------------------------
+
+Optional<T> is a container object introduced in Java 8 that may or may not contain a non-null value.
+It helps avoid NullPointerException (NPE) and makes null handling more explicit.
+
+Interview Points
+Introduced in Java 8.
+Belongs to java.util package.
+Used to avoid NullPointerException.
+Optional is a wrapper/container for an object.
+Common methods:
+	of()
+	ofNullable()
+	empty()
+	isPresent()
+	get()
+	orElse()
+	orElseGet()
+	orElseThrow()
+	ifPresent()
+
+Why Optional?
+
+Without Optional:
+---------------------
+String name = null;
+System.out.println(name.length()); // NullPointerException
+
+Using Optional:
+----------------
+Optional<String> name = Optional.ofNullable(null);
+
+if(name.isPresent()) {
+    System.out.println(name.get().length());
+} else {
+    System.out.println("Value is null");
+}
+
+Output: Value is null
+
+
+
+JPQL
+----------
+
+
+Repository Layer
+----------------------------
+The Repository Layer is responsible for communicating with the database.
+
+It sits between the Service Layer and the Database.
+
+Flow
+-----
+Controllerb
+    ↓
+Service
+    ↓
+Repository
+    ↓
+Database
+
+Why Use Repository Layer?
+--------------------------
+Separates database logic from business logic.
+Reduces boilerplate JDBC code.
+Provides built-in CRUD operations.
+Supports custom queries using method names or @Query.
+
+Interview Definition
+---------------------
+Repository Layer is the Data Access Layer (DAO Layer) of a Spring Boot application.
+It interacts directly with the database and performs CRUD operations using
+Spring Data JPA repositories.
+
+
+
+-----------------------------------------------------
+
+fetchtype
+@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+
+1. First Mapping (Recommended)
+-----------------------------------
+@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+@JoinColumn(name = "countryId")
+private Set<State> states;
+
+Explanation
+---------
+Set<State> is a generic collection.
+The collection can contain only State objects.
+Type safety is provided at compile time.
+FetchType.LAZY means states are loaded only when accessed.
+
+Example:
+---------
+Country c = session.get(Country.class, 1);
+
+// States are not loaded yet
+System.out.println(c.getName());
+
+// States loaded now
+System.out.println(c.getStates());
+
+Database query for states executes only when getStates() is called.
+
+
+2. Second Mapping
+--------------------
+@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+@JoinColumn(name = "countryId")
+private Set states;
+
+Problems
+--------
+Raw Set is used (no generic type).
+Can store any object type.
+Generates compiler warnings.
+Not type-safe.
+
+Example:
+------------
+Set states = new HashSet();
+states.add(new State());
+states.add("Hello");   // Allowed
+states.add(100);       // Allowed
+
+This can cause runtime issues.
+
+Also:
+--------
+fetch = FetchType.EAGER
+
+
+means Hibernate loads all states immediately whenever a country is loaded.
+
+Country c = session.get(Country.class, 1);
+
+
+Hibernate executes:
+-----------------------
+select * from country where country_id = 1;
+
+select * from state where countryId = 1;
+
+
+even if you never access states.
+
+
+Best Practice
+===============
+@OneToMany(
+    cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY
+)
+@JoinColumn(name = "countryId")
+
+private Set<State> states = new HashSet<>();
+
+Reasons:
+-------------
+Uses generics (Set<State>).
+Type-safe.
+Better performance with LAZY.
+Avoids unnecessary database queries.
+
+
+Real-world Example
+--------------------------
+Imagine opening a folder:
+
+EAGER = Open folder and automatically load all 1000 files into RAM.
+LAZY = Open folder, but load a file only when you click it.
+
+That's why LAZY is generally preferred for @OneToMany and @ManyToMany relationships,
+where the number of child records can be large.
+-------------------------------------------------------------------------------------
+
+
+lazy fetch + @Transactional
+------------------------------
+
+ *
+ * @Transactional -> Keeps the Hibernate Session open, allowing
+ *                   lazy-loaded entities to be fetched without
+ *                   LazyInitializationException.
+
+---------------------------------------------------------
+
+
+**Hibernate Cache->**cache is a special memory that helps us retrieve data fast
+
+
+Default Fetch Types
+--------------------------------------
+| Mapping       | Default Fetch Type |
+| ------------- | ------------------ |
+| `@ManyToOne`  | EAGER              |
+| `@OneToOne`   | EAGER              |
+| `@OneToMany`  | LAZY               |
+| `@ManyToMany` | LAZY               |
+--------------------------------------
+
+
+
+
+ALL HIBERNATE MAPPINGS (Student & Address Example)
+====================================================
+-> ENTITY CLASSES
+------------------
+
+Student.java
+--------
+@Entity
+public class Student {
+
+    @Id
+    private Long id;
+    private String name;
+    private String email;
+}
+
+Address.java
+-----------
+@Entity
+public class Address {
+
+    @Id
+    private Long id;
+    private String street;
+    private String city;
+    private String state;
+    private String pincode;
+}
+====================================================
+REFERENCE TABLES
+----------------
+STUDENT
+------
+ID(PK)   NAME    EMAIL
+1        Alice   alice@gmail.com
+2        Bob     bob@gmail.com
+
+ADDRESS
+-----
+ID(PK)   STREET          CITY       STATE       PINCODE
+101      221B Baker St   London     London      NW1
+102      MG Road         Bangalore  Karnataka   560001
+
+====================================================
+
+ONE-TO-ONE (BIDIRECTIONAL)
+====================================================
+Student.java (Owning Side)
+----------------------
+@OneToOne
+@JoinColumn(name="address_id")
+private Address address;
+
+Address.java (Inverse Side)
+---------------------
+@OneToOne(mappedBy="address")
+private Student student;
+
+Tables:-
+-------
+
+STUDENT
+-------------------------
+id | name | address_id(FK)
+
+ADDRESS
+-------------------------
+id | street
+
+PK : Student.id, Address.id
+----
+FK : Student.address_id -> Address.id
+---
+
+Relationship
+------------
+         Student --------1 : 1-------- Address
+====================================================
+
+2. ONE-TO-MANY (BIDIRECTIONAL)
+------------------------------
+Student.java (Inverse Side)
+---------------
+@OneToMany(mappedBy="student")
+private List<Address> addresses;
+
+Address.java (Owning Side)
+-----------------
+@ManyToOne
+@JoinColumn(name="student_id")
+private Student student;
+
+Tables
+-----
+STUDENT
+id | name
+
+ADDRESS
+id | street | student_id(FK)
+
+PK : Student.id, Address.id
+----
+FK : Address.student_id -> Student.id
+----
+
+Relationship
+------------
+        Student --------1 : *-------- Address
+====================================================
+
+3. MANY-TO-ONE
+--------------
+Address.java
+---------
+@ManyToOne
+@JoinColumn(name="student_id")
+private Student student;
+
+Tables
+------
+ADDRESS
+id | street | student_id(FK)
+
+Relationship
+------------
+            Address --------* : 1-------- Student
+====================================================
+
+4. MANY-TO-MANY (BIDIRECTIONAL)
+----------------------------
+Student.java (Owning Side)
+----------------------
+@ManyToMany
+@JoinTable(
+name="student_address",
+joinColumns=@JoinColumn(name="student_id"),
+inverseJoinColumns=@JoinColumn(name="address_id")
+)
+private List<Address> addresses;
+
+Address.java (Inverse Side)
+-------------------------
+@ManyToMany(mappedBy="addresses")
+private List<Student> students;
+
+Tables
+------
+STUDENT
+
+ADDRESS
+
+STUDENT_ADDRESS
+student_id(FK)
+address_id(FK)
+
+Relationship
+------------
+        Student --------* : *-------- Address
+====================================================
+
+5. ONE-TO-ONE (SHARED PRIMARY KEY)
+----------------------------------
+Student.java
+-----------
+@OneToOne(cascade=CascadeType.ALL)
+@JoinColumn(name="id")
+private Address address;
+
+Address.java
+------------
+@OneToOne
+@MapsId
+@JoinColumn(name="id")
+private Student student;
+
+Tables
+------
+STUDENT
+id(PK)
+
+ADDRESS
+id(PK,FK)
+
+Relationship
+------------
+          Student --------1 : 1-------- Address
+====================================================
+
+6. ONE-TO-MANY (UNIDIRECTIONAL)
+------------------------------
+Student.java
+-----------
+@OneToMany
+@JoinColumn(name="student_id")
+private List<Address> addresses;
+
+Tables
+------
+ADDRESS
+id | street | student_id(FK)
+
+Relationship
+------------
+         Student --------1 : *-------- Address
+====================================================
+
+7. MANY-TO-ONE (UNIDIRECTIONAL)
+-----------------------------
+Address.java
+-----------
+@ManyToOne
+@JoinColumn(name="student_id")
+private Student student;
+
+Tables
+--------
+ADDRESS
+id | street | student_id(FK)
+
+Relationship
+------------
+       Address --------* : 1-------- Student
+====================================================
+
+8. MANY-TO-MANY (UNIDIRECTIONAL)
+-------------------------------
+Student.java
+-----------
+@ManyToMany
+@JoinTable(
+name="student_address",
+joinColumns=@JoinColumn(name="student_id"),
+inverseJoinColumns=@JoinColumn(name="address_id")
+)
+private List<Address> addresses;
+
+Tables
+-------
+STUDENT
+
+ADDRESS
+
+STUDENT_ADDRESS
+student_id(FK)
+address_id(FK)
+
+Relationship
+------------
+         Student --------* : *-------- Address
+====================================================
+
+9. ONE-TO-MANY (BIDIRECTIONAL)
+--------------------------------
+Student.java
+-----------
+@OneToMany(mappedBy="student")
+private List<Address> addresses;
+
+Address.java
+-------------
+@ManyToOne
+@JoinColumn(name="student_id")
+private Student student;
+
+Relationship
+------------
+         Student --------1 : *-------- Address
+====================================================
+
+10. MANY-TO-MANY (BIDIRECTIONAL)
+----------------------------------
+Student.java
+-----------
+@ManyToMany
+@JoinTable(
+name="student_address",
+joinColumns=@JoinColumn(name="student_id"),
+inverseJoinColumns=@JoinColumn(name="address_id")
+)
+private List<Address> addresses;
+
+Address.java
+------------
+@ManyToMany(mappedBy="addresses")
+private List<Student> students;
+
+Relationship
+-------------
+         Student --------* : *-------- Address
+
+
+====================================================
+CASCADE TYPES
+CascadeType.ALL      -> Persist, Merge, Remove, Refresh, Detach
+CascadeType.PERSIST  -> Save child automatically
+CascadeType.MERGE    -> Update child automatically
+CascadeType.REMOVE   -> Delete child automatically
+CascadeType.REFRESH  -> Reload child
+CascadeType.DETACH   -> Detach child
+====================================================
+
+FETCH TYPES
+FetchType.EAGER -> Load parent and child immediately.
+
+FetchType.LAZY  -> Load child only when required.(Default for collections.)
+====================================================
+
+LEGEND
+--------
+PK = Primary Key
+
+FK = Foreign Key
+
+@JoinColumn = Creates Foreign Key
+
+mappedBy = Inverse side (does not own FK)
+
+Owning Side = Contains Foreign Key
+
+@JoinTable = Creates Junction Table
+
+@MapsId = Shared Primary Key
+====================================================
+
+IMPORTANT NOTES
+---------------
+1. Owning side always contains the Foreign Key.
+
+2. mappedBy is used only on the inverse side.
+
+3. @JoinTable is used in Many-to-Many mappings.
+
+4. One-to-One can use a Foreign Key or Shared Primary Key.
+
+5. One-to-Many usually stores the Foreign Key in the "Many" table.
+
+6. Many-to-One always contains the Foreign Key.
+
+7. Default Fetch:
+   - @ManyToOne = EAGER
+   - @OneToOne = EAGER
+   - @OneToMany = LAZY
+   - @ManyToMany = LAZY
+
+8. Cascade is optional and depends on the business requirement.
+
+
+
+####################################################
+JPQL (Java Persistence Query Language) in Hibernate
+#####################################################
+
+	@Query("select e from Employee e where e.emailId=:x")
+	Optional<Employee> searchByEmail(@Param("x") String email);
+	
+	@Query("Select e from Employee e where e.mobile=:m")
+	Optional<Employee> searchByMobile(@Param("m") String mobile);
+	
+	@Query("select e from Employee e where e.emailId=:x and e.mobile=:m")
+	Optional<Employee> searchByEmailAndMobile( String email,@Param("m") String mobile);
+	
+	@Query("select e from Employee e where e.emailId=:x or e.mobile=:m")
+	List<Employee> searchByEmailIdOrMobile(@Param("x") String email,@Param("m") String mobile);
+
+
+##########################
+Native SQL Query
+##########################
+
+	@Query(value = "SELECT * FROM employees WHERE email_id = ?1", nativeQuery = true)
+	Optional<Employee> findByEmailUsingSQl(String email);
+	
+	@Query(value = "SELECT * FROM employees WHERE mobile = ?1", nativeQuery = true)
+	Optional<Employee> findByMobileUsingSQl(String mobile);
+	
+	@Query(value = "SELECT * FROM employees WHERE email_id = ?1 and mobile = ?2", nativeQuery = true)
+	Optional<Employee> findByEmailandMobileUsingSQl(String email, String mobile);
+
+
+-------------------------------------
+Most Frequently Asked in Interviews
+-------------------------------------
+@Entity
+@Table
+@Id
+@GeneratedValue
+@Column
+
+@OneToOne
+@OneToMany
+@ManyToOne
+@ManyToMany
+
+@JoinColumn
+@JoinTable
+
+@Transactional
+
+@Transient
+
+@CreationTimestamp
+@UpdateTimestamp
+
+@Embedded
+@Embeddable
