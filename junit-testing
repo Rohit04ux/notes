@@ -1,0 +1,224 @@
+WhiteBox Testing/Unit Testing
+->Junit
+->TestNg - Selenium Testing/Automation
+	 - it released after JUnit
+
+JUnit → Executes tests
+Mockito → Creates mock objects
+JaCoCo → Measures how much code those tests cover
+
+
+Junit-
+-------
+- Java testing framework -> helps to write and run unit tests
+- types of testing with Junit
+	- isolation testing
+	- integration testing
+
+
+Junit Testing(Isolation)
+-------------------------
+Characteristics
+- Tests only one class or method.
+- Dependencies (database, APIs, services) are mocked or stubbed.
+- Fast execution.
+- Easy to identify bugs.
+
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+}
+
+public class CalculatorTest {
+    @Test
+    void testAddition() {
+        Calculator calculator = new Calculator();
+        assertEquals(5, calculator.add(2, 3));
+    }
+}
+
+Mock objects - dummy data -> Mockito
+-------------
+Mock objects are used in JUnit isolation (unit) testing to replace real dependencies, allowing a class
+or method to be tested independently without interacting with external systems.
+
+Constructor Based Dependency Injection vs @Autowired
+-----------------------------------------------------
+Constructor-based injection passes dependencies through the constructor, making them explicit, immutable, and easy to mock in JUnit tests.
+
+Field injection using @Autowired injects dependencies directly into fields, which hides dependencies and makes unit testing more difficult. Therefore, constructor-based injection is the preferred approach in Spring applications.
+
+
+Junit Testing(Integration)
+-----------------------------
+Characteristics
+- Tests interactions between multiple classes/modules.
+- Uses real or test databases, APIs, or external services.
+- Slower than unit tests.
+- Validates complete workflows.
+
+@SpringBootTest
+public class UserServiceIntegrationTest {
+    @Autowired
+    private UserService userService;
+
+    @Test
+    void testCreateUser() {
+        User user = userService.createUser("John");
+        assertNotNull(user.getId());
+    }
+}
+
+
+JaCoCo
+-----------
+- how much of your code was actually executed when you ran your tests.
+- works as plugin with Junit
+- often required for CI/CD quality gates(e.g.,"Fail build if coverage <80%").
+
+
+
+Note: we should perform -ve and +ve testing both
+-----
+---------------------------------------------------------------------------
+| Positive Testing                    | Negative Testing                  |
+| ----------------------------------- | --------------------------------- |
+| Valid input                         | Invalid input                     |
+| Expected success                    | Expected failure/exception        |
+| Verifies normal behavior            | Verifies error handling           |
+| Example: Valid login                | Example: Invalid login            |
+| assertEquals(), assertNotNull()     | assertThrows(), assertFalse()     |
+---------------------------------------------------------------------------
+
+-> Assertions: Offers methods check expected outcome with actual outcome
+--------------
+
+------------------
+-> Static import
+------------------
+Static import allows us to access static members (variables and methods)
+of a class directly without using the class name.
+
+
+Normal import
+--------------
+import java.lang.Math;
+
+public class Test {
+    public static void main(String[] args) {
+
+        double result = Math.sqrt(25);
+
+        System.out.println(Math.PI);
+    }
+}
+
+
+Static import
+-------------
+import static java.lang.Math.*;
+
+public class Test {
+    public static void main(String[] args) {
+
+        double result = sqrt(25);
+
+        System.out.println(PI);
+    }
+}
+
+
+Annations
+---------
+@webMvcTest-> used to controller layer,
+	
+@ExtendWith(Mokitoextesio.class)-
+
+
+
+Each test follows the AAA (Arrange–Act–Assert) pattern:
+---------------------------------------
+	Arrange → Mock the service using when(...).thenReturn(...).
+	Act → Execute the HTTP request using mockMvc.perform(...).		Assert → Verify the expected HTTP status and response body using andExpect(...).
+
+	 // =============================
+	 // GET ALL USERS - Positive Test
+	 // =============================
+	 @Test
+	 void testGetAllUsers_ReturnsUsers() throws Exception {
+	
+	     // Mock service with list of users
+	     when(service.findAllUsers())
+	             .thenReturn(Arrays.asList(
+	                     	new User(1, "Alice"),
+	                     	new User(2, "Bob")
+	                     ));
+	
+	     // Verify:
+	     // 1. HTTP Status = 200 OK
+	     // 2. Response contains both users
+	     mockMvc.perform(get("/users"))
+	            .andExpect(status().isOk())
+	            .andExpect(jsonPath("$[0].name").value("Alice"))
+	            .andExpect(jsonPath("$[1].name").value("Bob"));
+	 }
+
+
+	 // =============================
+	 // GET ALL USERS - Negative Test
+	 // =============================
+	 @Test
+	 void testGetAllUsers_NoContent() throws Exception {
+	     // Mock empty user list
+	     when(service.findAllUsers()).thenReturn(Collections.emptyList());
+	
+	     // Verify API returns 204 No Content
+	     mockMvc.perform(get("/users"))
+	            .andExpect(status().isNoContent());
+	 }
+
+
+------------------------------------------------------------------------------------------------------
+
+
+Note:
+######
+Breaking down $.id
+
+$ → means the root of the JSON object (top-level).
+
+.id → means the property named id inside that root.
+
+So if your response JSON looks like:
+
+{
+  "id": 10,
+  "name": "Bob"
+}
+
+
+$.id → points to 10
+
+$.name → points to "Bob"
+
+More Examples:
+
+Given this JSON:
+
+{
+  "id": 5,
+  "user": {
+    "name": "Alice",
+    "roles": ["ADMIN", "USER"]
+  }
+}
+
+
+$.id → 5
+
+$.user.name → "Alice"
+
+$.user.roles[0] → "ADMIN"
+
+$.user.roles[1] → "USER"
