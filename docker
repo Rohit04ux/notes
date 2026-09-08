@@ -1,0 +1,340 @@
+Docker
+------
+
+Linux VM
+│
+├── Linux OS / Kernel
+│
+├── Docker Engine
+│
+└── Docker Container
+      │
+      ├── Java 8
+      ├── MySQL 8.5
+      └── Application
+
+What each layer means
+
+1. Linux VM
+-----------
+A virtual machine, for example an AWS EC2 Linux server.
+
+2. Linux OS / Kernel
+--------------------
+The underlying operating system. Docker containers use the host's Linux kernel.
+
+3. Docker Engine
+----------------
+Docker Engine is the software that creates and manages containers.
+
+It handles things like:
+-Creating containers
+-Starting/stopping containers
+-Networking
+-Storage
+-Managing images
+
+4. Docker Container
+--------------------
+This is the isolated environment where your application runs.
+
+For example, your application may require:
+Java 8
+MySQL 8.5
+Application
+
+
+Linux VM
+   │
+   └── Docker Engine
+         │
+         ├── Container A
+         │     └── Java 8 + App A
+         │
+         └── Container B
+               └── Java 17 + App B
+
+--------------
+-> Dockerfile: 
+--------------
+The Dockerfile contains instructions for creating your application environment.
+
+                 DOCKER WORKFLOW
+                 ===============
+
+                    Dockerfile
+                        |
+                        | docker build
+                        v
+                 +--------------+
+                 | Docker Image |
+                 +--------------+
+                        |
+                        | docker push
+                        v
+                 +--------------+
+                 |  Docker Hub  |
+                 |   Registry   |
+                 +--------------+
+                        |
+                        | docker pull
+                        v
+                 +--------------+
+                 | Linux Server |
+                 +--------------+
+                        |
+                        | docker run
+                        v
+                 +----------------+
+                 | Docker         |
+                 | Container      |
+                 +----------------+
+                        |
+                        v
+                 +----------------+
+                 | Spring Boot    |
+                 | Application    |
+                 +----------------+
+
+
+"Docker Hub = collection of Docker images"
+
+
+
+-----------------------
+-> Installing Docker:
+-----------------------
+
+For Amazon Linux use the following commands
+
+Install Docker In Amazon Linux VM
+____________________________
+sudo yum update -y 
+sudo yum install docker -y
+sudo service docker start
+sudo usermod -aG docker ec2-user
+exit
+____________
+
+
+sudo apt update -y
+sudo apt install docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker ubuntu
+exit
+
+
+
+
+Use this command to check version of docker installed
+-------------------------------------
+docker -v
+
+
+For Practise pull docker official image: docker pull hello-world
+------------------------------------
+
+
+DOCKER BASIC COMMANDS 
+=====================
+
+docker -v
+----------------------------> Show Docker version
+
+docker pull hello-world(image_name)
+----------------------------> Download image from Docker Hub
+
+docker images
+----------------------------> Show downloaded/available Docker images
+
+docker run hello-world(image_name)
+----------------------------> Create and run a container from the image
+
+docker ps
+----------------------------> Show currently running containers
+
+docker ps -a
+----------------------------> Show all containers
+                              (Running + Stopped)
+
+docker stop <container_id>
+----------------------------> Stop a running container
+
+docker start <container_id>
+----------------------------> Start a stopped container
+
+docker rm <container_id>
+----------------------------> Delete/remove a container
+
+docker rmi <image_id>
+----------------------------> Delete/remove a Docker image
+
+docker system prune -a
+----------------------------> Remove unused Docker resources
+                              Containers
+                              Networks
+                              Images
+                              Build cache
+
+
+
+For practice pull the sample image from docker hub repository of pankaj sir academy: 
+-----------------
+docker pull psait/pankajsiracademy:latestDocker 
+
+run -p host-port:container-port [image-name]
+
+Example: docker run -p 9090:9090 [image-name]
+
+
+
+
+Install jekins using docker image name - 
+---------------------------------------
+docker run -d -p 8080:8080 jenkins/jenkins
+Note Enable Inbound rule in security group custom ip 8080 IPv4 anywhere
+
+
+
+---------------------------------------
+-> Let us create our first docker file:
+---------------------------------------
+
+How to create docker file? Create Docker Image? push that to docker hub?
+------------
+FROM        → Base image
+MAINTAINER  → Maintainer information (deprecated)
+RUN         → Executes during image creation
+CMD         → Executes when container starts
+
+vi Dockerfile-------->create file
+	^
+    	|
+	|
+	|
+FROM openjdk:17----------->Base image
+MAINTAINER Pankaj--------->Maintainer information
+RUN echo 'run-1'---------->executes during image creation
+RUN echo 'run-2'---------->executes during image creation
+CMD echo 'cmd-1'---------->executes when the container starts
+CMD echo 'cmd-2'---------->Only the last CMD is considered
+
+build docker image
+--------------------
+docker build -t pankajsiracademy/image1 .
+
+to run executable jar: 
+----------------------
+java -jar myapp.jar
+
+CMD vs ENTRYPOINT
+------------------
+example1: CMD "java -jar app.jar"------------------->can override
+example2: ENTRYPOINT ["java","-jar","app.jar"] ----->can't override
+
+COPY---copy file one location to another location
+------
+COPY target/your-app.jar /usr/app/
+
+ADD------copy file and also extract compress file
+-----
+ADD target/your-app.jar /usr/app/
+ADD <http-url> /usr/app/ (wrong)
+
+
+WORKDIR
+---------
+works as cd
+
+
+Example: WORKDIR /path/to/directory
+
+COPY target/your-app.jar   /usr/app/
+WORKDIR /usr/app/
+CMD "java -jar your-app.jar"
+
+
+EXPOSE
+-------
+used to specify application is running on which PORT number
+
+
+Project Structure
+------------------
+app/
+│
+├── pom.xml
+│
+├── src/
+│
+├── target/
+│   └── myapp.jar
+│
+└── Dockerfile
+
+
+
+sudo yum install git -y
+git -v
+
+sudo yum install maven -y
+mvn -v
+
+
+git clone repo
+
+cd docker-test
+
+pwd
+
+ls -l
+
+mvn clean package
+
+ls -l
+
+cd target
+
+cd ..
+
+ls -l
+
+create docker hub account
+
+-> docker build -t myapp:v1 .
+-------------------------------
+ docker build -t rohitrajbhar/testing-repo:testing-v1 .
+
+->docker login
+-----------
+
+->docker push
+---------------
+ docker push rohitrajbhar/testing-repo:testing-v1
+
+
+-> docker run -d -p 8080:8080 --name myapp myapp:v1
+-------------------------
+docker run -d \
+  -p 8080:8080 \
+  --name testing-project \
+  rohitrajbhar/testing-project:testing-v1
+
+ 
+
+-p 8080:8080
+  ↑     ↑
+host  container
+
+
+
+
+java setup on ubuntu
+---------------------
+sudo apt update
+sudo apt install -y openjdk-17-jdk
+sudo update-alternatives --config java
+sudo update-alternatives --config javac
+java -version
+javac -version
