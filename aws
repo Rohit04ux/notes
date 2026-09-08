@@ -887,6 +887,8 @@ Azure etc
 
 
 
+
+
 HCL Syntax:
 
 Blocks -
@@ -909,4 +911,376 @@ resource "aws_instance" "example" {
 	   Name = "MyEC2Instance"
 	   Environment = "Production"
 	}
+
+	monitoring = true
+	disable_api_termination = false
 }
+
+
+# resource "aws_instance" "example"
+--------------------------------
+resource: This is a block in Terraform
+define a specific piece of infrastructure (a resource).
+In this case, it's defining an AWS EC2 instance.
+
+"aws_instance": This specifies the type of resource you
+are creating. Here, it's an EC2 instance from Amazon Web
+Services (AWS).
+
+"example": This is the name of the resource. It serves
+as an identifier for the instance in the Terraform
+configuration. You will refer to this name in other
+parts of the code or for outputs.
+
+Inside the resource block:
+ami = "ami-12345678":
+
+ami: This attribute specifies the Amazon Machine Image
+(AMI) that will be used to launch the EC2 instance.
+Value: "ami-12345678" is a placeholder AMI ID. You would
+replace this with a real AMI ID that corresponds to the
+OS or application image you want to use (e.g., an Ubuntu
+or Amazon Linux AMI).
+instance_type = "t2.micro":
+
+instance_type: Specifies the instance type for the EC2.
+Instance types determine the CPU, memory, and networking
+capacity for the EC2 instance.
+
+key_name: This specifies the name of the SSH key pair
+that will be used to access the EC2 instance securely.
+Value: "my-key-pair" is the name of the SSH key pair
+that exists in your AWS account. You need to have this
+key pair created ahead of time in the AWS console, or
+Terraform will create one if specified.
+subnet_id = "subnet-abc123":
+
+subnet_id: This attribute specifies the subnet in which
+the EC2 instance will be launched.
+Value: "subnet-abc123" is a placeholder value for the
+subnet ID. You need to replace it with the actual ID of
+a subnet in your VPC (Virtual Private Cloud) where you
+want the instance to reside.
+security_groups = ["sg-123456"]:
+
+
+security_groups: Specifies one or more security groups
+to associate with the EC2 instance. Security groups
+define the firewall rules for the instance, controlling
+inbound and outbound traffic.
+Value: The value is a list of security group IDs. In
+this case, the instance will be associated with the
+security group "sg-123456". You can add multiple
+security group IDs if needed.
+tags = { ... }:
+
+
+tags: Tags are key-value pairs that you can assign to
+resources for identification and management purposes.
+Value: The value is a map containing tags for the
+instance.
+Name = "MyEC2Instance": This tag sets the name of the
+instance to "MyEC2Instance".
+Environment = "Production": This tag assigns the
+environment type as "Production".
+These tags help organize and manage resources in AWS,
+especially when you have a large number of them.
+monitoring = true:
+
+
+monitoring: This attribute enables or disables
+CloudWatch detailed monitoring for the EC2 instance.
+Value: true enables detailed monitoring, which provides
+additional metrics (such as CPU utilization, disk I/0,
+etc.) every minute. This is typically used for
+performance tracking and alerting.
+disable_api_termination = false:
+
+
+disable_api_termination: This setting controls whether
+the instance can be terminated via the AWS API (for
+example, when running aws ec2 terminate-instances).
+Value: false means that the instance can be terminated
+via the API. If set to true, it would prevent the
+instance from being accidentally terminated.
+
+Summary:
+This Terraform configuration block defines an EC2
+instance on AWS with the following settings:
+
+AMI ID ami-12345678 (an Amazon Machine Image).
+Instance type of t2.micro, suitable for low-cost or
+small applications.
+Uses an existing SSH key pair called my-key-pair.
+Launched in a specific subnet identified by subnet-
+abc123.
+Security group sg-123456 is assigned to control network
+access.
+Two tags: one for Name and one for Environment, to help
+identify and organize the instance.
+CloudWatch monitoring is enabled.
+API termination is allowed (i.e., the instance can be
+terminated via the API).
+
+
+Condition example in HCL
+-------------------------
+# Declare a variable to specify if it's a production environment
+variable "is_production" {
+	type= bool
+	default = false # Change to true' if you want the
+    production environment
+}
+
+
+# Locals block to compute the environment value based on the variable
+locals {
+   environment = var.is_production ? "production" :
+	"staging" # Conditionally set environment value
+}
+
+# Define the EC2 instance resource
+   resource "aws_instance" "example" {
+	ami= "ami-12345678"         # Replace with the actual AMI ID
+	instance_type = "t2.micro"  # EC2 instance type
+
+
+# Optional: Provide a key name for SSH access
+   key_name = "my-key-pair" # Replace with your actual SSH key pair name
+
+
+# Optionally, specify the subnet ID if you are working with a specific VPC
+	subnet_id = "subnet-abc123" actual subnet ID # Replace with your
+
+# Specify the security group to attach to the instance
+	security_groups = ["sg-123456"] # Replace with your security group ID(s)
+
+# Add tags to the instance, including the dynamically
+  set "Environment"
+	tags = {
+		Name = "MyEC2Instance"
+		Environment = local.environment  # Using the value from the local block
+	}
+
+# Enable detailed monitoring for the EC2 instance
+monitoring = true
+
+
+# Prevent termination of the instance through the API
+disable_api_termination = false
+
+}
+
+------------------------
+Aws Cloud Formation
+----------------------
+-> It is used to create Infrastructure in AWS
+-> IAAC (Infrastructure As A Code)
+-> Supports Json & YAML Configurations
+-> Less Error Rate
+-> But Terraform is more popular because it works with multiple Cloud service provider
+-> Terraform is developed by Hashicorp
+-> In terraform we use HCL language (HCL is the HashiCorp configuration language.)
+
+
+example:1
+-----------
+provider "aws" {
+  region     = "ap-south-1"
+  access_key = ""
+  secret_key = ""
+}
+
+resource "aws_instance" "default_instance" {
+  ami           = "ami-090d68841c2a28756"
+  instance_type = "t3.micro"
+
+  key_name        = "devops_session"
+  security_groups = ["default"]
+
+  tags = {
+    Name = "DefaultLinuxEC2Instance"
+  }
+}
+
+commands
+----------
+terraform init
+terraform validate
+terraform fmt
+terraform plan
+terraform plan -out=tplan
+terraform apply
+terraform destroy
+
+
+
+input variables  → variables.tf / input.tf
+output values    → outputs.tf / output.tf
+
+Input = give information to Terraform.
+Output = get information from Terraform.
+
+
+input.tf
+   │
+   │ var.region
+   │ var.instance_type
+   ▼
+main.tf
+   │
+   │ creates
+   ▼
+AWS EC2
+   │
+   │ returns
+   ▼
+output.tf
+   │
+   ├── instance_id
+   └── public_ip
+
+
+
+Project Environments:
+-------------------------------------------------
+dev
+qa/testing/sit
+uat--------------------->beta testing, alfa testing
+staging/pilot
+prod
+
+
+
+-> Terraform Workspace
+-----------------------
+What is the use of workspace in terraform?
+___________________________________________
+
+In Terraform, workspaces allow you to manage multiple environments (like dev, staging, and prod) using the same Terraform configuration but different state files.
+When we use Terraform Workspaces, Terraform maintains a separate state file for each workspace (environment).
+This allows executing the same script for multiple environments without modifying the code.
+
+Note:
+**terraform apply** creates resources and writes their details to terraform.tfstate
+keeps details of actual resources created in the cloud and helps us to avoid duplicate resources creation
+.tf file is read automatically
+.tfvars we should read this file manually
+
+Workspace commands:
+_________________________________________________________________
+$ terraform workspace show       # Show the current workspace
+
+$ terraform workspace new dev    # Create a new workspace for 'dev'
+$ terraform workspace new qa     # Create a new workspace for 'qa'
+$ terraform workspace new uat    # Create a new workspace for 'uat'
+$ terraform workspace new prod   # Create a new workspace for 'prod'
+
+$ terraform workspace list       # List all available workspaces
+
+$ terraform workspace select dev # Switch to 'dev' workspace
+
+
+1. What is terraform taint? (Deprecated)
+The terraform taint command was used to mark a resource for forced recreation in the next terraform apply
+
+terraform taint aws_instance.example
+terraform apply
+
+2. Replacing terraform taint (New Approach)
+
+For single resource
+terraform apply -replace="aws_instance.example"
+
+For multiple resource
+terraform apply -replace="aws_instance.example" -replace="aws_s3_bucket.example"
+
+3. What is terraform untaint? (Deprecated)
+The terraform untaint command was used to remove the taint from a resource, preventing its recreation.
+
+terraform untaint aws_instance.example
+
+This removed the taint from aws_instance.example.
+The resource would not be recreated in the next terraform apply.
+
+4. To manually destroy a resource and recreate it:
+
+terraform destroy -target="aws_instance.example"
+terraform apply
+
+
+
+
+#####################
+# What is Ansible?  #
+#####################
+-> Configuration As a code (CAAC)
+
+-> Ansible is an open-source automation tool used for
+a. configuration management
+b. application deployment
+c. copy file from one machine to another
+
+-> Examples of configuration management tools
+  a. chef
+  b. Puppet
+  c. Ansible
+
+Basic Ansible Architecture
+##############################
+a. Control Node: The machine where Ansible is installed and commands are run.
+b. Managed Nodes: The target machines that Ansible configures.
+c. Inventory: A file listing target machines, grouped by categories.
+d. Playbooks: YAML/yml files containing automation instructions.
+
+Basic Ansible Architecture
+##############################
+a. Control Node: The machine where Ansible is installed and commands are run.
+b. Managed Nodes: The target machines that Ansible configures.
+c. Inventory: A file listing target machines, grouped by categories.
+d. Playbooks: YAML/yml files containing automation instructions.
+
+
+Step-1: Do the following setup in all 3 machines
+--------
+a) Create user:
+	sudo useradd ansible
+	sudo passwd ansible
+
+b) Configure user in sudoers file
+	sudo visudo
+	ansible ALL=(ALL) NOPASSWD: ALL
+
+c) Update sshd config file
+	sudo vi /etc/ssh/sshd_config
+
+-> change PasswordAuthentication "no" and  PermitEmptyPasswords "yes"
+
+to exit esc+:wq+enter
+
+d) Restart the server
+	sudo service sshd restart
+_________________________________
+
+
+Step-2: Install Ansible in Control Node
+a) Switch to Ansible user
+	sudo su ansible
+	cd ~
+b) Install Python because ansible is developed using python & to run ansible we require python software
+  	sudo yum install python3 -y
+
+c) cross Check python is installed?
+	python3 --version
+
+d) Install PIP (package manager) for downloading softwares and intalling it
+	sudo yum -y install python3-pip
+
+e) Install Ansible using Python PIP
+	pip3 install ansible --user
+
+f) Verify ansible version
+	ansible --version
+g) Create ansible folder under /etc
+	sudo mkdir /etc/ansible
+_______________
