@@ -72,10 +72,6 @@ Kubernetes learning roadmap
 
 Kubernetes Architecture
 ------------------------
-
-                    KUBERNETES ARCHITECTURE
-                    ======================
-
                          USER / ADMIN
                               |
                 +-------------+-------------+
@@ -196,28 +192,19 @@ Pod
  └-- Container 2
 
 
-
 ###########################
 -> Explanation k8S working
 ###########################
-
 Step 1: To deploy an application, we interact with the control plane using the kubectl CLI.
-
 Step 2: The API Server receives the request and stores it in ETCD with a pending status.
-
 Step 3: The Scheduler identifies an available worker node to execute the task, using Kubelet for node management.
-
 Step 4: The Kubelet ensures the worker node is running the assigned workload.
-
 Step 5: The Kube Proxy manages networking for seamless cluster communication.
-
 Step 6: The Controller Manager continuously monitors the cluster to ensure tasks run correct
-
 
 ###############################
 🚀 Kubernetes Services
 ###############################
-
 -> A Kubernetes Service is used to expose a group of Pods so that they can be accessed reliably. 
 Since Pods can be created and destroyed at any time (with changing IPs), a Service gives them a 
 stable network identity.
@@ -245,7 +232,6 @@ you want to expose your Pods:
 🔸 2. NodePort
 🔹 3. LoadBalancer
 
-
                 Kubernetes Services
                        |
           +------------+------------+
@@ -259,7 +245,6 @@ you want to expose your Pods:
 -------------------------------------------------------
 🔐 ClusterIP Service (Internal Access Only)
 -------------------------------------------------------
-
 📌 Key Points:
 -> Pods are short-lived objects; if one crashes, Kubernetes replaces it with a new Pod.
 -> Every new Pod gets a different IP address.
@@ -270,12 +255,10 @@ Note: 🛑 Never rely on Pod IPs to access an application.
 -> This static IP allows other components inside the cluster to access the group of 
    Pods reliably, even when individual Pods change.
 
-
 🚫 Access Scope:
 ------------------
 -> Only accessible within the Kubernetes cluster.
 -> Not reachable from the outside world (internet or external clients).
-
 
 💡 Use Case:
 -------------
@@ -283,8 +266,6 @@ Note: 🛑 Never rely on Pod IPs to access an application.
 
 Example: You don’t want to expose a database Pod to the internet, so you use a 
          ClusterIP service to allow access only from other internal Pods.
-
-
 
 ----------------------------------------------------
 🌐 What is a NodePort Service in Kubernetes?
@@ -302,9 +283,7 @@ on each worker node.
 It allows you to access your application using:
 http://<NodeIP>:<NodePort>
 
-
 Note: Here all traffic is routed to one worker node. Means load balancing cannot happen here.
-
 
 -----------------------------------------------------
 🌐 What is a LoadBalancer Service in Kubernetes?
@@ -314,23 +293,18 @@ Note: Here all traffic is routed to one worker node. Means load balancing cannot
    across the backend Pods running on different worker nodes.
 
 
-
-
 ##############################################
 📄 What is a Kubernetes Manifest YAML?
 ##############################################
-
 -> Think of it as an instruction manual for Kubernetes to create and manage resources.
 
 🧱 Main Sections of a Manifest YAML
 -----------------------------------
 Here are the 4 main parts:
-
 apiVersion: <version-number>   # API version to use
 kind: <resource-type>          # Type of resource (Pod, Service, Deployment, etc.)
 metadata:                      # Metadata like name, labels
 spec:                          # Specification of what the resource should do
-
 
 🧪 Example: Pod Manifest YAML Let’s look at a simple Pod definition:
 ----------------------------------------------------------------
