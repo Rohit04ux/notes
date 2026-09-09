@@ -1,0 +1,357 @@
+k8s
+------
+
+                    Kubernetes
+                         |
+        +----------------+----------------+
+        |                |                |
+     Deploy           Scale           Self-heal
+        |                |                |
+   Containers       More Pods       Restart Pods
+
+
+
+
+Kubernetes learning roadmap
+------------
+1. Containers / Docker
+        ↓
+2. Kubernetes Architecture
+        ↓
+3. Cluster / Nodes
+        ↓
+4. Pods
+        ↓
+5. ReplicaSet
+        ↓
+6. Deployment
+        ↓
+7. Services
+        ↓
+8. Namespace
+        ↓
+9. ConfigMap
+        ↓
+10. Secrets
+        ↓
+11. Volumes / PV / PVC
+        ↓
+12. Ingress
+        ↓
+13. StatefulSet
+        ↓
+14. DaemonSet
+        ↓
+15. Jobs / CronJobs
+        ↓
+16. Probes
+        ↓
+17. Resource Requests / Limits
+        ↓
+18. HPA
+        ↓
+19. RBAC
+        ↓
+20. Helm
+        ↓
+21. Kubernetes Networking
+        ↓
+22. Monitoring / Logging
+        ↓
+23. Kubernetes Security
+        ↓
+24. AWS EKS
+        ↓
+25. Kubernetes + Terraform
+        ↓
+26. Kubernetes + CI/CD
+
+
+
+
+
+Kubernetes Architecture
+------------------------
+
+                    KUBERNETES ARCHITECTURE
+                    ======================
+
+                         USER / ADMIN
+                              |
+                +-------------+-------------+
+                |                           |
+               UI                          CLI
+                |                           |
+                |                         kubectl
+                |                           |
+                +-------------+-------------+
+                              |
+                              v
+              +-----------------------------------+
+              |        MASTER / CONTROL NODE      |
+              |            (Control Plane)        |
+              |                                   |
+              |   +-----------------------------+ |
+              |   |         API SERVER          | |----->Entry point to Kubernetes 
+              |   +-----------------------------+ |
+              |                                   |
+              |   +-----------------------------+ |
+              |   |          SCHEDULER          | |------>Decides where Pods should run
+              |   +-----------------------------+ |
+              |                                   |
+              |   +-----------------------------+ |
+              |   |     CONTROLLER MANAGER      | |------>Maintains desired state  
+              |   +-----------------------------+ |
+              |                                   |
+              |   +-----------------------------+ |
+              |   |            etcd             | |------>Stores cluster information
+              |   +-----------------------------+ |
+              +-----------------+-----------------+
+                                |
+                 +--------------+--------------+
+                 |                             |
+                 v                             v
+        +-------------------+         +-------------------+
+        |    WORKER NODE 1  |         |    WORKER NODE 2  |
+        |                   |         |                   |
+        |  +-------------+  |         |  +-------------+  |
+        |  |   POD 1     |  |         |  |   POD 1     |  |
+        |  |-------------|  |         |  |-------------|  |
+        |  | Container 1 |  |         |  | Container 1 |  |
+        |  | Container 2 |  |         |  | Container 2 |  |
+        |  | Container 3 |  |         |  +-------------+  |
+        |  +-------------+  |         |                   |
+        |                   |         |  +-------------+  |
+        |  +-------------+  |         |  |   POD 2     |  |
+        |  |   POD 2     |  |         |  |-------------|  |
+        |  | Container 1 |  |         |  | Container 1 |  |
+        |  +-------------+  |         |  | Container 2 |  |
+        |                   |         |  | Container 3 |  |
+        |  +-------------+  |         |  +-------------+  |
+        |  |   POD 3     |  |         |                   |
+        |  |-------------|  |         |  +-------------+  |
+        |  | Container 1 |  |         |  |   POD 3     |  |
+        |  | Container 2 |  |         |  |-------------|  |
+        |  +-------------+  |         |  | Container 1 |  |
+        |                   |         |  +-------------+  |
+        |  +-------------+  |         |                   |
+        |  |   Docker    |  |         |  +-------------+  |
+        |  |   kubelet   |  |         |  |   Docker    |  |
+        |  | kube-proxy  |  |         |  |   kubelet   |  |
+        |  +-------------+  |         |  | kube-proxy  |  |
+        +-------------------+         |  +-------------+  |
+                                      +-------------------+
+
+
+
+A Kubernetes environment is called a Cluster.
+
+                 Kubernetes Cluster
+                        |
+          +-------------+----------------+
+          |                              |
+    Control Plane                   Worker Nodes
+          |                              |
+   +------+---------+             +------+------+ 
+   |      |         |             |      |      |
+ API   Scheduler  etcd           Pod    Pod    Pod
+Server
+
+Control Plane: The Control Plane manages the Kubernetes cluster.
+-------------------------------------------------------------------
+| Component                    | Purpose                         |
+| ---------------------------- | ------------------------------- |
+| **API Server**               | Entry point to Kubernetes       |
+| **etcd**                     | Stores cluster information      |
+| **Scheduler**                | Decides where Pods should run   |
+| **Controller Manager**       | Maintains desired state         |
+| **Cloud Controller Manager** | Integrates with cloud providers |
+-------------------------------------------------------------------
+
+Worker Node: Worker nodes actually run your applications.
+---------------------------------------------------------------
+| Component             | Purpose                             |
+| --------------------- | ----------------------------------- |
+| **kubelet**           | Communicates with Control Plane     |
+| **kube-proxy**        | Handles networking                  |
+| **Container Runtime** | Runs containers                     |
+| **Pod**               | Smallest deployable Kubernetes unit |
+---------------------------------------------------------------
+
+-> Pod
+-------
+Pod is the smallest deployable unit in Kubernetes.
+
+Pod
+ |
+ └── Container
+      |
+      └── Application
+
+A Pod can also contain multiple containers:
+Pod
+ |
+ +-- Container 1
+ |
+ └-- Container 2
+
+
+
+###########################
+-> Explanation k8S working
+###########################
+
+Step 1: To deploy an application, we interact with the control plane using the kubectl CLI.
+
+Step 2: The API Server receives the request and stores it in ETCD with a pending status.
+
+Step 3: The Scheduler identifies an available worker node to execute the task, using Kubelet for node management.
+
+Step 4: The Kubelet ensures the worker node is running the assigned workload.
+
+Step 5: The Kube Proxy manages networking for seamless cluster communication.
+
+Step 6: The Controller Manager continuously monitors the cluster to ensure tasks run correct
+
+
+###############################
+🚀 Kubernetes Services
+###############################
+
+-> A Kubernetes Service is used to expose a group of Pods so that they can be accessed reliably. 
+Since Pods can be created and destroyed at any time (with changing IPs), a Service gives them a 
+stable network identity.
+
+---------------------------
+🧭 Why Do We Use Services?
+---------------------------
+-> Pods are short-lived and can crash or restart.
+-> Each time a Pod is created, it gets a new IP address.
+-> Directly accessing Pods via IP is not reliable.
+-> A Service gives a static IP to a group of Pods.
+
+              Service
+                 |
+       +---------+---------+
+       |         |         |
+      Pod       Pod       Pod
+
+---------------------------------
+🌐 Types of Kubernetes Services
+---------------------------------
+Kubernetes offers different types of services depending on how and where 
+you want to expose your Pods:
+🔹 1. ClusterIP (Default)
+🔸 2. NodePort
+🔹 3. LoadBalancer
+
+
+                Kubernetes Services
+                       |
+          +------------+------------+
+          |            |            |
+       ClusterIP     NodePort    LoadBalancer
+          |            |            |
+      Internal       External     External
+       access        access        access
+
+
+-------------------------------------------------------
+🔐 ClusterIP Service (Internal Access Only)
+-------------------------------------------------------
+
+📌 Key Points:
+-> Pods are short-lived objects; if one crashes, Kubernetes replaces it with a new Pod.
+-> Every new Pod gets a different IP address.
+
+Note: 🛑 Never rely on Pod IPs to access an application.
+
+-> A ClusterIP Service groups multiple Pods  and assigns them a single static IP.
+-> This static IP allows other components inside the cluster to access the group of 
+   Pods reliably, even when individual Pods change.
+
+
+🚫 Access Scope:
+------------------
+-> Only accessible within the Kubernetes cluster.
+-> Not reachable from the outside world (internet or external clients).
+
+
+💡 Use Case:
+-------------
+-> Internal services such as databases, backend APIs, authentication services, etc.
+
+Example: You don’t want to expose a database Pod to the internet, so you use a 
+         ClusterIP service to allow access only from other internal Pods.
+
+
+
+----------------------------------------------------
+🌐 What is a NodePort Service in Kubernetes?
+----------------------------------------------------
+-> A NodePort service is a type of Kubernetes Service that exposes your Pods outside 
+   the cluster using a port on each worker node (called a "NodePort").
+
+🧭 Why Use NodePort?
+---------------------
+By default, Pods and ClusterIP services are only accessible within the cluster.
+
+NodePort makes them accessible externally by opening a static port (from 30000 to 32767) 
+on each worker node.
+
+It allows you to access your application using:
+http://<NodeIP>:<NodePort>
+
+
+Note: Here all traffic is routed to one worker node. Means load balancing cannot happen here.
+
+
+-----------------------------------------------------
+🌐 What is a LoadBalancer Service in Kubernetes?
+-----------------------------------------------------
+
+-> It not only provides external access to your app but also handles automatic traffic distribution 
+   across the backend Pods running on different worker nodes.
+
+
+
+
+##############################################
+📄 What is a Kubernetes Manifest YAML?
+##############################################
+
+-> Think of it as an instruction manual for Kubernetes to create and manage resources.
+
+🧱 Main Sections of a Manifest YAML
+-----------------------------------
+Here are the 4 main parts:
+
+apiVersion: <version-number>   # API version to use
+kind: <resource-type>          # Type of resource (Pod, Service, Deployment, etc.)
+metadata:                      # Metadata like name, labels
+spec:                          # Specification of what the resource should do
+
+
+🧪 Example: Pod Manifest YAML Let’s look at a simple Pod definition:
+----------------------------------------------------------------
+apiVersion: v1
+kind: Pod---------------->Tells Kubernetes to use version v1 of the API.
+metadata:---------------->Defines the type of resource you want to create
+  name: testpod---------->This is the name of your Pod.
+  labels:---------------->Labels are key-value pairs to categorize and group Kubernetes objects.
+    app: dempapp--------->dempapp is a label to help identify this Pod as part of the "dempapp" application.
+spec:-------------------->This section defines what’s inside the Pod.
+  containers:------------>A Pod can contain one or more containers. You're defining one container here.
+    - name: test
+      image: psait/pankajsiracademy:latest
+      ports:
+        - containerPort: 9090
+...
+
+
+
+
+
+
+
+
