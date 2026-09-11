@@ -161,9 +161,10 @@ private ip
 public ip
 elastic ip
 
--> Private IP: Used for communication within the VPC. It is automatically assigned and is not accessible from the Internet.
--> Public IP: Used for Internet access. It is automatically assigned (if enabled) and may change when the instance is stopped and started.
--> Elastic IP: A static public IPv4 address that remains the same until you release it. It is commonly used for production servers that require a permanent public IP.
+-> Private IP : Used for communication within the VPC. It is automatically assigned and is not accessible from the Internet.
+-> Public IP  : Used for Internet access. It is automatically assigned (if enabled) and may change when the instance is stopped and started.
+-> Elastic IP : A static public IPv4 address that remains the same until you release it. 
+                It is commonly used for production servers that require a permanent public IP.
 
 -----------------------------------------------------------------------------------------------------------------------------
 | Action             |  Private IP |         Public IP          |                Elastic IP                                 |
@@ -178,8 +179,9 @@ elastic ip
 Interview Question
 --------------------------------
 Q: Can we delete an Elastic IP?
-Answer:
-Yes. An Elastic IP can be released (deleted) from your AWS account. If it is associated with an EC2 instance, you must first disassociate it and then release it. Once released, the IP address is returned to AWS and cannot be guaranteed to be allocated to you again.
+Answer: Yes, An Elastic IP can be released (deleted) from your AWS account. 
+             If it is associated with an EC2 instance, you must first disassociate it and then release it. 
+             Once released, the IP address is returned to AWS and cannot be guaranteed to be allocated to you again.
 
 ----------------------------------------
 -> EBS - Elastic Block Storage in AWS
@@ -204,21 +206,20 @@ Usually measured in:
              ap-south-1
                   │
         ┌─────────┴─────────┐
-        │                         │
-     ap-south-1a               ap-south-1b
-         │                        │
-   ┌────┴─────┐                │
-   │   EC2       │                │
-   │ Instance    │                │
-   └────┬─────┘                │
-          │
+        │                   │
+     ap-south-1a       ap-south-1b
+         │                  │
+   ┌────┴─────┐             │
+   │   EC2    │             │
+   │ Instance │             │
+   └────┬─────┘             │
+        │
    ┌────▼─────┐
-   │   EBS       │
-   │  Volume     │
+   │   EBS    │
+   │  Volume  │
    └──────────┘
  
    ✅ Same AZ
-
 -------------------------------------------
 | EC2         | EBS         | Can attach? |
 | ----------- | ----------- | ----------- |
@@ -241,29 +242,29 @@ ls -l
 ------------------------------------------------------
 -----------------
 1. AWS Region 🌍: A Region is a geographical area where AWS has multiple data centers.
------------------
-
-AWS
-│
-├── Mumbai Region (ap-south-1)
-│
-├── Singapore Region (ap-southeast-1)
-│
-├── Tokyo Region (ap-northeast-1)
-│
-└── N. Virginia Region (us-east-1)
+-----------------	
+		AWS
+		│
+		├── Mumbai Region (ap-south-1)
+		│
+		├── Singapore Region (ap-southeast-1)
+		│
+		├── Tokyo Region (ap-northeast-1)
+		│
+		└── N. Virginia Region (us-east-1)
 
 -----------------------------
 2. Availability Zone (AZ) 🏢: An Availability Zone is an isolated location inside a Region.
 -----------------------------
 For example, Mumbai (ap-south-1) has multiple AZs:
 
-Mumbai Region
-ap-south-1
-│
-├── ap-south-1a
-├── ap-south-1b
-└── ap-south-1c
+  Mumbai Region
+  --------------
+		ap-south-1
+		│
+		├── ap-south-1a
+		├── ap-south-1b
+		└── ap-south-1c
 
 
 
@@ -343,7 +344,7 @@ EOF
 Step2: Go load balancing
 -------------------------------
 target groups: -> create target group
-	       -> target type: instance,
+	           -> target type: instance,
                -> target group name: ------,
 
 Register Targets:
@@ -580,19 +581,19 @@ remove_bucket: rajan-00
 ------------------------------
 ## AWS Elastic Beanstalk ##
 ------------------------------
-
-AWS Elastic Beanstalk is a Platform as a Service (PaaS) offering that makes it easy to deploy, manage, and scale web applications without having to manually configure the underlying infrastructure.
+AWS Elastic Beanstalk is a Platform as a Service (PaaS) offering that makes 
+it easy to deploy, manage, and scale web applications without having to manually
+configure the underlying infrastructure.
 
 How it works
 ------------------
 You upload your application code, and Elastic Beanstalk automatically:
-
--Provisions EC2 instances
--Configures load balancers
--Sets up Auto Scaling
--Monitors application health
--Manages deployments
--Applies platform updates (optional)
+	-Provisions EC2 instances
+	-Configures load balancers
+	-Sets up Auto Scaling
+	-Monitors application health
+	-Manages deployments
+	-Applies platform updates (optional)
 
 
 step-1
@@ -614,14 +615,13 @@ update server_port:5000
 ---------------------------------
 ## VPC (Virtual Private Cloud) ##
 ---------------------------------
-
-VPC = Network
-Subnet = Section of the network
-Route Table = Traffic direction
-IGW = Internet connection
-NAT Gateway = Private subnet → Internet outbound
-Security Group = Resource firewall
-NACL = Subnet firewall
+	VPC = Network
+	Subnet = Section of the network
+	Route Table = Traffic direction
+	IGW = Internet connection
+	NAT Gateway = Private subnet → Internet outbound
+	Security Group = Resource firewall
+	NACL = Subnet firewall
 
 
 -> What is VPC (Virtual Private Cloud)?
@@ -688,17 +688,18 @@ Example: 10.0.0.0/24
 
 VPC--->CIDR---->Reserved IP Addresses 172.31.0.0/16
 _________________________________________________________
-|							|
-|     172.31.16.0/20   172.31.32.0/20	172.31.0.0/20	|
-|	---------	 ---------	 ---------	|
-|	|	|	 |	 |	 |     	 |	|
-|	|	|	 |	 |	 |	 |	|			|
-|	---------	 ---------	 ---------	|
-|	Subnet-1	  Subnet-2	  Subnet-3	|
+|							|                           |
+|   172.31.16.0/20   172.31.32.0/20	    172.31.0.0/20	|
+|	---------		   ---------	    ----------	    |
+|	|	    |		   |	   |	    |        |	    |
+|	|	    |		   |	   |	    |	     |	    |			
+|	---------		   ---------	    ----------	    |
+|	Subnet-1	       Subnet-2	        Subnet-3	    |
 |_______________________________________________________|
 
-
-
+----------
+Subnets
+---------
 A subnet is a segment of the IP address range of your VPC that allows
 you to organize and isolate your resources based on their function,
 access needs, or security requirements.
@@ -707,26 +708,26 @@ access needs, or security requirements.
 -----------------
 Public Subnet:
 --------------
-A subnet that is connected to the internet. Resources in
-this subnet (like web servers) can send and receive traffic from the
-internet.
+	A subnet that is connected to the internet. Resources in
+	this subnet (like web servers) can send and receive traffic from the
+	internet.
 
-Incoming and Outgoing Traffic: Public subnets allow both inbound and
-outbound traffic. For example, if you launch an EC2 instance in a public
-subnet, it can be accessed directly from the internet.
+	Incoming and Outgoing Traffic: Public subnets allow both inbound and
+	outbound traffic. For example, if you launch an EC2 instance in a public
+	subnet, it can be accessed directly from the internet.
 
 Private Subnet:
 ----------------
-A subnet that does not have direct internet access.
-Resources in private subnets (like database servers) cannot directly
-access or be accessed from the internet.
+	A subnet that does not have direct internet access.
+	Resources in private subnets (like database servers) cannot directly
+	access or be accessed from the internet.
 
 
 
 -> Route Table
 ----------------
-A route table defines how traffic should be routed within the VPC and
-to/from external networks.
+	A route table defines how traffic should be routed within the VPC and
+	to/from external networks.
 
 
 -> Internet Gateway (IGW)
@@ -782,7 +783,6 @@ Note:
 ----------------------
 ## VPC Peering ##
 ----------------------
-
 VPC Peering is the process of establishing a network connection between
 two VPCs (either within the same region or across regions) in AWS,
 enabling resources in one VPC to communicate with resources in another
@@ -833,33 +833,33 @@ EC2-A ───── VPC Peering ───── EC2-B
 
 -> S3
 --------------
-- Object Storage
-- Used for storing files/objects
-- Access through HTTP / HTTPS
-- AWS SDK / REST API available
-- Commonly used for:
-    → Images
-    → Videos
-    → Resumes
-    → PDFs
-    → Backups
-    → Static website files
+	- Object Storage
+	- Used for storing files/objects
+	- Access through HTTP / HTTPS
+	- AWS SDK / REST API available
+	- Commonly used for:
+	    → Images
+	    → Videos
+	    → Resumes
+	    → PDFs
+	    → Backups
+	    → Static website files
 
-- Highly scalable
-- Suitable for very large amounts of data
-- Files are stored in Buckets
-- Each file is an Object
+	- Highly scalable
+	- Suitable for very large amounts of data
+	- Files are stored in Buckets
+	- Each file is an Object
 
 
 
 -> EFS
 ------------
-- File Storage
-- Managed NFS file system
-- Can be mounted to EC2
-- Multiple EC2 instances can access the same file system
-- Files appear like a normal Linux directory
-- Mainly used when applications need a shared file system
+	- File Storage
+	- Managed NFS file system
+	- Can be mounted to EC2
+	- Multiple EC2 instances can access the same file system
+	- Files appear like a normal Linux directory
+	- Mainly used when applications need a shared file system
 
 
                  EFS
@@ -1074,14 +1074,14 @@ disable_api_termination = false
 ------------------------
 Aws Cloud Formation
 ----------------------
--> It is used to create Infrastructure in AWS
--> IAAC (Infrastructure As A Code)
--> Supports Json & YAML Configurations
--> Less Error Rate
--> But Terraform is more popular because it works with multiple Cloud service provider
--> Terraform is developed by Hashicorp
--> In terraform we use HCL language (HCL is the HashiCorp configuration language.)
-
+	-> It is used to create Infrastructure in AWS
+	-> IAAC (Infrastructure As A Code)
+	-> Supports Json & YAML Configurations
+	-> Less Error Rate
+	-> But Terraform is more popular because it works with multiple Cloud service provider
+	-> Terraform is developed by Hashicorp
+	-> In terraform we use HCL language (HCL is the HashiCorp configuration language.)
+	
 
 example:1
 -----------
