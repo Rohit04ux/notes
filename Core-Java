@@ -2740,5 +2740,85 @@ While you are iterating, another thread can modify the ConcurrentHashMap, and
 the iterator does not fail with ConcurrentModificationException.
 
 
+---------------------------------
+-> Comparable Vs Comparator
+---------------------------------
+Comparable is used to define the natural ordering of objects by implementing compareTo() inside the class. 
+Comparator is used to define custom sorting logic separately using the compare() method.
+
+
+
+
+class Student implements Comparable<Student> {
+    int id;
+    String name;
+    int age;
+
+    Student(int id, String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public int compareTo(Student s) {
+        return Integer.compare(this.age, s.age);
+    }
+}
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Student> students = new ArrayList<>();
+	  
+			students.add(new Student(101, "Rohit", 25));
+	        students.add(new Student(102, "Amit", 22));
+	        students.add(new Student(103, "Rahul", 24));
+
+        Collections.sort(students);
+
+        for (Student s : students) {
+            System.out.println(s.name + " " + s.age);
+        }
+    }
+}
+
+Output:
+------
+	Amit 22
+	Rahul 24
+	Rohit 25
+
+Collections.sort(students)
+             ↓
+        compareTo()
+             ↓
+         compare age
+             ↓
+       Sort ascending
+
+
+
+
+
+Comparator — Custom Sorting
+----------------------------
+Student class does not need to implement Comparable.
+
+class Student {
+    int id;
+    String name;
+    int age;
+
+    Student(int id, String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
+}
+
+
+
 
 
