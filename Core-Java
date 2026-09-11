@@ -2507,3 +2507,238 @@ flatMap(): Flattens nested structures
 	List<List<Integer>> list=List.of(list.of(1,2),List.of(3,4);
 	List<Integer> flat=list.stream().flatMap(List::stream).toList(); //[1,2,3,4]
 distinct():
+
+
+
+
+
+
+
+
+
+-----------------------------------
+-> StringBuffer and StringBuilder
+------------------------------------
+- StringBuffer and StringBuilder are both Java classes used to create and modify mutable strings. 
+- The main difference is thread safety.
+
+Are multiple threads modifying the SAME string object?
+                 |
+          +------+------+
+          |             |
+         NO            YES
+          |             |
+          ↓             ↓
+ StringBuilder     StringBuffer
+   (faster)        (thread-safe)
+
+
+-----------------------------------------------------------------------------------
+| Feature       | StringBuffer                | StringBuilder                      |
+| ------------- | --------------------------- | ---------------------------------- |
+| Thread Safety | Synchronized (thread-safe)  | Not synchronized (not thread-safe) |
+| Performance   | Slower                      | Faster                             |
+| Introduced In | JDK 1.0                     | JDK 1.5                            |
+| Best Used     | Multi-threaded applications | Single-threaded applications       |
+-------------------------------------------------------------------------------------
+
+Similarities
+-------------------
+Both are mutable (can change without creating a new object).
+Both provide methods like:
+	-append()
+	-insert()
+	-delete()
+	-replace()
+	-reverse()
+
+Both belong to the java.lang package.
+
+Example
+-----------
+ ->	StringBuffer
+	---------------
+	StringBuffer sb = new StringBuffer("Hello");
+	sb.append(" World");
+	System.out.println(sb);   // Hello World
+
+
+ -> StringBuilder
+    ----------------
+	StringBuilder sb = new StringBuilder("Hello");
+	sb.append(" World");
+	System.out.println(sb);   // Hello World
+
+
+
+
+1. Use StringBuilder — most of the time
+--------------------------------------
+Condition: Your application is single-threaded and only one thread is modifying the string.
+
+StringBuilder sb = new StringBuilder();
+	sb.append("Hello");
+	sb.append(" ");
+	sb.append("Rohit");
+
+System.out.println(sb);
+
+Examples:
+	Building a response/message
+	Creating a large string inside a method
+	Loops where you're repeatedly concatenating strings
+	Normal Java/Spring Boot application code
+👉 Default choice: StringBuilder
+
+2. Use StringBuffer — when multiple threads modify the same object
+-------------------------------------------------------------
+Condition: Multiple threads can access and modify the same StringBuffer object, and you need built-in synchronization.
+
+StringBuffer sb = new StringBuffer();
+
+Thread t1 = new Thread(() -> {
+    sb.append("Hello ");
+});
+
+Thread t2 = new Thread(() -> {
+    sb.append("Rohit");
+});
+
+StringBuffer methods are synchronized, so operations are protected from concurrent modification issues.
+
+👉 Multi-threaded + shared mutable string → StringBuffer
+
+
+concurrent modification ?
+-----------------------------
+Concurrent modification means two or more threads try to modify the same object at the same time.
+
+Thread 1 → append(" Java")
+Thread 2 → append(" World")
+              ↓
+       Same StringBuffer
+
+Thread 1 → 🔒 append() → unlock
+                         ↓
+Thread 2 → 🔒 append() → unlock
+
+
+
+----------------------------------
+ConcurrentModificationException
+-----------------------------------
+It usually happens when you modify a collection while iterating over it using an iterator or enhanced for loop.
+
+Example
+----------
+List<Integer> list = new ArrayList<>();
+
+list.add(10);
+list.add(20);
+list.add(30);
+
+for (Integer num : list) {
+    if (num == 20) {
+        list.remove(num);   // ❌
+    }
+}
+
+
+Correct way ✅
+----------------
+Iterator<Integer> itr = list.iterator();
+
+while (itr.hasNext()) {
+    Integer num = itr.next();
+
+    if (num == 20) {
+        itr.remove();   // ✅
+    }
+}
+
+
+
+Very simple real-life example 🧠
+------------------------------
+Imagine a teacher checking students:
+
+Teacher:
+	1. Rohit
+	2. Amit
+	3. Rahul
+
+While the teacher is checking the list, someone suddenly removes Amit.
+
+Teacher is checking:
+Rohit → Amit → Rahul
+
+Someone changes list:
+Rohit → Rahul
+
+
+
+-----------------------
+-> ConcurrentHashMap
+-----------------------
+ConcurrentHashMap is a special Map designed for multiple threads.
+
+syntax
+------
+	Map<Integer, String> map = new ConcurrentHashMap<>();
+
+
+Normal HashMap with multiple threads ⚠️
+---------------------------------------
+   HashMap<Integer, String> map = new HashMap<>();
+
+
+Two threads are working with the same map:
+
+		Thread 1                  Thread 2
+		   |                         |
+		   ↓                         ↓
+		read map                 modify map
+		   |                         |
+		   +---------- SAME MAP -----+
+
+HashMap is not thread-safe.
+So concurrent access can cause problems.
+
+
+ConcurrentHashMap ✅
+-----------------------
+	ConcurrentHashMap<Integer, String> map = new ConcurrentHashMap<>();
+
+Thread 1 ──→ read
+             ↓
+        ConcurrentHashMap
+             ↑
+Thread 2 ──→ modify
+
+It is designed to handle concurrent access efficiently.
+
+
+ConcurrentHashMap<Integer, String> map = new ConcurrentHashMap<>();
+
+	map.put(1, "A");
+	map.put(2, "B");
+	map.put(3, "C");
+	
+	for (Integer key : map.keySet()) {
+	    if (key == 2) {
+	        map.remove(key);
+	    }
+	}
+
+This does not throw ConcurrentModificationException.
+
+The iterator is called weakly consistent.
+
+What does "weakly consistent" mean?
+-------------------------------------
+While you are iterating, another thread can modify the ConcurrentHashMap, and 
+the iterator does not fail with ConcurrentModificationException.
+
+
+
+
