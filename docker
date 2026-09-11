@@ -273,62 +273,59 @@ app/
 │
 └── Dockerfile
 
+-----------------------------------------------
+CREATING DOCKER IMAGE AND PUSHING ON DOCKER HUB
+------------------------------------------------
+       DEVELOPER
+           │
+           │ git push
+           ▼
+   ┌─────────────────────┐
+   │ GitHub Source Code  │
+   └────────┬────────────┘
+            │
+            │ git clone
+            ▼
+   ┌────────────────────────┐
+   │       AWS EC2          │
+   │      Linux VM          │
+   │                        │
+   │  Java 17               │
+   │  Git                   │
+   │  Maven                 │
+   │  Docker                │
+   │                        │
+   │  mvn clean package     │
+   │          │             │
+   │          ▼             │
+   │        JAR             │
+   │          │             │
+   │          ▼             │
+   │     docker build       │
+   │          │             │
+   │          ▼             │
+   │     Docker Image       │
+   └──────────┬─────────────┘
+              │
+              │ docker push
+              ▼
+      ┌──────────────────┐
+      │    Docker Hub    │
+      │                  │
+      │ rohitrajbhar/    │
+      │ testing-project  │
+      │       :v1        │
+      └──────────────────┘
 
 
+
+VM EC2 Linux
+-----------------
 sudo yum install git -y
-git -v
-
 sudo yum install maven -y
+
+git -v
 mvn -v
-
-
-git clone repo
-
-cd docker-test
-
-pwd
-
-ls -l
-
-mvn clean package
-
-ls -l
-
-cd target
-
-cd ..
-
-ls -l
-
-create docker hub account
-
--> docker build -t myapp:v1 .
--------------------------------
- docker build -t rohitrajbhar/testing-repo:testing-v1 .
-
-->docker login
------------
-
-->docker push
----------------
- docker push rohitrajbhar/testing-repo:testing-v1
-
-
--> docker run -d -p 8080:8080 --name myapp myapp:v1
--------------------------
-docker run -d \
-  -p 8080:8080 \
-  --name testing-project \
-  rohitrajbhar/testing-project:testing-v1
-
- 
-
--p 8080:8080
-  ↑     ↑
-host  container
-
-
-
 
 java setup on ubuntu
 ---------------------
@@ -338,3 +335,44 @@ sudo update-alternatives --config java
 sudo update-alternatives --config javac
 java -version
 javac -version
+
+clone repo
+-------------
+git clone repo-url
+
+go project path
+-----------------
+cd project_path
+
+make jar file
+---------------
+mvn clean package -------> project jar file
+
+docker login 
+--------------
+
+docker build : docker build -t dockerhubaccountname/dockerhubreponame:tagname .
+-------------
+	docker build -t rohitrajbhar/testing-project:v1 .
+
+docker push : docker push accountname/dockerhub-reponame:tagname
+-----------
+	docker push rohitrajbhar/testing-project:v1
+
+
+-> docker run -d -p 8080:8080 --name myapp myapp:v1
+-------------------------
+docker run -d \
+  -p 8080:8080 \
+  --name testing-project \
+  rohitrajbhar/testing-project:testing-v1
+
+-p 8080:8080
+  ↑     ↑
+host  container
+
+
+
+
+
+
