@@ -11,6 +11,135 @@ k8s
 
 
 
+What is Docker?
+-------------------
+Docker is a free and open-source containerization software that allows you to package applications along with their dependencies into a single unit called a Docker Image. This image can run on any system that has Docker installed, making deployment easy and consistent across different environments.
+
+
+Why use Docker?
+----------------
+✅ Portability – Run the same application on any machine, regardless of OS configuration.
+✅ Dependency Management – Ensures that all required software (e.g., libraries, databases, and runtimes) is included within the image.
+✅ Fast Deployment – No need to manually install dependencies every time you set up a new environment.
+✅ Resource Efficiency – Uses fewer resources compared to traditional virtual machines.
+
+
+
+######################
+How Docker Works?
+######################
+   Create a Docker Image – Package the app code + dependencies into a lightweight container image.
+Run the Docker Container – Deploy this image as a container using the docker run command.
+        Execute Anywhere – The same image runs on any machine with Docker installed.
+
+Once the image is built, it can run on any machine without requiring additional software setup.
+
+
+
+
+###############################################
+Kubernetes (Container Orchestration Software)
+###############################################
+
+What is Kubernetes?
+----------------------
+Kubernetes (K8s) is a free and open-source orchestration tool developed by 
+Google to manage containerized applications.
+
+💡 Orchestration = Managing multiple containers efficiently
+
+Kubernetes automates key tasks like:
+    1. Creating, starting, and stopping containers.
+    2. Scaling up/down based on demand.
+    3. Handling failures automatically.
+
+
+######################
+Why use Kubernetes?
+######################
+✅ Orchestration – Efficiently manages multiple containers across a cluster of machines.
+✅ Self-Healing – If a container crashes, Kubernetes automatically replaces it.
+✅ Load Balancing – Distributes traffic across multiple containers to avoid overloading.
+✅ Auto Scaling – Increases or decreases the number of running containers based on traffic load.
+✅ Automated Deployments – Supports CI/CD for rolling updates and version control.
+
+
+
+Kubernetes Advantages (Detailed Explanation)
+=============================================
+1) Orchestration – Managing Containers
+   ------------------------------------
+   Kubernetes helps manage multiple Docker containers across different machines (nodes) efficiently.
+
+     🔹Instead of running docker run manually for each container, Kubernetes automates deployment.
+     🔹It ensures that all containers are running smoothly and adjusts their status as needed.
+
+--> Note: Kubernetes ensures all these containers are 
+          running, healthy, and communicating with each other properly.
+
+
+2) Self-Healing – Automatic Recovery
+   -----------------------------------
+   If a container crashes due to an error or system failure, Kubernetes automatically restarts a new instance.
+
+  📌 Example:
+          A web server container (Apache, Nginx) stops unexpectedly.
+          Kubernetes detects the failure and starts a new container to replace it.
+          Users never notice downtime.
+
+
+3) Load Balancing – Distributes Traffic Efficiently
+   --------------------------------------------------
+   Kubernetes distributes incoming user requests across multiple containers to avoid overloading any single instance.
+
+  📌 Example:
+          A shopping website experiences high traffic during a sale.
+          Kubernetes ensures that requests are evenly distributed across available backend servers.
+          Prevents server crashes and ensures smooth performance.
+
+
+4) Auto Scaling – Adjusting Resources Dynamically
+   ------------------------------------------------
+   Kubernetes can increase or decrease the number of containers automatically based on traffic load.
+
+  📌 Example:
+         If website traffic increases, Kubernetes adds more containers to handle the load.
+         If traffic reduces, Kubernetes removes extra containers to save resources.
+         Works similarly to cloud-based Auto Scaling Groups (ASG).
+
+Conclusion
+     🚀 Docker simplifies packaging applications into portable containers.
+     🚀 Kubernetes ensures these containers are orchestrated, scalable, and reliable.
+
+Together, Docker & Kubernetes enable modern cloud-native application deployment—making applications 
+highly available, efficient, and automated.
+
+
+
+#########################################################
+Kubernetes (K8s) Architecture - Explained in Detail
+#########################################################
+
+1) Control Plane (Master Node/Control Node)
+-------------------------------------------------
+-> The control plane is responsible for managing the Kubernetes cluster. 
+   It includes the following components:
+
+   1. API Server: Receives requests from kubectl and manages cluster operations.
+   2. Scheduler: Identifies pending tasks in ETCD and assigns them to worker nodes.
+   3. Controller Manager: Ensures the cluster’s desired state matches the actual state.
+   4. ETCD: A distributed key-value store that acts as Kubernetes' internal database.
+
+2) Worker Nodes (Slave Nodes)
+---------------------------------------
+-> Worker nodes run application workloads. They include the following components:
+   1. Kubelet       : A node agent that communicates with the control plane and manages containers.
+   2. Kube Proxy    : Manages networking and ensures communication within the cluster.
+   3. Docker Engine : Runs and manages containerized applications.
+   4. Pod           : The smallest deployable unit in Kubernetes, housing one or more containers.
+   5. Container     : Runs inside a Pod and contains the application code.
+
+
 
 Kubernetes learning roadmap
 ------------
@@ -72,6 +201,10 @@ Kubernetes learning roadmap
 
 Kubernetes Architecture
 ------------------------
+
+                    KUBERNETES ARCHITECTURE
+                    ======================
+
                          USER / ADMIN
                               |
                 +-------------+-------------+
@@ -88,7 +221,7 @@ Kubernetes Architecture
               |            (Control Plane)        |
               |                                   |
               |   +-----------------------------+ |
-              |   |         API SERVER          | |----->Entry point to Kubernetes 
+              |   |         API SERVER          | |------>Entry point to Kubernetes
               |   +-----------------------------+ |
               |                                   |
               |   +-----------------------------+ |
@@ -96,7 +229,7 @@ Kubernetes Architecture
               |   +-----------------------------+ |
               |                                   |
               |   +-----------------------------+ |
-              |   |     CONTROLLER MANAGER      | |------>Maintains desired state  
+              |   |     CONTROLLER MANAGER      | |------>Maintains desired state
               |   +-----------------------------+ |
               |                                   |
               |   +-----------------------------+ |
@@ -141,20 +274,22 @@ Kubernetes Architecture
 
 
 A Kubernetes environment is called a Cluster.
-
+------------------------------------------------
                  Kubernetes Cluster
                         |
           +-------------+----------------+
           |                              |
     Control Plane                   Worker Nodes
           |                              |
-   +------+---------+             +------+------+ 
+   +------+---------+             +------+------+
    |      |         |             |      |      |
  API   Scheduler  etcd           Pod    Pod    Pod
 Server
 
+
 Control Plane: The Control Plane manages the Kubernetes cluster.
--------------------------------------------------------------------
+--------------
+------------------------------------------------------------------
 | Component                    | Purpose                         |
 | ---------------------------- | ------------------------------- |
 | **API Server**               | Entry point to Kubernetes       |
@@ -162,9 +297,10 @@ Control Plane: The Control Plane manages the Kubernetes cluster.
 | **Scheduler**                | Decides where Pods should run   |
 | **Controller Manager**       | Maintains desired state         |
 | **Cloud Controller Manager** | Integrates with cloud providers |
--------------------------------------------------------------------
+------------------------------------------------------------------
 
 Worker Node: Worker nodes actually run your applications.
+------------
 ---------------------------------------------------------------
 | Component             | Purpose                             |
 | --------------------- | ----------------------------------- |
@@ -173,6 +309,8 @@ Worker Node: Worker nodes actually run your applications.
 | **Container Runtime** | Runs containers                     |
 | **Pod**               | Smallest deployable Kubernetes unit |
 ---------------------------------------------------------------
+
+
 
 -> Pod
 -------
@@ -192,6 +330,7 @@ Pod
  └-- Container 2
 
 
+
 ###########################
 -> Explanation k8S working
 ###########################
@@ -202,11 +341,12 @@ Step 4: The Kubelet ensures the worker node is running the assigned workload.
 Step 5: The Kube Proxy manages networking for seamless cluster communication.
 Step 6: The Controller Manager continuously monitors the cluster to ensure tasks run correct
 
+
 ###############################
 🚀 Kubernetes Services
 ###############################
--> A Kubernetes Service is used to expose a group of Pods so that they can be accessed reliably. 
-Since Pods can be created and destroyed at any time (with changing IPs), a Service gives them a 
+-> A Kubernetes Service is used to expose a group of Pods so that they can be accessed reliably.
+Since Pods can be created and destroyed at any time (with changing IPs), a Service gives them a
 stable network identity.
 
 ---------------------------
@@ -223,14 +363,16 @@ stable network identity.
        |         |         |
       Pod       Pod       Pod
 
+
 ---------------------------------
 🌐 Types of Kubernetes Services
 ---------------------------------
-Kubernetes offers different types of services depending on how and where 
+Kubernetes offers different types of services depending on how and where
 you want to expose your Pods:
 🔹 1. ClusterIP (Default)
 🔸 2. NodePort
 🔹 3. LoadBalancer
+
 
                 Kubernetes Services
                        |
@@ -245,39 +387,45 @@ you want to expose your Pods:
 -------------------------------------------------------
 🔐 ClusterIP Service (Internal Access Only)
 -------------------------------------------------------
+
 📌 Key Points:
--> Pods are short-lived objects; if one crashes, Kubernetes replaces it with a new Pod.
--> Every new Pod gets a different IP address.
+   -> Pods are short-lived objects; if one crashes, Kubernetes replaces it with a new Pod.
+   -> Every new Pod gets a different IP address.
 
 Note: 🛑 Never rely on Pod IPs to access an application.
 
 -> A ClusterIP Service groups multiple Pods  and assigns them a single static IP.
--> This static IP allows other components inside the cluster to access the group of 
+-> This static IP allows other components inside the cluster to access the group of
    Pods reliably, even when individual Pods change.
+
 
 🚫 Access Scope:
 ------------------
--> Only accessible within the Kubernetes cluster.
--> Not reachable from the outside world (internet or external clients).
+   -> Only accessible within the Kubernetes cluster.
+   -> Not reachable from the outside world (internet or external clients).
+
 
 💡 Use Case:
 -------------
--> Internal services such as databases, backend APIs, authentication services, etc.
+   -> Internal services such as databases, backend APIs, authentication services, etc.
 
-Example: You don’t want to expose a database Pod to the internet, so you use a 
+Example: You don’t want to expose a database Pod to the internet, so you use a
          ClusterIP service to allow access only from other internal Pods.
+
+
 
 ----------------------------------------------------
 🌐 What is a NodePort Service in Kubernetes?
 ----------------------------------------------------
--> A NodePort service is a type of Kubernetes Service that exposes your Pods outside 
+
+-> A NodePort service is a type of Kubernetes Service that exposes your Pods outside
    the cluster using a port on each worker node (called a "NodePort").
 
 🧭 Why Use NodePort?
 ---------------------
 By default, Pods and ClusterIP services are only accessible within the cluster.
 
-NodePort makes them accessible externally by opening a static port (from 30000 to 32767) 
+NodePort makes them accessible externally by opening a static port (from 30000 to 32767)
 on each worker node.
 
 It allows you to access your application using:
@@ -285,26 +433,35 @@ http://<NodeIP>:<NodePort>
 
 Note: Here all traffic is routed to one worker node. Means load balancing cannot happen here.
 
+
+
 -----------------------------------------------------
-🌐 What is a LoadBalancer Service in Kubernetes?
+🌐 What is a Load Balancer Service in Kubernetes?
 -----------------------------------------------------
 
--> It not only provides external access to your app but also handles automatic traffic distribution 
+-> It not only provides external access to your app but also handles automatic traffic distribution
    across the backend Pods running on different worker nodes.
+
+
+
+
+
 
 
 ##############################################
 📄 What is a Kubernetes Manifest YAML?
 ##############################################
+
 -> Think of it as an instruction manual for Kubernetes to create and manage resources.
 
 🧱 Main Sections of a Manifest YAML
 -----------------------------------
 Here are the 4 main parts:
-apiVersion: <version-number>   # API version to use
-kind: <resource-type>          # Type of resource (Pod, Service, Deployment, etc.)
-metadata:                      # Metadata like name, labels
-spec:                          # Specification of what the resource should do
+	apiVersion: <version-number>   # API version to use
+	kind: <resource-type>          # Type of resource (Pod, Service, Deployment, etc.)
+	metadata:                      # Metadata like name, labels
+	spec:                          # Specification of what the resource should do
+
 
 🧪 Example: Pod Manifest YAML Let’s look at a simple Pod definition:
 ----------------------------------------------------------------
@@ -323,9 +480,864 @@ spec:-------------------->This section defines what’s inside the Pod.
 ...
 
 
+check yml file format: https://www.yamllint.com/
+
+
+
+-------------------------
+-> Minikube vs Kubernetes
+-------------------------
+
+              KUBERNETES
+          (Container Orchestrator)
+                  |
+        +---------+---------+
+        |                   |
+ Control Plane          Worker Nodes
+        |                   |
+     API Server           Pods
+     Scheduler          Containers
+     etcd
+
+
+              YOUR PC / EC2
+                    |
+                Minikube
+                    |
+          +---------+---------+
+          | Kubernetes Node   |
+          |                   |
+          | Control Plane     |
+          |       |           |
+          |      Pods         |
+          |       |           |
+          |   Containers      |
+          +-------------------+
+
+how is minikube different from Kubernetes cluster
+--------------
+Minikube normally creates a single-node Kubernetes cluster for learning and development.
+In that configuration, there is no separate worker node. However, Minikube also supports
+multi-node clusters.
+
+
+
+###################
+-> Minikube Setup
+###################
+
+Step-1 : Setup Linux VM
+---------------------------
+1) Login into AWS Cloud account
+2) Create Linux VM with Ubuntu AMI (t2.medium or t3.medium)
+3) Select Storage as 50 GB (Default is 8 GB only for Linux)
+2) Create Linux VM and connect to it using SSH Client
+
+Step-2 : Install Docker In Ubuntu VM
+-------------------------------------
+sudo apt update
+curl -fsSL get.docker.com | /bin/bash
+sudo usermod -aG docker ubuntu
+exit
+
+Step-3 : Updating system packages and installing Minikube dependencies
+-------------------------------------
+sudo apt update
+sudo apt install -y curl wget apt-transport-https
+
+
+Step-4 : Installing Minikube
+-------------------------------
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+minikube version
+
+Step-5 : Install Kubectl (Kubernetes Client)
+------------------------------------------------
+curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+kubectl version -o yaml
+
+Step-6 : Start MiniKube Server
+----------------------------------
+minikube start — driver=docker
+
+
+Step-7 : Check MiniKube status
+---------------------------------
+minikube status
+
+
+Step-8 : Access K8S Cluster
+------------------------------
+kubectl cluster-info
+
+
+Step-9 : Access K8S Nodes
+------------------------------
+kubectl get nodes
+
+
+pod.yml file
+---------------------
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: testpod
+  labels:
+    app: dempapp
+
+spec:
+  containers:
+    - name: test
+      image: rohitrajbhar/testing-project:testing-v1
+      ports:
+        - containerPort: 9090
+
+
+#############
+Commands:
+#############
+
+Note: Save above content in .yml file
+
+# execute manifest yml
+kubectl apply -f <manifest-yml-file>
+
+# check pods
+kubectl get pods
+
+# check pod logs
+kubectl logs <pod-name>
+
+# Describe pods
+kubectl describe pod <pod-name>
+
+# get pod logs
+kubectl logs <pod-name>
+
+
+
+service.yml
+-------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: testpod-service
+spec:
+  type: NodePort
+  selector:
+    app: dempapp           # This must match the Pod's label
+  ports:
+    - port: 80             # Exposed port for external access
+      targetPort: 9090     # Port on which the app is running inside the container
+      nodePort: 30080      # External port exposed on each node
+
+
+
+Commands
+------------------
+# 🔍 Check existing services
+kubectl get svc
+
+# 📦 Create the service using the YAML
+kubectl apply -f testpod-service.yml
+
+# 🔁 Verify that the service is created
+kubectl get svc
+
+# 🚪 Open service in browser (Minikube only)
+minikube service testpod-service
+
+# Test
+#Get minikube ip address
+
+Test this in same local network
+
+curl http://<mini-kube-ip>:3080/
+curl http://192.168.49.2:30080/
+
+
+------------------------------------------
+note: How to delete pod and services
+
+kubectl delete pod testpod
+kubectl delete svc testpod-service
+
+kubectl apply -f pod-01.yml
+kubectl apply -f service-01.yml
+--------------------------------------
+
+
+Stop complete minikube
+--------------------------
+-> minikube stop
+-> minikube delete
+-> minikube status
+
+To see all resources running
+------------------------
+-> kubectl get all
+
+
+To delete all resources use
+---------------------------
+-> kubectl delete all --all
+
+
+
+
+
+#######################################
+What are name spaces in k8s?
+#######################################
+
+-> They help logically group and isolate resources. Just like how we create folders
+   to isolate our work in computers.
+
+Example:
+-----------------
+database-ns = all database-related stuff
+backend-ns = for backend applications
+
+Note: If we do not specify name space they k8S will automatically provide default
+      name - space
+
+
+Kubernetes Cluster
+|
++-- dev
+|    +-- Pods
+|    +-- Services
+|
++-- testing
+|    +-- Pods
+|    +-- Services
+|
++-- prod
+     +-- Pods
+     +-- Services
+
+
+------------
+Commands
+-------------
+
+list all name spaces
+----------------------
+-> kubectl get ns
+
+list all pods in given name space
+-----------------------------------
+-> kubectl get pod -n <name-space>
+
+
+
+#############################################
+How to create name space in k8s
+#############################################
+
+1. Using kubectl command-
+kubectl create namespace backend-ns
+
+2.using manifest yml file
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: backend-ns-3
+
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: backend-ns
+...
+
+# execute manifest yml
+kubeclt apply -f <yml-file-name>
+
+# get all resources belongs to backend-ns namespace
+kubectl get all -n backend-ns
+
+#get all pods in kube-system
+kubectly get pods -n kube-system
+
+#get all worker nodes
+kubectl get nodes
+
+#delete name space - All resource related to that will be deleted
+kubectl delete ns backend-ns
+
+#Open tunnel
+minikube service <service-name>
+
+
+
+pod.yml
+-----------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testpod
+  namespace: backend-ns-3
+  labels:
+    app: dempapp
+spec:
+  containers:
+    - name: test
+      image: rohitrajbhar/testing-project:testing-v1
+      ports:
+        - containerPort: 8080
+
+
+service.yml
+------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: testpod-service
+  namespace: backend-ns-3
+spec:
+  type: NodePort
+  selector:
+    app: dempapp
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30080
+```
 
 
 
 
 
 
+
+
+
+############################
+Namespace with POD with Service creation yml file
+##############################
+---
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: backend-ns
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testpod
+  namespace: backend-ns
+  labels:
+    app: dempapp
+spec:
+  containers:
+    - name: test
+      image: rohitrajbhar/testing-project:testing-v1
+      ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: testpod-service
+  namespace: backend-ns
+spec:
+  type: NodePort
+  selector:
+    app: dempapp           # This must match the Pod's label
+  ports:
+    - port: 80             # Exposed port for external access
+      targetPort: 8080     # Port on which the app is running inside the container
+      nodePort: 30080      # External port exposed on each node
+...
+
+
+
+
+
+#########################################
+k8S Resources
+########################################
+
+-> When you create a Pod directly using kind: Pod, Kubernetes does not manage its 
+   lifecycle — if it crashes or is deleted, it's gone forever unless recreated manually.
+
+-> K8S resources manages POD lifecycle
+
+-> To let Kubernetes manage, restart, and scale Pods, we use higher-level controllers like 
+   the ones you listed.
+
+  🔁 1) ReplicationController (RC)
+  🔁 2) ReplicaSet (RS)
+  🚀 3) Deployment
+  🛰 4) DaemonSet
+  💾 5) StatefulSet
+
+
+#####################################
+📦 What is ReplicationController (RC)?
+A Kubernetes resource used to manage the lifecycle of Pods.
+
+Ensures a specified number of Pods are always running.
+
+Provides self-healing — if a Pod crashes or is deleted, RC will recreate it.
+
+manifest yml file
+-------------------
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+ name: webapp
+spec:
+ replicas: 3
+ selector:
+  app: dempapp
+ template:
+  metadata:
+   name: testpod
+   labels: 
+    app: dempapp
+  spec:
+   containers:
+    - name: webappcontainer
+      image: psait/pankajsiracademy:latest
+      ports:
+      - containerPort: 9090
+...
+
+kubectl apply -f rc.yml
+
+
+########################################################
+kubectl get all
+kubectl get pods
+kubectl delete pod <pod-name>
+kubectl get pods
+kubectl scale rc dempapp --replicas=5
+kubectl scale rc dempapp --replicas=1  Explain in short
+##############################################
+
+
+✅ ReplicaSet in Kubernetes
+================================
+🔹 What is a ReplicaSet?
+---------------------
+  A ReplicaSet (RS) is a Kubernetes resource that ensures a specified number of 
+ identical Pods are running at any given time.
+
+💡 Key Features:
+---------------
+-> Self-healing: If a Pod crashes or is manually deleted, the RS will automatically create 
+                 a new Pod to maintain the desired number.
+-> Scaling: You can increase or decrease the number of replicas (Pods) easily.
+-> Selector-based matching: RS manages only those Pods that match its label selector.
+
+
+Example: 
+-------------------
+# -------- Manually created Pod with label app: myapp --------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: myappcontainer
+      image: nginx
+      ports:
+        - containerPort: 80
+
+---
+# -------- Manually created Pod with label app: dempapp --------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dempapp-pod
+  labels:
+    app: dempapp
+spec:
+  containers:
+    - name: dempappcontainer
+      image: nginx
+      ports:
+        - containerPort: 80
+
+---
+# -------- ReplicaSet that manages both app: dempapp and app: myapp --------
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs-webapp
+spec:
+  replicas: 2
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - dempapp
+          - myapp
+  template:
+    metadata:
+      labels:
+        app: dempapp   # Pods created by RS will have this label
+    spec:
+      containers:
+        - name: webappcontainer
+          image: nginx
+          ports:
+            - containerPort: 80
+---------------------------------------------------------------------------------------
+
+
+
+replica-set.yml for practicals
+------------------
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dempapp         # Must match pod template labels
+  template:
+    metadata:
+      labels:
+        app: dempapp
+    spec:
+      containers:
+        - name: webappcontainer
+          image: psait/pankajsiracademy:latest
+          ports:
+            - containerPort: 9090
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webappservice
+spec:
+  type: NodePort
+  selector:
+    app: dempapp           # Must match pod labels
+  ports:
+    - port: 80
+      targetPort: 9090
+      nodePort: 30095
+
+
+
+
+
+
+
+
+
+
+######################################
+✅ Deployment in Kubernetes
+######################################
+------------------------------------------------------------------------------------
+Feature	               ReplicaSet	                  Deployment
+------------------------------------------------------------------------------------
+Manages Pods	           ✅ Yes	                    ✅ Yes (via ReplicaSet)
+Rolling Updates	           ❌ No	                    ✅ Yes
+Rollbacks	           ❌ No	                    ✅ Yes
+YAML Kind                  ReplicaSet	                    Deployment
+Use in Real World	   Rare	                            Very Common
+
+
+A Deployment in Kubernetes is one of the most recommended and used resources for managing Pod lifecycles. 
+It ensures reliable application deployment with features like 
+       zero downtime, 
+       auto-scaling, 
+       rolling updates, and 
+       rollback capabilities.
+
+
+
+🎯 Key Advantages of Using Deployments
+--------------------------------------
+Zero Downtime: Deployments ensure high availability by using strategies like rolling updates. 
+               Even when pods are being updated, the service remains available to users.
+
+Auto Scaling: With Kubernetes Horizontal Pod Autoscaler, you can automatically scale your Pods 
+              based on CPU or memory usage (or other custom metrics).
+
+Rolling Update & Rollback: Kubernetes allows rolling updates, which means it will gradually update Pods 
+                           one by one, ensuring the application remains available throughout the process. 
+              If something goes wrong during the update, you can rollback to a previous stable version.
+
+
+👨‍💻 When to Choose Which Strategy?
+-------------------------------------
+Use RollingUpdate:
+-------------------
+For most production workloads where high availability and zero downtime are required.
+When you are gradually releasing new versions of your application and want to avoid service disruption.
+
+Use Recreate:
+--------------
+For non-critical applications or during maintenance windows where it's okay to have a temporary outage.
+When you need to clear everything and redeploy fresh Pods (e.g., clearing persistent state or major upgrades).
+
+
+############################
+deployment-service.yml
+#########################
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dempapp         # Must match pod template labels
+  template:
+    metadata:
+      labels:
+        app: dempapp
+    spec:
+      containers:
+        - name: webappcontainer
+          image: psait/pankajsiracademy:latest
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webappservice
+spec:
+  type: NodePort
+  selector:
+    app: dempapp           # Must match pod labels
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30095
+
+
+################################
+Deployment with load balancer
+###############################
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dempapp         # Must match pod template labels
+  template:
+    metadata:
+      labels:
+        app: dempapp
+    spec:
+      containers:
+        - name: webappcontainer
+          image: psait/pankajsiracademy:latest
+          ports:
+            - containerPort: 9090
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webappservice
+spec:
+  type: LoadBalancer     # ✅ Changed from NodePort to LoadBalancer
+  selector:
+    app: dempapp
+  ports:
+    - port: 80
+      targetPort: 9090
+
+
+
+-------------------------------------------------------------------------------------------------------
+##################
+### Note: ###
+##################
+
+🧠 First: Is Each Worker Node a Separate VM?
+✅ Yes, each worker node in EKS is an individual EC2 instance (VM).
+
+So, if you have 4 worker nodes, EKS will launch 4 separate EC2 instances in your account (under the hood).
+
+
+🚀 How to Create More Worker Nodes in EKS?
+====================================================
+There are two ways to create more worker nodes:
+
+✅ Option 1: CLI Method (Add --nodes flag)
+---------------------------------------------
+You can specify the number of nodes when creating the cluster using the --nodes flag:
+
+eksctl create cluster \
+  --name psait-cluster4 \
+  --region ap-south-1 \
+  --node-type t2.medium \
+  --zones ap-south-1a,ap-south-1b \
+  --nodes 4 \
+  --nodes-min 2 \
+  --nodes-max 6
+
+🔍 What This Means:
+	--nodes 4     → Start with 4 worker nodes
+	--nodes-min 2 → Minimum nodes for autoscaling
+	--nodes-max 6 → Maximum nodes for autoscaling
+
+Nodes will be spread across the AZs you mention (load balanced)
+
+
+✅ Option 2: YAML Config File (More Flexible)
+----------------------------------------------------
+Create a cluster.yaml like this:
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: psait-cluster4
+  region: ap-south-1
+
+availabilityZones: ["ap-south-1a", "ap-south-1b"]
+
+nodeGroups:
+  - name: ng-1
+    instanceType: t2.medium
+    desiredCapacity: 4
+    minSize: 2
+    maxSize: 6
+    volumeSize: 20
+
+Note: We can use terrform for the same to create EKS setup
+
+
+
+yml file to deploy application in eks with loadbalancer
+#############################################################
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: webapp
+spec:
+ replicas: 2
+ strategy: 
+  type: RollingUpdate
+ selector:
+  matchLabels:
+   app: javawebapp
+ template:
+  metadata:
+   name: javawebpod
+   labels:
+    app: javawebapp
+  spec:
+   containers:
+   - name: webappcontainer
+     image: psait/pankajsiracademy:latest
+     ports:
+     - containerPort: 9090
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: websvc
+spec:
+ type: LoadBalancer
+ selector:
+  app: javawebapp
+ ports:
+  - port: 80
+    targetPort: 9090
+...
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+pipeline - k8s + maven + docker + jenkins
+---------------------------------------------
+pipeline {
+    agent any
+    
+    tools{
+        maven "maven-3.9.9"
+    }
+
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git branch: 'main', url: 'https://github.com/pankajmutha14/docker-test.git'
+            }
+        }
+        stage('Maven Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Docker Image') {
+            steps {
+                sh 'docker build -t psait/pankajsiracademy:latest .'
+            }
+        }
+        stage('k8s deployment') {
+            steps {
+                sh 'kubectl apply -f k8s-deploy.yml'
+            }
+        }
+    }
+}
+
+
+
+
+
+
+##############################
+Scaling in Kubernetes
+#############################
+
+1. . HPA - Horizontal Pod Autoscaler
+--------------------------------------
+ What it does: Adds or removes pods based on CPU/memory usage, custom metrics, or external metrics.
+     Use case: When traffic increases, Kubernetes spins up more pods to handle the load.
+Controlled by: The HorizontalPodAutoscaler object.
+
+Example: If CPU usage goes above 80%, HPA can increase the pod count from 2 to 5 automatically
+
+
+2. VPA - Vertical Pod Autoscaler
+---------------------------------
+    What it does: Adjusts CPU and memory requests/limits of a pod automatically.
+
+Apply Load in HPA
+--------------
+kubectl run -i --tty load-generator --rm \
+  --image=busybox --restart=Never \
+  -- /bin/sh -c "while true; do wget -q -O- http://hpa-demo-deployment; sleep 0.01; done"
+
+
+kubectl get hpa -w
+kubectl describe deploy hpa-demo-deployment
+kubectl get hpa
+kubectl get events
