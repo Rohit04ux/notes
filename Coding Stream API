@@ -1,1 +1,290 @@
+Select       → filter()
+Convert      → map()
+Sort         → sorted()
+Highest      → max()
+Lowest       → min()
+How many     → count()
+Remove dup   → distinct()
+Top N        → limit()
+Skip N       → skip()
+Group        → groupingBy()
+Two groups   → partitioningBy()
+Frequency    → groupingBy + counting()
+Combine      → reduce()
+Flatten      → flatMap()
+
+
+Employee.java
+------------------
+class Employee {
+    private int id;
+    private String name;
+    private String department;
+    private int salary;
+
+    public Employee(int id, String name, String department, int salary) {
+        this.id = id;
+        this.name = name;
+        this.department = department;
+        this.salary = salary;
+    }
+
+   /*------------------getter and setters--------*/
+
+    @Override
+    public String toString() {
+        return id + " " + name + " " + department + " " + salary;
+    }
+}
+
+
+Main.java
+---------------
+public class StreamInterviewPractice {
+    public static void main(String[] args) {
+        List<Employee> employees = Arrays.asList(
+                new Employee(1, "Rohit", "IT", 70000),
+                new Employee(2, "Amit", "IT", 60000),
+                new Employee(3, "Rahul", "HR", 50000),
+                new Employee(4, "Priya", "HR", 80000),
+                new Employee(5, "Raj", "Sales", 45000),
+                new Employee(6, "Ankit", "Sales", 90000),
+                new Employee(7, "Neha", "IT", 80000),
+                new Employee(8, "Pooja", "IT", 70000)
+        );
+
+        // Write interview questions here
+
+        //Find all employees whose salary is greater than 50,000.
+        List<Employee> result=employees.stream()
+                                    .filter(e->e.getSalary()>50000)
+                                    .toList();
+        result.forEach(System.out::println);  
+        
+        // Get only employee names
+        List<String> names=employees.stream()
+                                    .map(Employee::getName)
+                                    .toList();
+        System.out.println("Employee Names: " + names);
+
+    
+        // Get names of employees earning > 50,000
+        List<String> names1=employees.stream()
+                                    .filter(e->e.getSalary()>50000)
+                                    .map(Employee::getName)
+                                    .toList();
+        System.out.println(names1);
+
+        // Sort employees by salary ascending
+        List<Employee> result1=employees.stream()
+                                        .sorted(Comparator.comparing(Employee::getSalary))
+                                        .toList();
+        result1.forEach(System.out::println);
+
+
+        // Sort employees by salary descending
+        List<Employee> result2=employees.stream().sorted(
+            Comparator.comparing(Employee::getSalary).reversed()
+        ).toList();
+        result2.forEach(System.out::println);
+
+
+        // Find the highest salary
+        Optional<Employee> highestSalary = employees.stream()
+                            .max(Comparator.comparing(Employee::getSalary));
+        System.out.println(highestSalary.orElse(null));
+
+
+        // Find lowest salary
+        Optional<Employee> lowestSalary = employees.stream()
+                            .min(Comparator.comparing(Employee::getSalary));
+        System.out.println(lowestSalary.orElse(null));
+
+        // Find highest salary value
+        Optional<Integer> highestSalary1 = employees.stream()
+                            .map(Employee::getSalary)
+                            .max(Integer::compareTo);
+        System.out.println(highestSalary1.orElse(0));
+
+
+        // Find second highest salary ⭐⭐⭐⭐⭐
+        Optional<Integer> secondHighest = employees.stream()
+                        .map(Employee::getSalary)
+                        .distinct()
+                        .sorted(Comparator.reverseOrder())
+                        .skip(1)
+                        .findFirst();
+        System.out.println(secondHighest.orElse(0));
+
+        // Find third highest salary
+        Optional<Integer> thirdHighest = employees.stream()
+                .map(Employee::getSalary)
+                .distinct()
+                .sorted(Comparator.reverseOrder())
+                .skip(2)
+                .findFirst();
+        System.out.println(thirdHighest.orElse(0));
+        
+        // Find top 3 salaries
+        List<Integer> top3 = employees.stream()
+                    .map(Employee::getSalary)
+                    .distinct()
+                    .sorted(Comparator.reverseOrder())
+                    .limit(3)
+                    .toList();
+        System.out.println(top3);
+
+        // Count employees
+        long count = employees.stream()
+                            .count();
+        System.out.println(count);
+
+        // Count employees earning > 50,000
+        long count1 = employees.stream()
+                     .filter(e -> e.getSalary() > 50000)
+                     .count();
+        System.out.println(count1);
+
+
+        // Find employees from IT department
+        List<Employee> itEmployees = employees.stream()
+                .filter(e -> e.getDepartment().equals("IT"))
+                .toList();
+        itEmployees.forEach(System.out::println);
+
+
+        // Get unique salaries
+        List<Integer> salaries = employees.stream()
+                .map(Employee::getSalary)
+                .distinct()
+                .toList();
+
+        System.out.println(salaries);
+
+
+        // Calculate total salary ⭐⭐⭐⭐
+        int totalSalary = employees.stream()
+                .mapToInt(Employee::getSalary)
+                .sum();
+        System.out.println(totalSalary);
+
+        // Calculate average salary
+        double averageSalary = employees.stream()
+                    .mapToInt(Employee::getSalary)
+                    .average()
+                    .orElse(0);
+        System.out.println(averageSalary);
+
+
+        // Find maximum salary using mapToInt
+        int maxSalary = employees.stream()
+                        .mapToInt(Employee::getSalary)
+                        .max()
+                        .orElse(0);
+        System.out.println(maxSalary);
+
+
+        // Find minimum salary
+        int minSalary = employees.stream()
+                             .mapToInt(Employee::getSalary)
+                             .min()
+                             .orElse(0);
+        System.out.println(minSalary);
+
+
+        // Group employees by department ⭐⭐⭐⭐⭐
+        Map<String, List<Employee>> result4 = employees.stream()
+         .collect(
+                Collectors.groupingBy(Employee::getDepartment)
+        );
+        result4.forEach((department, employeeList) -> {
+            System.out.println(department);
+            employeeList.forEach(System.out::println);
+        });
+
+        // Count employees in each department ⭐⭐⭐⭐⭐
+        Map<String, Long> result5 = employees.stream()
+        .collect(
+                Collectors.groupingBy(
+                        Employee::getDepartment,
+                        Collectors.counting()
+                )
+        );
+        System.out.println(result5); //{Sales=2, HR=2, IT=4}
+
+
+        // Average salary by department ⭐⭐⭐⭐⭐
+        Map<String, Double> result6 = employees.stream()
+        .collect(
+                Collectors.groupingBy(
+                        Employee::getDepartment,
+                        Collectors.averagingInt(Employee::getSalary)
+                )
+        );
+        System.out.println(result6);
+
+
+        // Total salary by department
+        Map<String, Integer> result7 = employees.stream()
+                            .collect(
+                                    Collectors.groupingBy(
+                                            Employee::getDepartment,
+                                            Collectors.summingInt(Employee::getSalary)
+                                    )
+                            );
+        System.out.println(result7);
+
+
+        // Highest-paid employee in each department ⭐⭐⭐⭐⭐
+        Map<String, Optional<Employee>> result8 =
+                        employees.stream()
+                                .collect(
+                                        Collectors.groupingBy(
+                                                Employee::getDepartment,
+                                                Collectors.maxBy(
+                                                        Comparator.comparing(
+                                                                Employee::getSalary
+                                                        )
+                                                )
+                                        )
+                                );
+
+        result8.forEach((department, employee) -> {
+                System.out.println(
+                        department + " -> " + employee.orElse(null)
+                );
+        });               
+
+        //Partition employees based on salary ⭐⭐⭐⭐ 
+        //Separate employees whose salary is greater than 60,000 and those whose salary is not.
+        Map<Boolean, List<Employee>> result9 =
+                        employees.stream()
+                                .collect(
+                                        Collectors.partitioningBy(
+                                                e -> e.getSalary() > 60000
+                                        )
+                                );
+        System.out.println("Salary > 60000:");
+        result9.get(true)
+            .forEach(System.out::println);
+
+        System.out.println("Salary <= 60000:");
+        result9.get(false)
+            .forEach(System.out::println);
+
+        // Join employee names
+        String names3 = employees.stream()
+                            .map(Employee::getName)
+                            .collect(Collectors.joining(", "));
+        System.out.println(names3);
+
+        // Find duplicate numbers ⭐⭐⭐⭐⭐
+        List<Integer> numbers =
+                        Arrays.asList(10, 20, 30, 20, 40, 10, 50, 30);
+        Set<Integer> duplicates = numbers.stream()
+                .filter(n -> Collections.frequency(numbers, n) > 1)
+                .collect(Collectors.toSet());
+        System.out.println(duplicates);
+    }
+}
 
