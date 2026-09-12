@@ -1,0 +1,63 @@
+LEVEL 1 — BASIC
+│
+├── SELECT
+├── WHERE
+├── DISTINCT
+├── ORDER BY
+├── LIMIT
+└── LIKE
+
+        ↓
+
+LEVEL 2 — AGGREGATION
+│
+├── COUNT
+├── SUM
+├── AVG
+├── MAX
+├── MIN
+├── GROUP BY
+└── HAVING
+
+        ↓
+
+LEVEL 3 — JOINS ⭐⭐⭐⭐⭐
+│
+├── INNER JOIN
+├── LEFT JOIN
+├── RIGHT JOIN
+├── SELF JOIN
+└── CROSS JOIN
+
+        ↓
+
+LEVEL 4 — SUBQUERIES
+│
+├── Second highest salary
+├── Above average salary
+├── IN
+├── EXISTS
+└── NOT EXISTS
+
+        ↓
+
+LEVEL 5 — ADVANCED ⭐⭐⭐⭐⭐
+│
+├── ROW_NUMBER
+├── RANK
+├── DENSE_RANK
+├── LEAD
+├── LAG
+├── CTE
+└── CASE
+
+        ↓
+
+LEVEL 6 — REAL INTERVIEW SCENARIOS
+│
+├── Duplicate records
+├── Highest salary per department
+├── Employees without department
+├── Employee > manager salary
+├── Top N records
+└── Department-wise analysis
