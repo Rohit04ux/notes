@@ -1114,7 +1114,7 @@ spec:
     spec:
       containers:
         - name: webappcontainer
-          image: psait/pankajsiracademy:latest
+          image: rohitrajbhar/testing-project:v1
           ports:
             - containerPort: 8080
 ---
@@ -1152,9 +1152,9 @@ spec:
     spec:
       containers:
         - name: webappcontainer
-          image: psait/pankajsiracademy:latest
+          image: rohitrajbhar/testing-project:v1
           ports:
-            - containerPort: 9090
+            - containerPort: 8080
 
 ---
 apiVersion: v1
@@ -1167,7 +1167,7 @@ spec:
     app: dempapp
   ports:
     - port: 80
-      targetPort: 9090
+      targetPort: 8080
 
 
 
@@ -1254,9 +1254,9 @@ spec:
   spec:
    containers:
    - name: webappcontainer
-     image: psait/pankajsiracademy:latest
+     image: rohitrajbhar/testing-project:v1
      ports:
-     - containerPort: 9090
+     - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -1268,7 +1268,7 @@ spec:
   app: javawebapp
  ports:
   - port: 80
-    targetPort: 9090
+    targetPort: 8080
 ...
 -------------------------------------------------------------------------------------------------------
 
@@ -1287,7 +1287,7 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/pankajmutha14/docker-test.git'
+                git branch: 'main', url: 'https://github.com/Rohit04ux/devops-depoly-test-project.git'
             }
         }
         stage('Maven Build') {
@@ -1297,7 +1297,7 @@ pipeline {
         }
         stage('Docker Image') {
             steps {
-                sh 'docker build -t psait/pankajsiracademy:latest .'
+				sh 'docker build -t rohitrajbhar/testing-project:v2 .'
             }
         }
         stage('k8s deployment') {
