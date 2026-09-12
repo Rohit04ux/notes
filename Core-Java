@@ -2747,77 +2747,232 @@ Comparable is used to define the natural ordering of objects by implementing com
 Comparator is used to define custom sorting logic separately using the compare() method.
 
 
+------------
+Comparable
+------------
+Stuedent.java
+---------------
+	class Student implements Comparable<Student> {
+	    int id;
+	    String name;
+	    int age;
+	
+	    Student(int id, String name, int age) {
+	        this.id = id;
+	        this.name = name;
+	        this.age = age;
+	    }
+	
+	    @Override
+	    public int compareTo(Student s) {
+	        return Integer.compare(this.age, s.age);
+	    }
+	}
 
-
-class Student implements Comparable<Student> {
-    int id;
-    String name;
-    int age;
-
-    Student(int id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
-
-    @Override
-    public int compareTo(Student s) {
-        return Integer.compare(this.age, s.age);
-    }
-}
-
-import java.util.*;
-
-public class Main {
-    public static void main(String[] args) {
-        List<Student> students = new ArrayList<>();
-	  
-			students.add(new Student(101, "Rohit", 25));
-	        students.add(new Student(102, "Amit", 22));
-	        students.add(new Student(103, "Rahul", 24));
-
-        Collections.sort(students);
-
-        for (Student s : students) {
-            System.out.println(s.name + " " + s.age);
-        }
-    }
-}
+Main.java
+----------
+		public class Main {
+		    public static void main(String[] args) {
+		        List<Student> students = new ArrayList<>();
+			  
+					students.add(new Student(101, "Rohit", 25));
+			        students.add(new Student(102, "Amit", 22));
+			        students.add(new Student(103, "Rahul", 24));
+		
+		        Collections.sort(students);
+		
+		        for (Student s : students) {
+		            System.out.println(s.name + " " + s.age);
+		        }
+		    }
+		}
 
 Output:
 ------
 	Amit 22
 	Rahul 24
 	Rohit 25
-
-Collections.sort(students)
-             ↓
-        compareTo()
-             ↓
-         compare age
-             ↓
-       Sort ascending
-
-
+							
+							Collections.sort(students)
+							             ↓
+							        compareTo()
+							             ↓
+							         compare age
+							             ↓
+							       Sort ascending
 
 
 
+
+-----------------------------
 Comparator — Custom Sorting
 ----------------------------
 Student class does not need to implement Comparable.
 
-class Student {
+1. Separate class
+-----------------
+	class NameComparator implements Comparator<Student> {
+	    public int compare(Student s1, Student s2) {
+	        return s1.name.compareTo(s2.name);
+	    }
+	}
+2. Anonymous class
+-------------------
+	students.sort(new Comparator<Student>() {
+	    public int compare(Student s1, Student s2) {
+	        return s1.name.compareTo(s2.name);
+	    }
+	});
+3. Lambda
+-------------
+	students.sort(
+	    (s1, s2) -> s1.name.compareTo(s2.name)
+	);
+4. Comparator.comparing()
+--------------------------
+	students.sort(
+	    Comparator.comparing(s -> s.name)
+	);
+
+Sorting by Different Fields
+-------------------------------
+This is where Comparator becomes powerful.
+
+	By ID
+			students.sort(
+			    Comparator.comparingInt(s -> s.id)
+			);
+	By Name
+			students.sort(
+			    Comparator.comparing(s -> s.name)
+			);
+	By Age
+			students.sort(
+			    Comparator.comparingInt(s -> s.age)
+			);
+
+
+
+Student.java
+--------------
+public class Student {
     int id;
     String name;
     int age;
 
-    Student(int id, String name, int age) {
+    public Student(int id, String name, int age) {
         this.id = id;
         this.name = name;
         this.age = age;
     }
+
+    @Override
+    public String toString() {
+        return id + " " + name + " " + age;
+    }
 }
 
+NameComparator.java
+---------------------
+public class NameComparator implements Comparator<Student> {
+    @Override
+    public int compare(Student s1, Student s2) {
+        return s1.name.compareTo(s2.name);
+    }
+}
+
+Main.java
+----------
+public class Main {
+    public static void main(String[] args) {
+        List<Student> students = new ArrayList<>();
+
+	        students.add(new Student(103, "Rahul", 25));
+	        students.add(new Student(101, "Amit", 22));
+	        students.add(new Student(102, "John", 24));
+
+
+        // 1. Comparator using a Separate Class
+        System.out.println("1. Comparator using a Separate Class");
+        Collections.sort(students, new NameComparator());
+
+	        for (Student s : students) {
+	            System.out.println(s);
+	        }
+
+
+        // 2. Comparator using an Anonymous Class
+        System.out.println("\n2. Comparator using an Anonymous Class");
+        Collections.sort(students, new Comparator<Student>() {
+            @Override
+            public int compare(Student s1, Student s2) {
+                return s1.name.compareTo(s2.name);
+            }
+        });
+
+        System.out.println("Sorted By Name:");
+	        for (Student s : students) {
+	            System.out.println(s);
+	        }
+
+
+        // 3. Comparator using a Lambda Expression
+        System.out.println("\n3. Comparator using a Lambda Expression");
+	        students.sort(
+	            (s1, s2) -> s1.name.compareTo(s2.name)
+	        );
+
+        System.out.println("Sorted By Name:");
+	        for (Student s : students) {
+	            System.out.println(s);
+	        }
+
+
+        // 4. Comparator using Comparator.comparing() method
+        System.out.println("\n4. Comparator using Comparator.comparing() method");
+	        students.sort(
+	            Comparator.comparing(s -> s.name)
+	        );
+
+        System.out.println("Sorted By Name:");
+	        for (Student s : students) {
+	            System.out.println(s);
+	        }
+
+
+        // 5. Comparator using Comparator.comparingInt() method
+        System.out.println("\n5. Comparator using Comparator.comparingInt() method");
+	        students.sort(
+	            Comparator.comparingInt(s -> s.id)
+	        );
+
+	        for (Student s : students) {
+	            System.out.println(s);
+	        }
+
+
+        // 6. Comparator using Comparator.comparingInt() method with reversed order
+        System.out.println("\n6. Comparator using Comparator.comparingInt() method with reversed order");
+	        students.sort(
+	            Comparator.comparingInt((Student s) -> s.age)
+	                      .reversed()
+	        );
+
+	        for (Student s : students) {
+	            System.out.println(s);
+	        }
+
+        // 7. Comparator using Comparator.comparingInt() method with thenComparing() method
+        System.out.println("\n7. Comparator using Comparator.comparingInt() method with thenComparing() method");
+	        students.sort(
+	            Comparator.comparingInt((Student s) -> s.age)
+	              .thenComparing(s -> s.name)
+	        );
+	        for (Student s : students) {
+	            System.out.println(s);
+	        }
+    }
+}
 
 
 
