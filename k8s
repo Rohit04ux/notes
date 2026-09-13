@@ -1005,9 +1005,9 @@ spec:
     spec:
       containers:
         - name: webappcontainer
-          image: psait/pankajsiracademy:latest
+          image: rohitrajbhar/testing-project:testing-v1
           ports:
-            - containerPort: 9090
+            - containerPort: 8080
 
 ---
 apiVersion: v1
@@ -1020,11 +1020,17 @@ spec:
     app: dempapp           # Must match pod labels
   ports:
     - port: 80
-      targetPort: 9090
+      targetPort: 8080
       nodePort: 30095
 
-
-
+-----------------------------------------------------
+kubectl get all
+kubectl get pods
+kubectl delete pod <pod-name>
+kubectl get pods
+kubectl scale rs dempapp --replicas=5
+kubectl scale rs dempapp --replicas=1  Explain in short
+----------------------------------------------------------
 
 
 
@@ -1044,15 +1050,12 @@ Rollbacks	           ❌ No	                    ✅ Yes
 YAML Kind              ReplicaSet	                Deployment
 Use in Real World	   Rare	                        Very Common
 
-
 A Deployment in Kubernetes is one of the most recommended and used resources for managing Pod lifecycles. 
 It ensures reliable application deployment with features like 
        zero downtime, 
        auto-scaling, 
        rolling updates, and 
        rollback capabilities.
-
-
 
 🎯 Key Advantages of Using Deployments
 --------------------------------------
@@ -1118,6 +1121,12 @@ spec:
       nodePort: 30095
 
 
+kubectl get pods
+kubectl get svc
+
+
+
+
 ################################
 Deployment with load balancer
 ###############################
@@ -1138,7 +1147,7 @@ spec:
     spec:
       containers:
         - name: webappcontainer
-          image: rohitrajbhar/testing-project:v1
+          image: rohitrajbhar/testing-project:testing-v1
           ports:
             - containerPort: 8080
 
@@ -1165,7 +1174,7 @@ spec:
 🧠 First: Is Each Worker Node a Separate VM?
 ✅ Yes, each worker node in EKS is an individual EC2 instance (VM).
 
-So, if you have 4 worker nodes, EKS will launch 4 separate EC2 instances in your account (under the hood).
+So, if you have 4 worker nodes, EKS will launch 4 separate EC2 instances in your account (under the hood)
 
 
 🚀 How to Create More Worker Nodes in EKS?
@@ -1260,9 +1269,137 @@ spec:
 
 
 
+===========
+EKS Setup
+===========
+# Step - 1 : Create EKS Management Host in AWS #
+-------------------------------------------------
+	1) Launch new Ubuntu VM using AWS Ec2 ( t2.micro )	  
+	2) Connect to machine and install kubectl using below commands  
+		```
+		curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
+		chmod +x ./kubectl
+		sudo mv ./kubectl /usr/local/bin
+		kubectl version --short --client
+		```
 
+	3) Install AWS CLI latest version using below commands 
+		```
+		sudo apt install unzip
+		curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+		unzip awscliv2.zip
+		sudo ./aws/install
+		aws --version
+		```
+
+	4) Install eksctl using below commands
+		```
+		curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+		sudo mv /tmp/eksctl /usr/local/bin
+		eksctl version
+		```
+
+# Step - 2 : Create IAM role & attach to EKS Management Host #
+---------------------------------------------------------------
+	1) Create New Role using IAM service ( Select Usecase - ec2 ) 	
+	2) Add below permissions for the role <br/>
+		- Administrator - acces <br/>
+		
+	3) Enter Role Name (eksrole) 
+	4) Attach created role to EKS Management Host (Select EC2 => Click on Security => Modify IAM Role => attach IAM role we have created) 
+
+# Step - 3 : Create EKS Cluster using eksctl # 
+-----------------------------------------------
+**Syntax:** 
+		eksctl create cluster --name cluster-name  \
+		--region region-name \
+		--node-type instance-type \
+		--nodes-min 2 \
+		--nodes-max 2 \ 
+		--zones <AZ-1>,<AZ-2>
+
+## N. Virgina: <br/>
+	`
+	eksctl create cluster --name psait-cluster4 --region us-east-1 --node-type t2.medium  --zones us-east-1a,us-east-1b
+	`	
+## Mumbai: <br/>
+`
+eksctl create cluster --name psait-cluster4 --region ap-south-1 --node-type t2.medium  --zones ap-south-1a,ap-south-1b
+`
+
+## After cluster created we can check nodes using below command.
+`
+ kubectl get nodes  
+`
+
+# Note: We should be able to see EKS cluster nodes here.**
+
+# We are done with our Setup #
+	
+# Step - 4 : After your practise, delete Cluster and other resources we have used in AWS Cloud to avoid billing #
+------------------------------------------------------------------------------------------------------------------
+```
+eksctl delete cluster --name psait-cluster4 --region ap-south-1
+```
+
+
+                          ☁️ AWS CLOUD
+                                │
+                                ▼
+                    ┌─────────────────────┐
+                    │     Amazon EKS      │
+                    │      CLUSTER        │
+                    └──────────┬──────────┘
+                               │
+             ┌─────────────────┴─────────────────┐
+             │                                   │
+             ▼                                   ▼
+   ┌─────────────────────┐             ┌──────────────────────┐
+   │   CONTROL PLANE     │             │    DATA PLANE        │
+   │   (AWS Managed)     │             │   Worker Nodes       │
+   │                     │             │                      │
+   │  API Server         │             │  ┌────────────────┐  │
+   │  Scheduler          │             │  │   EC2 Node 1   │  │
+   │  Controller Manager │             │  │ ┌────┐ ┌────┐  │  │
+   │  etcd               │             │  │ │Pod │ │Pod │  │  │
+   └──────────┬──────────┘             │  │ └────┘ └────┘  │  │
+              │                        │  └────────────────┘  │
+              │                        │                      │
+              │                        │  ┌────────────────┐  │
+              │                        │  │   EC2 Node 2   │  │
+              │                        │  │ ┌────┐ ┌────┐  │  │
+              │                        │  │ │Pod │ │Pod │  │  │
+              │                        │  │ └────┘ └────┘  │  │
+              │                        │  └────────────────┘  │
+              │                        └──────────┬───────────┘
+              │                                   │
+              └──────────────────┬────────────────┘
+                                 │
+                                 ▼
+                         ┌───────────────┐
+                         │    SERVICE    │
+                         │ ClusterIP /   │
+                         │ NodePort / LB │
+                         └───────┬───────┘
+                                 │
+                                 ▼
+                            🌐 USERS
+                                 ▲
+                                 │
+              ┌──────────────────┴──────────────────┐
+              │                                     │
+         Your VM / Laptop                       AWS IAM
+              │                                     │
+       ┌──────┼──────┐                              │
+       │      │      │                              │
+    kubectl AWS CLI eksctl ────────────────► EKS API
+
+
+
+
+==============================================
 pipeline - k8s + maven + docker + jenkins
----------------------------------------------
+=============================================
 pipeline {
     agent any
     
