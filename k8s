@@ -746,15 +746,7 @@ kubectl create namespace backend-ns
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: backend-ns-3
-
-
----
-apiVersion: v1
-kind: Namespace
-metadata:
- name: backend-ns
-...
+  name: backend-ns
 
 # execute manifest yml
 kubeclt apply -f <yml-file-name>
@@ -782,7 +774,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: testpod
-  namespace: backend-ns-3
+  namespace: backend-ns-1
   labels:
     app: dempapp
 spec:
@@ -799,7 +791,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: testpod-service
-  namespace: backend-ns-3
+  namespace: backend-ns-1
 spec:
   type: NodePort
   selector:
@@ -811,28 +803,21 @@ spec:
 ```
 
 
-
-
-
-
-
-
-
-############################
+###################################################
 Namespace with POD with Service creation yml file
-##############################
+###################################################
 ---
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
- name: backend-ns
+ name: backend-ns-2
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   name: testpod
-  namespace: backend-ns
+  namespace: backend-ns-2
   labels:
     app: dempapp
 spec:
@@ -846,7 +831,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: testpod-service
-  namespace: backend-ns
+  namespace: backend-ns-2
 spec:
   type: NodePort
   selector:
@@ -856,8 +841,6 @@ spec:
       targetPort: 8080     # Port on which the app is running inside the container
       nodePort: 30080      # External port exposed on each node
 ...
-
-
 
 
 
@@ -889,6 +872,8 @@ Ensures a specified number of Pods are always running.
 Provides self-healing — if a Pod crashes or is deleted, RC will recreate it.
 
 manifest yml file
+
+rc.yml
 -------------------
 ---
 apiVersion: v1
@@ -907,13 +892,12 @@ spec:
   spec:
    containers:
     - name: webappcontainer
-      image: psait/pankajsiracademy:latest
+      image: rohitrajbhar/testing-project:testing-v1
       ports:
-      - containerPort: 9090
+      - containerPort: 8080
 ...
 
 kubectl apply -f rc.yml
-
 
 ########################################################
 kubectl get all
@@ -929,8 +913,8 @@ kubectl scale rc dempapp --replicas=1  Explain in short
 ================================
 🔹 What is a ReplicaSet?
 ---------------------
-  A ReplicaSet (RS) is a Kubernetes resource that ensures a specified number of 
- identical Pods are running at any given time.
+A ReplicaSet (RS) is a Kubernetes resource that ensures a specified number of 
+identical Pods are running at any given time.
 
 💡 Key Features:
 ---------------
@@ -1049,14 +1033,14 @@ spec:
 ######################################
 ✅ Deployment in Kubernetes
 ######################################
-------------------------------------------------------------------------------------
-Feature	               ReplicaSet	                  Deployment
-------------------------------------------------------------------------------------
-Manages Pods	           ✅ Yes	                    ✅ Yes (via ReplicaSet)
-Rolling Updates	           ❌ No	                    ✅ Yes
+---------------------------------------------------------------------------------
+Feature	               ReplicaSet	                   Deployment
+---------------------------------------------------------------------------------
+Manages Pods	       ✅ Yes	                    ✅ Yes (via ReplicaSet)
+Rolling Updates	       ❌ No	                    ✅ Yes
 Rollbacks	           ❌ No	                    ✅ Yes
-YAML Kind                  ReplicaSet	                    Deployment
-Use in Real World	   Rare	                            Very Common
+YAML Kind              ReplicaSet	                Deployment
+Use in Real World	   Rare	                        Very Common
 
 
 A Deployment in Kubernetes is one of the most recommended and used resources for managing Pod lifecycles. 
