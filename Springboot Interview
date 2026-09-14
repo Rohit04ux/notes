@@ -1,0 +1,22 @@
+They ask: “Production is broken. What do you do?”
+======================================================
+1. API suddenly returns 503 after deployment, but all pods appear healthy. What would you check first?
+2. Database CPU reaches 100% while application CPU remains low. How would you identify the queries causing the problem?
+3. HikariCP reports connection timeout, but database connections are available. What could be happening?
+4. Requests are stuck for 30+ seconds with no errors in application logs. How would you find the blocked operation?
+5. Kafka consumer lag keeps increasing even though consumers are running. What could be causing it?
+6. Messages are processed twice after a consumer restart. How would you make processing idempotent?
+7. Redis suddenly becomes unavailable. Should the application fail, bypass the cache, or use another strategy?
+8. One microservice becomes slow, and soon several other services start timing out. How would you stop the cascading failure?
+9. Memory usage continuously increases until the JVM crashes. What would you inspect before simply increasing heap size?
+10. GC pauses suddenly increase after a new release. How would you determine whether the release caused excessive object creation?
+11. Only one Kubernetes pod is slow while the others are healthy. What could cause this?
+12. Load balancer returns intermittent 502 errors, but application logs show nothing unusual. Which layers would you investigate?
+13. A scheduled job executes twice after scaling from one pod to five. How would you fix it?
+14. Users occasionally receive stale data immediately after an update. How would you investigate database/cache consistency?
+15. Database update succeeds but Kafka publishing fails. How would you guarantee the event isn’t lost?
+16. Kafka publishing succeeds but the database transaction rolls back. How could consumers receive an event for data that doesn’t exist?
+17. API latency increases only during peak traffic, while average CPU remains below 50%. What hidden bottlenecks would you investigate?
+18. A downstream API becomes unavailable, and your retry mechanism starts generating even more traffic. How would you redesign the retry strategy?
+19. After enabling parallel processing, throughput improves but the database starts failing under load. Why could this happen?
+20. Everything looks healthy — CPU, memory, database and pods — but users still report random failures. How would you systematically isolate the root cause?
