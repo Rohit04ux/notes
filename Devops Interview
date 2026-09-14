@@ -1,0 +1,79 @@
+Devops Interview
+=====================
+☁️ AWS
+• EC2 CPU suddenly reaches 100% — how would you troubleshoot?
+• EC2 is running but SSH isn't working — what would you check?
+• ALB starts returning 5xx errors — how would you identify the root cause?
+• Application works internally but not from the internet — how would you troubleshoot?
+
+
+☸️ Kubernetes
+• Pod is stuck in Pending — what would you check?
+• Pod is in CrashLoopBackOff — how would you troubleshoot?
+• Pod is running but Service isn't accessible — what's your approach?
+• New deployment breaks production — how would you rollback?
+
+
+🔄 CI/CD
+• Pipeline succeeds but the new version isn't deployed — how would you debug?
+• Production deployment fails halfway — what's your rollback strategy?
+• How would you securely manage secrets?
+• How would you implement Blue-Green/Canary deployment?
+
+
+🏗️ Terraform
+• terraform plan shows unexpected changes — what would you investigate?
+• Someone manually changes Terraform-managed infrastructure — what happens?
+• How would you manage state for multiple engineers?
+• How would you structure dev/staging/prod?
+
+
+🐧 Linux
+• Production server becomes slow — how do you identify CPU/memory/disk/network issues?
+• Disk reaches 100% — how would you find and safely remove the cause?
+• Process is consuming high CPU — which commands would you use?
+• Service is running but not listening on the expected port — how would you troubleshoot?
+💡 Biggest takeaway:
+Don't prepare only for:
+❌ What is Kubernetes?
+❌ What is Terraform?
+❌ What is a Security Group?
+Prepare for:
+✅ Production is down. What do you check first?
+✅ Which commands/tools do you use?
+✅ How do you find the root cause?
+✅ How do you fix it safely?
+✅ How do you prevent it from happening again?
+DevOps | AWS | Kubernetes | Terraform | CI/CD | Linux | SRE
+
+
+
+
+
+
+Here are some of the questions that were asked:
+1️⃣ In a production environment, Terraform drift happens frequently. How do you detect and resolve Terraform drift?
+2️⃣ Explain the Terraform state file. How do you protect and secure the state file?
+3️⃣ How do you integrate Terraform with your CI/CD pipeline?
+4️⃣ How do you secure a Docker image?
+5️⃣ What techniques do you use to reduce Docker image size?
+6️⃣ What is Docker layer caching? How does it work?
+7️⃣ Explain your end-to-end CI/CD pipeline.
+8️⃣ Explain the pre-build, build, and post-build stages in your CI/CD pipeline.
+9️⃣ At which stage do you publish Maven artifacts (JAR/WAR) to Artifactory?
+🔟 Apart from Jenkins and GitHub Actions, which other CI/CD tools have you worked with (GitLab CI, CircleCI, Harness, etc.)?
+1️⃣1️⃣ Explain Kubernetes Ingress and its architecture.
+1️⃣2️⃣ What is an Ingress Controller, and why is it required?
+1️⃣3️⃣ How would you configure a single Ingress to route traffic to multiple applications?
+1️⃣4️⃣ Auto-scaling increased the number of Pods, but the application is still experiencing latency. How would you troubleshoot it?
+1️⃣5️⃣ Explain Readiness Probe and Liveness Probe with practical use cases.
+1️⃣6️⃣ Explain Canary Deployment with a real-world example.
+1️⃣7️⃣ What is Blue-Green Deployment, and when would you choose it?
+1️⃣8️⃣ Your EC2 instance is running, but you cannot access it. How would you troubleshoot the issue?
+1️⃣9️⃣ Explain how Argo CD continuously reconciles Git changes with the Kubernetes cluster.
+2️⃣0️⃣ If a developer modifies the GitOps repository, how does Argo CD handle the change? How would you secure the repository from unauthorized modifications?
+2️⃣1️⃣ Git Merge vs Git Rebase. How do you resolve merge conflicts?
+2️⃣2️⃣ If someone manually changes infrastructure in the cloud that is managed by Terraform, how would you prevent such changes from happening again?
+2️⃣3️⃣ What is SAST? How do you integrate SAST into your CI/CD pipeline?
+2️⃣4️⃣ How do you integrate DAST into your deployment process?
+2️⃣5️⃣ Have you used AI developer tools such as OpenAI Codex, GitHub Copilot, or similar tools? How do they improve your DevOps workflow?
