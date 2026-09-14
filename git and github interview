@@ -1,0 +1,36 @@
+Git & GitHub Production Issue-Based Interview Questions (Advanced / Real Production Scenarios) 👇
+===================================================================================================
+
+A developer accidentally pushed sensitive data (like passwords) to a repository on GitHub — how do you remove it from history?
+A commit was pushed to the wrong branch — how do you fix it safely?
+A production deployment failed due to incorrect merge — how do you rollback changes?
+Multiple developers are facing merge conflicts frequently — how do you manage and reduce conflicts?
+A branch was accidentally deleted — how do you recover it?
+Someone force-pushed to the main branch — how do you restore the previous state?
+Repository size has become very large — how do you reduce repository size?
+A developer committed large binary files — how do you handle large files in Git?
+Changes are not reflecting after pulling latest code — what could be wrong?
+A developer cloned the repo but cannot push changes — how do you troubleshoot permission issues?
+
+Pull request checks are failing — how do you debug failed checks?
+Code review approvals are required but PR cannot be merged — what could be wrong?
+Branch protection rules are blocking deployment — how do you troubleshoot?
+A merge introduced bugs into production — how do you revert safely?
+Git history became messy due to multiple merges — how do you clean it?
+Developers are working on outdated branches — how do you synchronize branches?
+A hotfix needs to be applied urgently to production — how do you handle it using branching?
+A feature branch has many commits — how do you squash commits before merging?
+
+A workflow in GitHub Actions is failing — how do you debug it?
+CI/CD pipeline is not triggering on push — what could be the issue?
+GitHub Actions cannot access secrets — how do you troubleshoot?
+Workflow runs successfully but deployment fails — how do you debug it?
+Pipeline works locally but fails in GitHub Actions — what could be the reason?
+GitHub runner is not picking jobs — how do you troubleshoot?
+Self-hosted runner is offline — how do you fix it?
+
+A user cannot access the repository — how do you troubleshoot access control?
+Unauthorized changes were pushed to repository — how do you investigate?
+API token used in GitHub expired — how do you rotate tokens securely?
+Repository secrets were exposed — what steps will you take immediately?
+How do you audit repository changes to identify who modified critical files?
