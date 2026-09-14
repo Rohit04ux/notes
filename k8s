@@ -1209,7 +1209,7 @@ Syntax:
 	eksctl create cluster --name psait-cluster4 --region us-east-1 --node-type t2.medium  --zones us-east-1a,us-east-1b
 		
 ## Mumbai: <br/>
-eksctl create cluster --name psait-cluster4 --region ap-south-1 --node-type t2.medium  --zones ap-south-1a,ap-south-1b
+    eksctl create cluster --name rohit-cluster4 --region ap-south-1 --node-type c7i-flex.large  --zones ap-south-1a,ap-south-1b
 
 
 ## After cluster created we can check nodes using below command.
@@ -1222,6 +1222,7 @@ eksctl create cluster --name psait-cluster4 --region ap-south-1 --node-type t2.m
 # Step - 4 : After your practise, delete Cluster and other resources we have used in AWS Cloud to avoid billing #
 ------------------------------------------------------------------------------------------------------------------
 eksctl delete cluster --name psait-cluster4 --region ap-south-1
+eksctl delete cluster --name rohit-cluster4 --region ap-south-1
 
 
                          ☁️ AWS CLOUD
