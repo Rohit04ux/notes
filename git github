@@ -89,15 +89,73 @@ GitHub token create steps:
 
 
 
+Sign in to GitHub from IntelliJ
+------------------------------------
+In IntelliJ:
+File → Settings → Version Control → GitHub
+
+Add Account → Log In via GitHub
+A browser window will open.
+  1. Sign in to GitHub.
+  2. Authorize IntelliJ IDEA.
+  3. Return to IntelliJ.
+  4. Your GitHub account should appear under GitHub accounts.
+
+You normally don't need to manually enter your GitHub password into IntelliJ.
 
 
+ the crash happens on the Server after DevOps deploys the changed code.
+-------------------------------------------------------------------------
+                  clone
+        ┌──────────────────────► Dev
+        │                         │
+        │                         │ push
+        │                         ▼
+   ┌────┴────┐              ┌───────────┐
+   │  MAIN   │◄─────────────┤  Changes  │
+   └────┬────┘              └───────────┘
+        │
+        │
+        ▼
+     DevOps
+        │
+        │ Deploy
+        ▼
+   ┌───────────┐
+   │  SERVER   │
+   └─────┬─────┘
+         │
+         │ Bug / Error
+         ▼
+     ❌ CRASHED
 
-
-
-
-
-
-
+                                                                                     ------------------------------                           
+                                                                                     |                            |
+                                                                            -----------------        clone        |
+                                     ┌──────────────────────┐-------------->| dev-login-otp |----------------->Dev1
+                                     │         DEV          │               -----------------                       
+            ┌──────────────────────► │  Development Branch  │                ----------------        clone
+            |                        └──────────────────────┘--------------->|   whatsapp   | ----------------> Dev2
+            |                                                                ----------------                      |
+            |                         ┌──────────────────┐                           |-----------------------------     
+            |                         │   Support Team   │
+            ┌──────────────────────►  │ User issues and  │
+            |                         │ production bugs  │
+            |                         └──────────────────┘                 
+┌──────────────────────┐
+│         MAIN         │
+│   Production / Master│
+└───────────┬──────────┘                ┌──────────────────┐
+            |                           │  Change Request  │
+            |                           │ Request a fix or │
+            ┌──────────────────────►    │ new functionality│
+            |                           └──────────────────┘
+            |                            
+            |                           ┌──────────────────┐
+            |                           │       R&D        │
+            |──────────────────────►    │ Research and     │
+                                        │ development      │
+                                        └──────────────────┘
 
 
 
