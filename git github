@@ -1,0 +1,105 @@
+        YOUR COMPUTER                           GITHUB
+┌─────────────────────────────────┐        ┌───────────────┐
+│ Working Directory               │        │               │
+│       ↓ git add      	          │        │    Remote     │
+│ Staging Area                    │        │ Repository    │
+│       ↓ git commit              │        │   (GitHub)    │
+│ Local Repository     ──push────→│──────→ │               │
+└─────────────────────────────────┘        └───────────────┘
+--------------------------------------------------------------------------
+| Area                  | Simple meaning                  | Command      |
+| --------------------- | ------------------------------- | ------------ |
+| **Working Directory** | Where you modify code           | Edit files   |
+| **Staging Area**      | Changes selected for commit     | git add      |
+| **Local Repository**  | Commits stored on your computer | git commit   |
+| **Remote Repository** | Repository stored on GitHub     | git push     |
+--------------------------------------------------------------------------
+"Git follows a four-stage workflow: Working Directory, Staging Area, Local Repository, and Remote Repository."
+
+"First, I make changes to my source code in the Working Directory. I use git status to check which files have been modified."
+
+"Then, I use git add to move the changes that I want to include into the Staging Area. The staging area allows me to select specific changes for my next commit."
+
+"After that, I use git commit to save those staged changes as a commit in my Local Repository. A commit acts like a checkpoint or snapshot of my code."
+
+"Finally, I use git push to send my local commits to the Remote Repository, such as GitHub, so that other developers can access them."
+
+----------
+Commands:
+--------------
+git config --global user.name ""
+git config --global user.email "Rohit23j1@outlook.com"
+
+git init
+git status
+
+git add file_name ---------> single file
+git add . ------->entire files
+
+git status
+
+git commit -m ""
+
+git log
+
+git push
+
+----------------------------------------
+Delete Old GitHub Credential on Windows
+---------------------------------------
+Method 1 — Windows Credential Manager
+---------------------------------------
+   1. Press Windows key
+   2. Search for Credential Manager
+   3. Open Credential Manager
+   4. Select Windows Credentials
+   5. Look under Generic Credentials or Windows Credentials
+   6. Find an entry related to:
+        git:https://github.com
+              or
+        github.com
+   7. Click the entry.
+   8. Click Remove.
+   9. Confirm.
+
+
+
+----------------------------------
+GitHub token create steps:
+---------------------------------
+      Login Github Account
+         ↓
+      Settings
+         ↓
+      Developer settings
+         ↓
+      Personal access tokens
+      
+      Personal access tokens
+      ├── Fine-grained tokens  ← Recommended
+      └── Tokens (classic)
+          
+          Generate new token
+          
+          Token name:
+          Git-GitHub-Access
+          
+          Expiration:
+          30 days / 90 days / custom
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
