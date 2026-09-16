@@ -2740,6 +2740,35 @@ While you are iterating, another thread can modify the ConcurrentHashMap, and
 the iterator does not fail with ConcurrentModificationException.
 
 
+---------------
+-> WeekHashMap
+---------------
+If a key is no longer strongly referenced anywhere else in the application, 
+the Garbage Collector can remove that key-value entry from the WeakHashMap.
+
+with HashMap
+------------
+Map<String, String> map = new HashMap<>();
+String key = new String("Java");
+map.put(key, "Programming");
+System.out.println(map.size());------------------->//1
+
+key = null;------------------->//Remove our references
+System.gc();-------->//Ask JVM to run Garbage Collector
+System.out.println(map.size());-------------------->//1
+
+with WeakHashMap
+----------------
+Map<String, String> map = new WeakHashMap<>();
+String key = new String("Java");
+map.put(key, "Programming");
+System.out.println(map.size());------------------->//1
+
+key = null;-------------------->//Remove our references
+System.gc();-------->//Ask JVM to run Garbage Collector
+System.out.println(map.size());------------------->//0
+
+
 ---------------------------------
 -> Comparable Vs Comparator
 ---------------------------------
