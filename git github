@@ -158,6 +158,88 @@ You normally don't need to manually enter your GitHub password into IntelliJ.
                                         └──────────────────┘
 
 
+---------------------------
+Branching in Github
+--------------------------
+
+GitHub Repository
+      │
+      ├── main
+      ├── bug-fix
+      ├── featuers
+      ├── hot-fix
+      ├── r&d
+      └── release
+             │
+             │ git pull / git fetch
+             ▼
+       Local Git Repository
+             │
+             ├── origin/main
+             ├── origin/bug-fix
+             ├── origin/featuers
+             ├── origin/hot-fix
+             ├── origin/r&d
+             └── origin/release
+
+
+main
+ │
+ └── bug-fix
+       │
+       └── bug-fix-3456-login-error(created by dev)
+
+
+
+# First project push
+------------------------
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin <github-repo-url>
+git push -u origin main
+
+# Get remote branch information
+--------------------------------
+git pull
+git fetch --all
+git branch -r
+
+# Switch to existing branch
+------------------------------
+git switch bug-fix
+
+# Create new branch
+---------------------------
+git branch bug-fix-3456-login-error
+git switch bug-fix-3456-login-error
+
+# Or create + switch in ONE command
+----------------------------------------
+git switch -c bug-fix-3456-login-error
+
+# After making changes
+---------------------
+git status
+git add .
+git commit -m "Fix login error"
+
+# First push of new branch
+------------------------------
+git push -u origin bug-fix-3456-login-error
+
+# Future pushes
+-----------------
+git push
+
+
+
+
+
+
+
+
 
 
 
