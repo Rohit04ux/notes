@@ -373,6 +373,57 @@ host  container
 
 
 
+---------------------------
+Reduce Docker Image Size
+--------------------------
+
+-> Multi-Stage (Spring and Maven)
+-------------------------------
+
+Stage 1 - Build
+-----------------
+FROM maven:3.9-eclipse-temurin-17 AS builder
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+Stage 2 - Run
+-------------------
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+                 Dockerfile
+                     │
+                     ↓
+          ┌─────────────────────┐
+          │      STAGE 1        │
+          │                     │
+          │ Maven + JDK         │
+          │ pom.xml + src       │
+          │                     │
+          │ mvn package         │
+          │       ↓             │
+          │      JAR            │
+          └─────────┬───────────┘
+                    │
+             COPY --from=builder
+                    │
+                    ↓
+          ┌─────────────────────┐
+          │      STAGE 2        │
+          │                     │
+          │ JRE                 │
+          │ JAR                 │
+          │                     │
+          │ java -jar app.jar   │
+          └─────────┬───────────┘
+                    │
+                    ↓
+              FINAL IMAGE
 
 
 
