@@ -234,7 +234,20 @@ git push -u origin bug-fix-3456-login-error
 git push
 
 
+----------------------------
+-> Git Fetch Vs Git Pull
+-----------------------------
 
+FETCH
+--------
+Remote → Local information
+          ❌ Don't integrate yet
+
+PULL
+--------
+Remote → Local
+          +
+      Integrate
 
 
 
