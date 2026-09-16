@@ -13,6 +13,29 @@ Frequency    → groupingBy + counting()
 Combine      → reduce()
 Flatten      → flatMap()
 
+The real trick: convert English → Stream operation
+---------------------------------------------------
+---------------------------------------------------------------
+| Interview wording             | Think                       |
+| ----------------------------- | --------------------------- |
+| "only employees..."           | `filter()`                  |
+| "whose salary..."             | `filter()`                  |
+| "convert names..."            | `map()`                     |
+| "get employee names..."       | `map()`                     |
+| "highest salary..."           | `max()`                     |
+| "lowest salary..."            | `min()`                     |
+| "sort by salary..."           | `sorted()`                  |
+| "unique..."                   | `distinct()`                |
+| "count..."                    | `count()`                   |
+| "total..."                    | `sum()`                     |
+| "group by department..."      | `groupingBy()`              |
+| "frequency..."                | `groupingBy() + counting()` |
+| "separate into two groups..." | `partitioningBy()`          |
+| "nested list..."              | `flatMap()`                 |
+| "does any employee..."        | `anyMatch()`                |
+| "all employees..."            | `allMatch()`                |
+| "no employee..."              | `noneMatch()`               |
+---------------------------------------------------------------
 
 Employee.java
 ------------------
