@@ -11,9 +11,11 @@ class ClassName {
 }
 
 
--> new keyword - NEW Keyword Sends request to the class, & class creates Object. Once the Object is created, NEW keyword will get Object’s address in a reference variable.
+-> new keyword - new Keyword Sends request to the class, & class creates Object. Once the Object is created, 
+                 new keyword will get Object’s address in a reference variable.
 
--> garbage collector-Garbage Collector on regular basis keeps removing unused objects from RAM, thus avoiding overflow of memory, this helps us manage memory efficiently.
+-> garbage collector - Garbage Collector on regular basis keeps removing unused objects from RAM, thus avoiding 
+                       overflow of memory, this helps us manage memory efficiently.
 
 -> non-static/instance variable->
 	- created inside class but outside method without using “static” keyword.
