@@ -2768,13 +2768,48 @@ key = null;-------------------->//Remove our references
 System.gc();-------->//Ask JVM to run Garbage Collector
 System.out.println(map.size());------------------->//0
 
+--------------------------
+-> IdentityHashMap in Java
+--------------------------
+		HashMap → compares keys using equals()
+IdentityHashMap → compares keys using ==
+
+HashMap
+-------------
+String s1 = new String("Java");
+String s2 = new String("Java");
+Map<String, Integer> map = new HashMap<>();
+	map.put(s1, 100);
+	map.put(s2, 200);
+System.out.println(map.size());-------->//1
+
+IdentityHashMap
+----------------
+String s1 = new String("Java");
+String s2 = new String("Java");
+Map<String, Integer> map = new IdentityHashMap<>();
+	map.put(s1, 100);
+	map.put(s2, 200);
+System.out.println(map.size());--------->//2
+
+HashMap
+   |
+   └── "Do the objects have the same VALUE?"
+             ↓
+          equals()
+
+
+IdentityHashMap
+   |
+   └── "Are these the EXACT SAME OBJECT?"
+             ↓
+             ==
 
 ---------------------------------
 -> Comparable Vs Comparator
 ---------------------------------
 Comparable is used to define the natural ordering of objects by implementing compareTo() inside the class. 
 Comparator is used to define custom sorting logic separately using the compare() method.
-
 
 ------------
 Comparable
