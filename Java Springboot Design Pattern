@@ -1,0 +1,174 @@
+-------------------------
+-> Saga Design Pattern
+-------------------------
+The Saga Design Pattern is used in microservices to manage a business
+transaction that involves multiple services.
+
+It helps maintain data consistency when a transaction spans several microservices, 
+without using one large database transaction across all services.
+
+
+SagaDemo/
+    │
+    ├── HotelService.java
+    ├── PaymentService.java
+    ├── BookingService.java
+    ├── BookingOrchestrator.java
+    └── Main.java
+
+HotelService.java
+--------------------
+public class HotelService {
+    public void reserveRoom() {
+        System.out.println("Room reserved");
+    }
+    public void cancelRoomReservation() {
+        System.out.println("Room reservation cancelled");
+    }
+}
+
+PaymentService.java
+---------------------
+public class PaymentService {
+    public void makePayment() {
+        System.out.println("Payment successful");
+    }
+    public void refundPayment() {
+        System.out.println("Payment refunded");
+    }
+}
+
+
+BookingService.java
+-------------------
+public class BookingService {
+    public void confirmBooking() {
+        System.out.println("Booking confirmed");
+    }
+    public void cancelBooking() {
+        System.out.println("Booking cancelled");
+    }
+}
+
+BookingOrchestrator.java
+-------------------------
+public class BookingOrchestrator {
+    private final HotelService hotelService;
+    private final PaymentService paymentService;
+    private final BookingService bookingService;
+
+    public BookingOrchestrator(HotelService hotelService,PaymentService paymentService,BookingService bookingService) {
+        this.hotelService = hotelService;
+        this.paymentService = paymentService;
+        this.bookingService = bookingService;
+    }
+
+    public void bookHotel() {
+        boolean roomReserved = false;
+        boolean paymentDone = false;
+        boolean bookingConfirmed = false;
+
+        try {
+            // Step 1: Reserve room
+            hotelService.reserveRoom();
+            roomReserved = true;
+
+            // Step 2: Make payment
+            paymentService.makePayment();
+            paymentDone = true;
+
+            // Step 3: Confirm booking
+            bookingService.confirmBooking();
+            bookingConfirmed = true;
+
+            System.out.println("Saga completed successfully");
+        } catch (Exception e) {
+
+            System.out.println("Saga failed: " + e.getMessage());
+
+            // Compensation for booking
+            if (bookingConfirmed) {
+                bookingService.cancelBooking();
+            }
+
+            // Compensation for payment
+            if (paymentDone) {
+                paymentService.refundPayment();
+            }
+
+            // Compensation for room
+            if (roomReserved) {
+                hotelService.cancelRoomReservation();
+            }
+        }
+    }
+}
+
+Main.java
+------------
+public class Main {
+    public static void main(String[] args) {
+        HotelService hotelService = new HotelService();
+        PaymentService paymentService = new PaymentService();
+        BookingService bookingService = new BookingService();
+
+        BookingOrchestrator orchestrator =
+                new BookingOrchestrator(hotelService,paymentService,bookingService);
+
+        orchestrator.bookHotel();
+    }
+}
+
+Expected output: Success
+--------------------------
+  Room reserved
+  Payment successful
+  Booking confirmed
+  Saga completed successfully
+
+-> Test failure scenarios
+=============================
+change-HotelService.java
+-------------
+public void reserveRoom() { 
+    System.out.println("Room reservation failed");
+    throw new RuntimeException("Room unavailable"); 
+}
+output:
+----
+Room reserved
+Payment failed
+Saga failed: Payment declined
+Room reservation cancelled
+
+change PaymentService.java
+----------------------
+public void makePayment() { 
+    System.out.println("Payment failed"); 
+    throw new RuntimeException("Payment declined"); 
+}
+output:
+------
+Room reserved
+Payment successful
+Booking confirmation failed
+Saga failed: Confirmation error
+Payment refunded
+Room reservation cancelled
+
+
+change BookingService.java
+-------------------------------
+public void confirmBooking() { 
+    System.out.println("Booking confirmation failed");
+    throw new RuntimeException("Confirmation error"); 
+}
+output:
+-----
+Room reservation failed
+Saga failed: Room unavailable
+
+
+
+
+
