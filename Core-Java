@@ -10,7 +10,7 @@ class ClassName {
     // Methods
 }
 
-
+f
 -> new keyword - new Keyword Sends request to the class, & class creates Object. Once the Object is created, 
                  new keyword will get Object’s address in a reference variable.
 
@@ -2530,10 +2530,8 @@ flatMap() — Flatten nested data
 	List<String> result = names.stream()
 	        .flatMap(List::stream)
 	        .toList();
-
 System.out.println(result);
-OUTPUT:
-		[
+OUTPUT: [
 		   [Rohit, Amit],
 		   [Rahul, Raj],
 		   [Ankit, Vikas]
@@ -2544,8 +2542,30 @@ OUTPUT:
 	        .flatMap(List::stream)
 	        .toList();
 	System.out.println(result);
-	OUTPUT: [Rohit, Amit, Rahul, Raj, Ankit, Vikas]
+OUTPUT: [Rohit, Amit, Rahul, Raj, Ankit, Vikas]
 
+
+
+
+List<String> sentences = List.of(
+        "Java is easy",
+        "Spring Boot is powerful"
+);
+Using map()
+--------------
+List<String[]> result = sentences.stream()
+        .map(s -> s.split(" "))
+        .toList();
+Output: "Java is easy"            → ["Java", "is", "easy"]
+        "Spring Boot is powerful" → ["Spring", "Boot", "is", "powerful"]
+
+Using flatMap()
+-----------------
+List<String> result = sentences.stream()
+        .flatMap(s -> Arrays.stream(s.split(" ")))
+        .toList();
+System.out.println(result);
+Output: [Java, is, easy, Spring, Boot, is, powerful]
 
 
 -----------------------------------
