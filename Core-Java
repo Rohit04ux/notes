@@ -657,11 +657,11 @@ class A {
 --------------------
 -> final keyword
 --------------------
-variable	- value once initialized then cannot be changed
+				  variable - value once initialized then cannot be changed
 static/non-static variable - initialization is mandatory
-variable - in Uppercase
-class- inheritance is not allowed
-method - overriding is not allowed
+				  variable - in Uppercase
+					 class - inheritance is not allowed
+					method - overriding is not allowed
 
 
 final class FinalExample {
@@ -885,7 +885,6 @@ functional interface-> consist one incomplete method, but can have any number of
 
 add main method in interface
 develop complete static methods
-
 
 interface Demo {
     void display(); ------> Abstract method (incomplete)
@@ -1272,6 +1271,7 @@ deserialization -> read binaries from the file and reconstruct the object back
 
 transient keyword
 
+
 --------------------
 -> marker interface : does not contain any methods or variables
 -------------------
@@ -1484,15 +1484,15 @@ s1.equals(s5)-----------> true  -> same content (value)
 ------------------------------------------
 Memory Tip 🧠
 -------------
-isEmpty() → Length = 0
-isBlank() → Only whitespace (or empty)
-null → No object exists
+	isEmpty() → Length = 0
+	isBlank() → Only whitespace (or empty)
+	null → No object exists
 
 Rule to remember:
 ----------------
-"" → Empty
-" " → Blank
-null → No String object
+	"" → Empty
+	" " → Blank
+	null → No String object
 ----------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------
@@ -1538,44 +1538,45 @@ Common Java String Methods:
 Collection
 ==========================
 _____________________________________________________________________________________________
-Collection	|	                 Real-world Project Topics		            |
+Collection		|	                 Real-world Project Topics		            			|
 ________________|___________________________________________________________________________|
-ArrayList	| Student Management System, Employee Management System, Shopping Cart,	    |
-		| Library Management System, Movie Booking System			    |
+ArrayList		| Student Management System, Employee Management System, Shopping Cart,	    |
+				| Library Management System, Movie Booking System			 			    |
 ----------------|---------------------------------------------------------------------------|
-LinkedList	| Browser History, Music Playlist, Train Reservation Queue, Undo/Redo 	    |
-		| Feature, Navigation History						    |
+LinkedList		| Browser History, Music Playlist, Train Reservation Queue, Undo/Redo 	    |
+				| Feature, Navigation History						    					|
 ----------------|---------------------------------------------------------------------------|
-HashSet		| User Registration (Unique Emails), Unique Tags System, Attendance System, |
-		| Coupon Code Validation						    |
+HashSet			| User Registration (Unique Emails), Unique Tags System, Attendance System, |
+				| Coupon Code Validation												    |
 ----------------|---------------------------------------------------------------------------|
 LinkedHashSet	| Recent Search History, Ordered Unique Products, Recently Viewed Items	    |
 ----------------|---------------------------------------------------------------------------|
-TreeSet		| Leaderboard, Ranking System, Event Scheduler, Dictionary Application	    |
+TreeSet			| Leaderboard, Ranking System, Event Scheduler, Dictionary Application	    |
 ----------------|---------------------------------------------------------------------------|
-HashMap		| Login System, Employee Directory, Product Catalog, Banking System, 	    |
-		| Inventory Management							    |
+HashMap			| Login System, Employee Directory, Product Catalog, Banking System, 	    |
+				| Inventory Management													    |
 ----------------|---------------------------------------------------------------------------|
 LinkedHashMap	| LRU Cache, Recently Accessed Files, Ordered Configuration Settings	    |
 ----------------|---------------------------------------------------------------------------|
-TreeMap		| Phone Directory, Student Ranking, Stock Price Records, Exam Results	    |
+TreeMap			| Phone Directory, Student Ranking, Stock Price Records, Exam Results	    |
 ----------------|---------------------------------------------------------------------------|
 PriorityQueue	| Hospital Emergency Queue, Task Scheduler, CPU Process Scheduling, 	    |
-		| Ticket Booking Priority						    |
+				| Ticket Booking Priority												    |
 ----------------|---------------------------------------------------------------------------|
-ArrayDeque/Deque| Undo/Redo System, Browser Back/Forward, Sliding Window Problems	    |
+ArrayDeque/Deque| Undo/Redo System, Browser Back/Forward, Sliding Window Problems	    	|
 ----------------|---------------------------------------------------------------------------|
-Stack		| Expression Evaluation, Undo Operation, Text Editor, Bracket Matching	    |
+Stack			| Expression Evaluation, Undo Operation, Text Editor, Bracket Matching	    |
 ----------------|---------------------------------------------------------------------------|
-Queue		| Printer Queue, Customer Service Queue, Food Order System, Call Center     |
-		| Management								    |
+Queue			| Printer Queue, Customer Service Queue, Food Order System, Call Center     |
+				| Management															    |
 ---------------------------------------------------------------------------------------------
 
 
 
------------------------------------------
-# collection framework:
--------------------------------------------
+############################
+### COLLECTION FRAMEWORK
+############################
+
 A set of interfaces and classes used to store, manipulate, and retrieve groups of objects efficiently.
 
 -> Is Map part of the Collection Framework?
@@ -1590,16 +1591,16 @@ Dynamic size
 Rich API
 Easier insertion, deletion, searching, and sorting
 
-
-                 Object
-                    |
-        -------------------------
-        |                       |
-    Collection                Map
-        |                       |
-   ------------          ----------------
-   |     |     |          |      |       |
- List   Set  Queue    HashMap TreeMap LinkedHashMap
+			
+			                 Object
+			                    |
+			        -------------------------
+			        |                       |
+			    Collection                Map
+			        |                       |
+			   -------------          ----------------
+			   |     |     |          |      |       |
+			 List   Set  Queue    HashMap TreeMap LinkedHashMap
 
 ---------------------------------------------------------------------------------
 
@@ -1650,30 +1651,30 @@ A common interview question is: What is the difference between Iterable and Iter
 Iterable: An interface that allows an object to be traversed. It defines the iterator() method.
 Iterator: An interface that actually performs the traversal using methods such as hasNext(), next(), and remove().
 
-ArrayList<String> list = new ArrayList<>();
-
-Iterator<String> it = list.iterator();
-
-while (it.hasNext()) {
-    System.out.println(it.next());
-}
-
+	ArrayList<String> list = new ArrayList<>();
+	
+	Iterator<String> it = list.iterator();
+	
+	while (it.hasNext()) {
+	    System.out.println(it.next());
+	}
+	
 
 -> mutable and immutable list
 --------------------------------
 mutable: A mutable list can be modified after it is created
 ----------
 List<String> list = new ArrayList<>();
-list.add("Apple");
-list.add("Banana");
-list.set(0, "Mango");
-list.remove("Banana");
+	list.add("Apple");
+	list.add("Banana");
+	list.set(0, "Mango");
+	list.remove("Banana");
 
 
 immutable: An immutable list cannot be modified after it is created.
 -----------
-List<String> list = List.of("Apple", "Banana", "Orange");
-list.add("Mango");   // UnsupportedOperationException
+	List<String> list = List.of("Apple", "Banana", "Orange");
+	list.add("Mango");   // UnsupportedOperationException
 --------------------------------------------------------------------------------------------------
 
 ----------------------
@@ -1735,7 +1736,7 @@ every class in Java directly or indirectly inherits from the Object class
 Declaration: Object obj=new Object();
 
 Common methods-> toString(), equals(Object obj), hasCode(), getClass(), clone(), finalize(), wait(),
-	notify(), notifyAll()
+	             notify(), notifyAll()
 
 An Object reference can point to any Java object:
 	Object obj = "Hello";
@@ -1762,7 +1763,7 @@ Supporting autoboxing and unboxing
 
 -------------------------
 # Autoboxing & Unboxing
------------------------
+-------------------------
 Java is an object-oriented language, but it also supports primitive data types.
 Autoboxing and Unboxing bridge the gap between primitives and objects.
 
@@ -1789,7 +1790,7 @@ Example:
 # Generics in Java
 ---------------------
 powerful feature that allows you to define classes, interfaces and methods with placeholder
-   for types, providing greater flexibility and type safety.
+for types, providing greater flexibility and type safety.
 
 Erasure
 
@@ -1799,22 +1800,22 @@ Bounded Generics   ->	 class Calculator<T extends Number> {}
 
 Wildcards
 ---------
-Unbounded wildcard		List<?> list;
+Unbounded wildcard			List<?> list;
 Upper-bounded wildcard		List<? extends Number> list;
 Lower-bounded wildcard		List<? super Integer> list;
 
 Easy way to remember (PECS Rule)
 Producer Extends (? extends T) → Read from the collection.
-Consumer Super (? super T) → Write (add) to the collection.
+  Consumer Super (? super T)   → Write (add) to the collection.
 
 
 Advantages of Generics
 ----------------------
-✅ Compile-time type checking
-✅ Eliminates explicit type casting
-✅ Reusable code
-✅ Improves readability
-✅ Reduces runtime errors
+	✅ Compile-time type checking
+	✅ Eliminates explicit type casting
+	✅ Reusable code
+	✅ Improves readability
+	✅ Reduces runtime errors
 ---------------------------------
 
 -----------------
@@ -1830,7 +1831,7 @@ It stores data as key:value pairs and uses hashing for
 it uses a hash function to determine the index(bucket) to store the key
 if multiple keys map to the same index (collision),
 collision handle-
-Linked List	-> before java 8
+   Linked List	-> before java 8
 Red-Black Tree	-> java 8+  -> to improve performace
         (Black)
           10
@@ -1870,15 +1871,15 @@ Stores data in array of buckets
 -> HashMap key-features
 -----------------------
 stores data -> key-value pair
-keys -> unique,	null key  -> one
-values -> duplicate,	null values-> multiple
-order -> not guarantee any order
+		keys -> unique,	null key  -> one
+	 values -> duplicate,	null values-> multiple
+	  order -> not guarantee any order
 
 
 -> HashMap Declaration
 ---------------------
 HashMap<Integer, String> hashmap = new HashMap<>();
-vs
+				Vs
 Map<Integer, String> map = new HashMap<>();
 
 -> Key Difference
@@ -1910,59 +1911,59 @@ remain unchanged.
 
 Ways to Iterate HashMap
 ---------------------------
-entrySet()
+1. entrySet()
 -------------
-for (Map.Entry<Integer, String> entry : map.entrySet()) {
-    System.out.println(entry.getKey() + " " + entry.getValue());
-}
+	for (Map.Entry<Integer, String> entry : map.entrySet()) {
+	    System.out.println(entry.getKey() + " " + entry.getValue());
+	}
 
 2. keySet()
 -----------
-for (Integer key : map.keySet()) {
-    System.out.println(key + " " + map.get(key));
-}
+	for (Integer key : map.keySet()) {
+	    System.out.println(key + " " + map.get(key));
+	}
 
 3. values()
 -----------
-for (String value : map.values()) {
-    System.out.println(value);
-}
+	for (String value : map.values()) {
+	    System.out.println(value);
+	}
 
 4. Iterator(entrySet)
 ---------------------
-Iterator<Map.Entry<Integer, String>> it = map.entrySet().iterator();
-
-while (it.hasNext()) {
-    Map.Entry<Integer, String> entry = it.next();
-    System.out.println(entry.getKey() + " " + entry.getValue());
-}
+	Iterator<Map.Entry<Integer, String>> it = map.entrySet().iterator();
+	
+	while (it.hasNext()) {
+	    Map.Entry<Integer, String> entry = it.next();
+	    System.out.println(entry.getKey() + " " + entry.getValue());
+	}
 
 5. forEach(Lambda)
 ------------------
-map.forEach((key, value) -> {
-    System.out.println(key + " " + value);
-});
+	map.forEach((key, value) -> {
+	    System.out.println(key + " " + value);
+	});
 
 6. stream API
 -------------
-map.entrySet().stream().forEach(entry -> {
-    System.out.println(entry.getKey() + " " + entry.getValue());
-});
+	map.entrySet().stream().forEach(entry -> {
+	    System.out.println(entry.getKey() + " " + entry.getValue());
+	});
 
 -------------------------------------------------
 | Method           | Recommended                |
 | ---------------- | ---------------------------|
-| entrySet()       | ⭐⭐⭐⭐⭐ Best		|
+| entrySet()       | ⭐⭐⭐⭐⭐ Best			|
 | forEach (Java 8) | ⭐⭐⭐⭐ Modern          |
 | keySet()         | ⭐⭐ Avoid in large data  |
-| Iterator         | ⭐ Useful for removal	|
-| values()         | ⭐ Only values needed	|
+| Iterator         | ⭐ Useful for removal		|
+| values()         | ⭐ Only values needed		|
 --------------------------------------------------
 
 Note:
 ----
 -> reverse ordering in HashMap
---------------
+------------------------------
 HashMap does not guarantee any order, there is no concept of reversing it,
 which is why it does not implement SequencedMap.
 
@@ -2003,10 +2004,10 @@ use red-black tree internally
 
 TreeMap key-features
 --------------------
-stores data - key-value pair
-keys-> unique,	null key  -> no
-values-> duplicate,	null values-> multiple
-order -> maintain(sorted order -> ascending by default)
+stores data -> key-value pair
+		keys-> unique,	null key     -> no
+	  values-> duplicate, null values-> multiple
+	  order -> maintain(sorted order -> ascending by default)
 
 
 -> TreeMap implements both SortedMap and SequencedMap because they represent
@@ -2027,23 +2028,19 @@ reversed(), and sequencedKeySet().
 --------------------------------
 1. Using Collections.reverseOrder()
 ------------------------------------
-  TreeMap<Integer, String> map = new TreeMap<>(Collections.reverseOrder());
- 
-  map.put(1, "One");
-  map.put(2, "Two");
-  map.put(3, "Three");
-
+  TreeMap<Integer, String> map = new TreeMap<>(Collections.reverseOrder()); 
+	  map.put(1, "One");
+	  map.put(2, "Two");
+	  map.put(3, "Three");
   System.out.println(map);
 
 2. Using descendingMap()
 ---------------------
-TreeMap<Integer, String> map = new TreeMap<>();
-
-map.put(1, "One");
-map.put(2, "Two");
-map.put(3, "Three");
-
-System.out.println(map.descendingMap());
+	TreeMap<Integer, String> map = new TreeMap<>();
+		map.put(1, "One");
+		map.put(2, "Two");
+		map.put(3, "Three");
+	System.out.println(map.descendingMap());
 ------------------------------------------------------------------------------
 
 
@@ -2077,9 +2074,9 @@ Reverse
 -------
 Map<Integer,String> m -> map reference will not work for reverse method
 LinkedHashMap<Integer,String> m = new LinkedHashMap<>();
-m.put(13, "mike");
-m.put(5, "adam");
-m.put(7, "stalling");
+	m.put(13, "mike");
+	m.put(5, "adam");
+	m.put(7, "stalling");
 
 System.out.println(m); 		   //{13=mike, 5=adam, 7=stalling}
 System.out.println(m.reversed());  //{7=stalling, 5=adam, 13=mike}
@@ -2108,26 +2105,26 @@ unique elements
 Does not allow duplicate elements.
 Can contain at most one null element (implementation-dependent).
 Does not provide indexed access like a List.
-
-Iterable
-    │
-    ▼
-Collection
-    │
-    ▼
-   Set
-    │
-    ├── HashSet
-    ├── LinkedHashSet
-    ├── SortedSet
-    │      │
-    │      ▼
-    │   NavigableSet
-    │      │
-    │      ▼
-    │    TreeSet
-    │
-    └── EnumSet
+	
+	Iterable
+	    │
+	    ▼
+	Collection
+	    │
+	    ▼
+	   Set
+	    │
+	    ├── HashSet
+	    ├── LinkedHashSet
+	    ├── SortedSet
+	    │      │
+	    │      ▼
+	    │   NavigableSet
+	    │      │
+	    │      ▼
+	    │    TreeSet
+	    │
+	    └── EnumSet
 
 
 ----------------
@@ -2155,41 +2152,41 @@ has table
 hashmap
 
 -> A HashSet does not store values directly. Instead, it internally uses a HashMap.
-Set<String> arr = new HashSet<>();
-arr.add("India");	Internally-> map.put("India", PRESENT);
-arr.add("USA");		Internally-> map.put("USA", PRESENT);
-arr.add("UK");		Internally-> map.put("UK", PRESENT);
-arr.add("China");	Internally-> map.put("China", PRESENT);
-arr.add("India"); //This will not add because Set doesn't
+	Set<String> arr = new HashSet<>();
+		arr.add("India");	Internally-> map.put("India", PRESENT);
+		arr.add("USA");		Internally-> map.put("USA", PRESENT);
+		arr.add("UK");		Internally-> map.put("UK", PRESENT);
+		arr.add("China");	Internally-> map.put("China", PRESENT);
+		arr.add("India"); //This will not add because Set doesn't
 
 Internally
 --------
-  Key : Value
-India : PRESENT
-  USA : PRESENT
-   UK : PRESENT
+		  Key : Value
+		India : PRESENT
+		  USA : PRESENT
+		   UK : PRESENT
 
 
 Iterate
 -------
-Iterator<String> itr = arr.iterator();
-while(itr.hasNext()){
-	System.out.println(itr.next());|
-}
+	Iterator<String> itr = arr.iterator();
+	while(itr.hasNext()){
+		System.out.println(itr.next());|
+	}
 
 contains method
 ------------
-boolean isRemoved=arr.remove("India");
-System.out.println(isRemoved); //true
+	boolean isRemoved=arr.remove("India");
+	System.out.println(isRemoved); //true
 
 remove method
 ----------
-boolean isPresent=arr.contains("India");
-System.out.println(isPresent); //true
+	boolean isPresent=arr.contains("India");
+	System.out.println(isPresent); //true
 
 reverse
 ---------------
-not possible because it doesn't maintain order
+	not possible because it doesn't maintain order
 
 
 ---------------------------------
@@ -2223,38 +2220,35 @@ LinkedHashMap (which maintains insertion order using a doubly linked list)
 
 -> SequencedSet
 ---------------
-reversed()
-getFirst()
-getLast()
-addFirst()
-addLast()
-removeFirst()
-removeLast()
+	reversed()
+	getFirst()
+	getLast()
+	addFirst()
+	addLast()
+	removeFirst()
+	removeLast()
 
 
 -> A LinkedHashSet does not store values directly. Instead, it internally uses a LinkedHashMap.
 ---------------
 Set<String> arr = new LinkedHashSet<>();
-
-arr.add("India");   // Internally -> map.put("India", PRESENT);
-arr.add("USA");     // Internally -> map.put("USA", PRESENT);
-arr.add("UK");      // Internally -> map.put("UK", PRESENT);
-arr.add("China");   // Internally -> map.put("China", PRESENT);
-arr.add("India");   // Duplicate
+	arr.add("India");   // Internally -> map.put("India", PRESENT);
+	arr.add("USA");     // Internally -> map.put("USA", PRESENT);
+	arr.add("UK");      // Internally -> map.put("UK", PRESENT);
+	arr.add("China");   // Internally -> map.put("China", PRESENT);
+	arr.add("India");   // Duplicate
 
 
 //reverse
 ---------
-LinkedHashSet<String> arr = new LinkedHashSet<>();
-
-arr.add("India");
-arr.add("USA");
-arr.add("UK");
-arr.add("China");
-arr.add("India");
-
-System.out.println(arr); 	     //[India, USA, UK, China]
-System.out.println(arr.reversed());  //[China, UK, USA, India]
+	LinkedHashSet<String> arr = new LinkedHashSet<>();
+		arr.add("India");
+		arr.add("USA");
+		arr.add("UK");
+		arr.add("China");
+		arr.add("India");
+	System.out.println(arr); 	         //[India, USA, UK, China]
+	System.out.println(arr.reversed());  //[China, UK, USA, India]
 
 --------------------------------------------------------------------------------
 | Interface/Class |    Ordering         | Duplicates | Null Allowed            |
@@ -2269,35 +2263,35 @@ TreeSet
 -----------------
 key features
 ------------
-✅ Stores data-> unique elements.
-✅ order-> Maintains sorted (ascending) order by default.
-✅ Uses a Red-Black Tree internally.
-✅ Supports natural ordering or custom ordering with a Comparator.
-❌ Does not preserve insertion order.
-❌ Does not allow null.
-⏱️ add(), remove(), and contains() are O(log n).
-✅ Provides navigation methods like first(), last(), higher(), lower(), ceiling(), and floor().
+	✅ Stores data-> unique elements.
+	✅ order-> Maintains sorted (ascending) order by default.
+	✅ Uses a Red-Black Tree internally.
+	✅ Supports natural ordering or custom ordering with a Comparator.
+	❌ Does not preserve insertion order.
+	❌ Does not allow null.
+	⏱️ add(), remove(), and contains() are O(log n).
+	✅ Provides navigation methods like first(), last(), higher(), lower(), ceiling(), and floor().
 
-   Set
-    │
-SequencedSet (Java 21)
-    │
-SortedSet
-    │
-NavigableSet
-    │
-TreeSet
+			   Set
+			    │
+			SequencedSet (Java 21)
+			    │
+			SortedSet
+			    │
+			NavigableSet
+			    │
+			TreeSet
 
 
-TreeSet<String> names=new TreeSet<>();
-names.add("mike");
-names.add("john");
-names.add("jane");
-names.add("mike"); //duplicate
-System.out.println(names); 	//[jane, john, mike]
+	TreeSet<String> names=new TreeSet<>();
+		names.add("mike");
+		names.add("john");
+		names.add("jane");
+		names.add("mike"); //duplicate
+	System.out.println(names); 	//[jane, john, mike]
 
 // reversed
-System.out.println(names.reversed());   //[mike, john, jane]
+	System.out.println(names.reversed());   //[mike, john, jane]
 
 
 Set Operations
@@ -2434,17 +2428,17 @@ Takes two inputs and returns a result.
 -------------------------------
 -> Custom Functional Interface
 ------------------------------
-@FunctionalInterface
-interface Calculator {
-    int calculate(int a, int b);
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Calculator add = (a, b) -> a + b;
-        System.out.println(add.calculate(10, 20));
-    }
-}
+	@FunctionalInterface
+	interface Calculator {
+	    int calculate(int a, int b);
+	}
+	
+	public class Main {
+	    public static void main(String[] args) {
+	        Calculator add = (a, b) -> a + b;
+	        System.out.println(add.calculate(10, 20));
+	    }
+	}
 
 ---------------------------------------
 | Interface         | Input | Output  |
@@ -2511,46 +2505,46 @@ flatMap(): Flattens nested structures
 distinct():
 
 -------------------
-map() vs flatMap()
+-> map() vs flatMap()
 -------------------
 	map() = one input → one output
 flatMap() = one input → multiple outputs, then flatten them
 
 map() — Transform each element
 -------------------------------
-List<String> names = List.of("rohit", "amit", "rahul");
-List<String> result = names.stream()
-        .map(String::toUpperCase)
-        .toList();
-System.out.println(result); //OUTPUT: [ROHIT, AMIT, RAHUL]
+	List<String> names = List.of("rohit", "amit", "rahul");
+	List<String> result = names.stream()
+	        .map(String::toUpperCase)
+	        .toList();
+	System.out.println(result); //OUTPUT: [ROHIT, AMIT, RAHUL]
 
 flatMap() — Flatten nested data
 ------------------------------------
-List<List<String>> names = List.of(
-        List.of("Rohit", "Amit"),
-        List.of("Rahul", "Raj"),
-        List.of("Ankit", "Vikas")
-);
+	List<List<String>> names = List.of(
+	        List.of("Rohit", "Amit"),
+	        List.of("Rahul", "Raj"),
+	        List.of("Ankit", "Vikas")
+	);
 
 //This is a List of Lists:
-List<String> result = names.stream()
-        .flatMap(List::stream)
-        .toList();
+	List<String> result = names.stream()
+	        .flatMap(List::stream)
+	        .toList();
 
 System.out.println(result);
-output:
-[
-   [Rohit, Amit],
-   [Rahul, Raj],
-   [Ankit, Vikas]
-]
+OUTPUT:
+		[
+		   [Rohit, Amit],
+		   [Rahul, Raj],
+		   [Ankit, Vikas]
+		]
 
 // If we want one single list:
-List<String> result = names.stream()
-        .flatMap(List::stream)
-        .toList();
-System.out.println(result);
-OUTPUT: [Rohit, Amit, Rahul, Raj, Ankit, Vikas]
+	List<String> result = names.stream()
+	        .flatMap(List::stream)
+	        .toList();
+	System.out.println(result);
+	OUTPUT: [Rohit, Amit, Rahul, Raj, Ankit, Vikas]
 
 
 
@@ -2569,7 +2563,6 @@ Are multiple threads modifying the SAME string object?
           ↓             ↓
  StringBuilder     StringBuffer
    (faster)        (thread-safe)
-
 
 -----------------------------------------------------------------------------------
 | Feature       | StringBuffer                | StringBuilder                      |
@@ -2600,14 +2593,11 @@ Example
 	sb.append(" World");
 	System.out.println(sb);   // Hello World
 
-
  -> StringBuilder
     ----------------
 	StringBuilder sb = new StringBuilder("Hello");
 	sb.append(" World");
 	System.out.println(sb);   // Hello World
-
-
 
 
 1. Use StringBuilder — most of the time
@@ -2663,7 +2653,7 @@ Thread 2 → 🔒 append() → unlock
 
 
 ----------------------------------
-ConcurrentModificationException
+-> ConcurrentModificationException
 -----------------------------------
 It usually happens when you modify a collection while iterating over it using an iterator or enhanced for loop.
 
@@ -2836,7 +2826,6 @@ HashMap
              ↓
           equals()
 
-
 IdentityHashMap
    |
    └── "Are these the EXACT SAME OBJECT?"
@@ -2904,8 +2893,6 @@ Output:
 							       Sort ascending
 
 
-
-
 -----------------------------
 Comparator — Custom Sorting
 ----------------------------
@@ -2936,6 +2923,7 @@ Student class does not need to implement Comparable.
 	    Comparator.comparing(s -> s.name)
 	);
 
+
 Sorting by Different Fields
 -------------------------------
 This is where Comparator becomes powerful.
@@ -2952,8 +2940,6 @@ This is where Comparator becomes powerful.
 			students.sort(
 			    Comparator.comparingInt(s -> s.age)
 			);
-
-
 
 Student.java
 --------------
@@ -2976,12 +2962,12 @@ public class Student {
 
 NameComparator.java
 ---------------------
-public class NameComparator implements Comparator<Student> {
-    @Override
-    public int compare(Student s1, Student s2) {
-        return s1.name.compareTo(s2.name);
-    }
-}
+	public class NameComparator implements Comparator<Student> {
+	    @Override
+	    public int compare(Student s1, Student s2) {
+	        return s1.name.compareTo(s2.name);
+	    }
+	}
 
 Main.java
 ----------
