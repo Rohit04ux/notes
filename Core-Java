@@ -2510,11 +2510,47 @@ flatMap(): Flattens nested structures
 	List<Integer> flat=list.stream().flatMap(List::stream).toList(); //[1,2,3,4]
 distinct():
 
+-------------------
+map() vs flatMap()
+-------------------
+	map() = one input → one output
+flatMap() = one input → multiple outputs, then flatten them
 
+map() — Transform each element
+-------------------------------
+List<String> names = List.of("rohit", "amit", "rahul");
+List<String> result = names.stream()
+        .map(String::toUpperCase)
+        .toList();
+System.out.println(result); //OUTPUT: [ROHIT, AMIT, RAHUL]
 
+flatMap() — Flatten nested data
+------------------------------------
+List<List<String>> names = List.of(
+        List.of("Rohit", "Amit"),
+        List.of("Rahul", "Raj"),
+        List.of("Ankit", "Vikas")
+);
 
+//This is a List of Lists:
+List<String> result = names.stream()
+        .flatMap(List::stream)
+        .toList();
 
+System.out.println(result);
+output:
+[
+   [Rohit, Amit],
+   [Rahul, Raj],
+   [Ankit, Vikas]
+]
 
+// If we want one single list:
+List<String> result = names.stream()
+        .flatMap(List::stream)
+        .toList();
+System.out.println(result);
+OUTPUT: [Rohit, Amit, Rahul, Raj, Ankit, Vikas]
 
 
 
