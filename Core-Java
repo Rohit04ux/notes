@@ -2568,6 +2568,56 @@ System.out.println(result);
 Output: [Java, is, easy, Spring, Boot, is, powerful]
 
 
+---------------------------------
+Arrays.asList() and List.of()
+---------------------------------
+Arrays.asList() and List.of()-> both create a List,
+
+Need array → fixed-size list : Arrays.asList()
+		 Need immutable list : List.of()
+		   Need mutable list : new ArrayList<>(Arrays.asList(...))
+
+Arrays.asList()
+-----------------
+List<String> list = Arrays.asList("A", "B", "C");
+list.set(0, "X");
+System.out.println(list); //output: [X, B, C]
+list.add("D");            // UnsupportedOperationException
+list.remove("B");         // UnsupportedOperationException
+
+List.of()
+------------
+List<String> list = List.of("A", "B", "C");
+list.set(0, "X");    // UnsupportedOperationException
+list.add("D");       // UnsupportedOperationException
+list.remove("B");    // UnsupportedOperationException
+List<String> list = List.of("A", null, "C"); //NullPointerException
+
+new ArrayList<>(Arrays.asList(...))
+------------------------------------
+String[] arr = {"A", "B", "C"};
+List<String> list = new ArrayList<>(Arrays.asList(arr));
+list.add("D");
+list.remove("A");
+System.out.println(list);
+
+
+Arrays.asList()
+    ↓
+		Array-backed
+		    ↓
+		set() ✅
+		add/remove ❌
+		null ✅
+		
+		List.of()
+		    ↓
+		Immutable
+		    ↓
+		set/add/remove ❌
+		null ❌
+
+
 -----------------------------------
 -> StringBuffer and StringBuilder
 ------------------------------------
