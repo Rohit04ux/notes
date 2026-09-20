@@ -10,7 +10,7 @@ class ClassName {
     // Methods
 }
 
-f
+
 -> new keyword - new Keyword Sends request to the class, & class creates Object. Once the Object is created, 
                  new keyword will get Object’s address in a reference variable.
 
@@ -70,7 +70,6 @@ public class VariablesDemo {
 	
 
 public class Student {
-
     int age = 22;          // Instance variable -> Heap
     String name = "John";  // Instance variable -> Heap
 
@@ -83,7 +82,6 @@ public class Student {
     }
 
     public static void main(String[] args) {
-
         Student s1 = new Student(); // s1 -> Stack, Object -> Heap
         int id = 101;               // Local variable -> Stack
 
@@ -158,9 +156,9 @@ package  ----> package com.example.project;
 
 
 Identifier	 _ and $ Allowed	   Recommended?
-Class Name	     ✅			Usually avoid both
+Class Name	     	 ✅			Usually avoid both
 Variable Name	     ✅			Prefer camelCase without _ or $
-Method Name	     ✅			Prefer camelCase without _ or $
+Method Name	     	 ✅			Prefer camelCase without _ or $
 Constant Name	     ✅			Use _; avoid $
 Package Name	     ✅			Technically allowed, but avoid both; use lowercase letters
 
@@ -170,9 +168,6 @@ Package Name	     ✅			Technically allowed, but avoid both; use lowercase lette
 void - void means a function does not return any value.
 return value
 return
-
-
-
 
 example
 ---------
@@ -1084,11 +1079,11 @@ class C implements A, B{
 Whenever a bad user input is given, it will halt the program execution abruptly. This is called
 as “exception”.
 
-try{
-
-}catch(){
-
-}
+	try{
+	
+	}catch(){
+	
+	}
 
 “printStackTrace()":- To know the exact line number where exception has occurred
 
@@ -1610,28 +1605,28 @@ Easier insertion, deletion, searching, and sorting
 
 Java 21+
 -----------
-Object                      (Class)
-   │
-   ▼
-Iterable<E>                 (Interface)
-   │
-   ▼
-Collection<E>               (Interface)
-   │
-   ▼
-SequencedCollection<E>      (Interface)
-   │
-   ▼
-List<E>                     (Interface)
-   │
-   ▼
-AbstractCollection<E>       (Abstract Class)
-   │
-   ▼
-AbstractList<E>             (Abstract Class)
-   │
-   ▼
-ArrayList<E>                (Class)
+	Object                      (Class)
+	   │
+	   ▼
+	Iterable<E>                 (Interface)
+	   │
+	   ▼
+	Collection<E>               (Interface)
+	   │
+	   ▼
+	SequencedCollection<E>      (Interface)
+	   │
+	   ▼
+	List<E>                     (Interface)
+	   │
+	   ▼
+	AbstractCollection<E>       (Abstract Class)
+	   │
+	   ▼
+	AbstractList<E>             (Abstract Class)
+	   │
+	   ▼
+	ArrayList<E>                (Class)
 
 
 arraylist
@@ -1972,30 +1967,29 @@ which is why it does not implement SequencedMap.
 ---------------
 TreeMap
 ---------------
-
-Map
- ├── SortedMap
- │     └── NavigableMap
- │            └── TreeMap
- └── SequencedMap
-       └── LinkedHashMap
+	Map
+	 ├── SortedMap
+	 │     └── NavigableMap
+	 │            └── TreeMap
+	 └── SequencedMap
+	       └── LinkedHashMap
 
 -----------------------
-   Map
-    │
-    ▼
-SequencedMap → Defines a map with a well-defined encounter sequence
-                (first, last, reverse traversal)
-    │
-    ▼
-SortedMap → Defines that keys are kept in sorted order
-    │
-    ▼
-NavigableMap → Adds navigation operations
-                (lower, floor, ceiling, higher, etc.)
-    │
-    ▼
- TreeMap→ Implementation of all the above
+	   Map
+	    │
+	    ▼
+	SequencedMap → Defines a map with a well-defined encounter sequence
+	                (first, last, reverse traversal)
+	    │
+	    ▼
+	SortedMap → Defines that keys are kept in sorted order
+	    │
+	    ▼
+	NavigableMap → Adds navigation operations
+	                (lower, floor, ceiling, higher, etc.)
+	    │
+	    ▼
+	 TreeMap→ Implementation of all the above
 ------------------------
 
 TreeMap is a class that implements the Map interface.
@@ -2004,10 +1998,10 @@ use red-black tree internally
 
 TreeMap key-features
 --------------------
-stores data -> key-value pair
-		keys-> unique,	null key     -> no
-	  values-> duplicate, null values-> multiple
-	  order -> maintain(sorted order -> ascending by default)
+stores data  -> key-value pair
+		keys -> unique,	null key      -> no
+	  values -> duplicate, null values -> multiple
+	   order -> maintain(sorted order  -> ascending by default)
 
 
 -> TreeMap implements both SortedMap and SequencedMap because they represent
@@ -2078,7 +2072,7 @@ LinkedHashMap<Integer,String> m = new LinkedHashMap<>();
 	m.put(5, "adam");
 	m.put(7, "stalling");
 
-System.out.println(m); 		   //{13=mike, 5=adam, 7=stalling}
+System.out.println(m); 		       //{13=mike, 5=adam, 7=stalling}
 System.out.println(m.reversed());  //{7=stalling, 5=adam, 13=mike}
 
 
@@ -2127,7 +2121,7 @@ Does not provide indexed access like a List.
 	    └── EnumSet
 
 
-----------------
+----------
 HashSet
 ----------
 doesn't in key:value pair
@@ -2315,8 +2309,86 @@ System.out.println(x);  **// x = [10, 1, 5, 7] ->**order is not guaranteed.
 System.out.println(y);
 
 
+----------------------
+# Cache Map in Java
+-----------------------
+CacheMap as a concept, it usually means a Map used to temporarily store frequently 
+accessed data so that we don't have to fetch or calculate the data again.
 
+Without cache:
+--------------
+		Request
+		   ↓
+		Database
+		   ↓
+		Get Employee
+		   ↓
+		Response
 
+with a cache map:
+------------------
+		Request
+		   ↓
+		Cache Map
+		   ↓
+		Is data available?
+		   ├── YES → Return data ⚡
+		   │
+		   └── NO → Database
+		              ↓
+		          Store in Cache
+		              ↓
+		           Response
+
+public class EmployeeCache {
+    private Map<Integer, String> cache = new HashMap<>();
+
+    public String getEmployee(int id) {
+        // Check cache first
+        if (cache.containsKey(id)) {
+            System.out.println("Data found in cache");
+            return cache.get(id);
+        }
+
+        // Suppose this data came from database
+        System.out.println("Fetching from database");
+
+        String employee = "Rohit";
+
+        // Store in cache
+        cache.put(id, employee);
+
+        return employee;
+    }
+
+    public static void main(String[] args) {
+        EmployeeCache cache = new EmployeeCache();
+
+        System.out.println(cache.getEmployee(101));
+        System.out.println(cache.getEmployee(101));
+    }
+}
+Output:
+-------
+		Fetching from database
+		Rohit
+		
+		Data found in cache
+		Rohit
+
+Important interview point
+--------------------------
+A HashMap itself is not automatically a cache.
+It can be used to implement a simple cache, but production applications normally need features such as:
+	- TTL — expire data after a certain time
+	- Maximum size
+	- Eviction — remove old/unused entries
+	- Thread safety
+	- Distributed caching
+For Spring Boot, you'll commonly encounter Spring Cache + Caffeine or Redis.
+
+Memory trick:
+Cache = Keep frequently needed data closer to the application → faster access → fewer database calls.
 
 
 
