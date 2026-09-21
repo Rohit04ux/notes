@@ -2689,6 +2689,34 @@ Arrays.asList()
 		set/add/remove ❌
 		null ❌
 
+------------------------------------------
+ Stream.toList() and Collectors.toList()
+------------------------------------------
+	Stream.toList() -> returns an unmodifiable List, while 
+Collectors.toList() -> generally returns a modifiable List.
+
+Stream.toList()
+-----------------
+List<String> names = Stream.of("A", "B", "C")
+        .toList();
+System.out.println(names); //[A, B, C]
+names.add("D"); //UnsupportedOperationException
+
+	Can add()?	   ❌	
+	Can remove()?  ❌	
+	Can set()?	   ❌	
+
+
+Collectors.toList()
+---------------------
+List<String> names = Stream.of("A", "B", "C")
+        .collect(Collectors.toList());
+names.add("D");
+System.out.println(names); //Output: [A, B, C, D]
+
+	add()?		Usually ✅
+	remove()?	Usually ✅
+	set()?		Usually ✅
 
 -----------------------------------
 -> StringBuffer and StringBuilder
