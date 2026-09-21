@@ -1,0 +1,56 @@
+                 MULTITHREADING
+                       │
+        ┌──────────────┴──────────────┐
+        ↓                             ↓
+      Thread                       Process
+        │
+        ↓
+  Thread Creation
+   ├── Thread class
+   └── Runnable
+        │
+        ↓
+  Thread Lifecycle
+   ├── NEW
+   ├── RUNNABLE
+   ├── BLOCKED
+   ├── WAITING
+   ├── TIMED_WAITING
+   └── TERMINATED
+        │
+        ↓
+  Thread Methods
+   ├── start()
+   ├── run()
+   ├── sleep()
+   ├── join()
+   └── interrupt()
+        │
+        ↓
+  Problems
+   ├── Race Condition
+   ├── Deadlock
+   └── Starvation
+        │
+        ↓
+  Thread Safety
+   ├── synchronized
+   ├── volatile
+   ├── Atomic classes
+   └── Lock / ReentrantLock
+        │
+        ↓
+  Thread Management
+   ├── ExecutorService
+   ├── Thread Pool
+   ├── Callable
+   └── Future
+        │
+        ↓
+  Advanced
+   ├── CompletableFuture
+   ├── ForkJoinPool
+   └── Virtual Threads
+
+
+
