@@ -37,6 +37,74 @@ The real trick: convert English → Stream operation
 | "no employee..."              | `noneMatch()`               |
 ---------------------------------------------------------------
 
+===============================================================================================================
+------------------------
+-> map() vs flatMap()
+------------------------
+	map() = one input → one output
+flatMap() = one input → multiple outputs, then flatten them
+
+map() — Transform each element
+-------------------------------
+	List<String> names = List.of("rohit", "amit", "rahul");
+	List<String> result = names.stream()
+	        .map(String::toUpperCase)
+	        .toList();
+	System.out.println(result); //OUTPUT: [ROHIT, AMIT, RAHUL]
+
+flatMap() — Flatten nested data
+------------------------------------
+	List<List<String>> names = List.of(
+	        List.of("Rohit", "Amit"),
+	        List.of("Rahul", "Raj"),
+	        List.of("Ankit", "Vikas")
+	);
+
+//This is a List of Lists:
+	List<String> result = names.stream()
+	        .flatMap(List::stream)
+	        .toList();
+System.out.println(result);
+OUTPUT: [
+		   [Rohit, Amit],
+		   [Rahul, Raj],
+		   [Ankit, Vikas]
+		]
+
+// If we want one single list:
+	List<String> result = names.stream()
+	        .flatMap(List::stream)
+	        .toList();
+	System.out.println(result);
+OUTPUT: [Rohit, Amit, Rahul, Raj, Ankit, Vikas]
+
+
+
+
+List<String> sentences = List.of(
+        "Java is easy",
+        "Spring Boot is powerful"
+);
+Using map()
+--------------
+List<String[]> result = sentences.stream()
+        .map(s -> s.split(" "))
+        .toList();
+Output: "Java is easy"            → ["Java", "is", "easy"]
+        "Spring Boot is powerful" → ["Spring", "Boot", "is", "powerful"]
+
+Using flatMap()
+-----------------
+List<String> result = sentences.stream()
+        .flatMap(s -> Arrays.stream(s.split(" ")))
+        .toList();
+System.out.println(result);
+Output: [Java, is, easy, Spring, Boot, is, powerful]
+=========================================================================================================
+
+
+
+
 Employee.java
 ------------------
 class Employee {
