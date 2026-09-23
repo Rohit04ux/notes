@@ -53,4 +53,353 @@
    └── Virtual Threads
 
 
+------
+Thread : A thread is a lightweight unit of execution inside a process.
+------
+public class Demo {
+    public static void main(String[] args) {
+        System.out.println("Main thread is running");
+        System.out.println(Thread.currentThread().getName());
+    }
+}
+OUTPUT:
+      Main thread is running
+      main
 
+note: Every Java application starts with a main thread.
+
+---------------------
+-> Creating a Thread
+---------------------
+Way 1: Extending Thread
+------------------------
+    class MyThread extends Thread {
+        @Override
+        public void run() {
+            System.out.println("My thread is running");
+        }
+    }
+    
+    public class Main {
+        public static void main(String[] args) {
+            MyThread t1 = new MyThread();
+            t1.start();
+        }
+    }
+
+
+Way 2: Implementing Runnable
+----------------------------
+class MyTask implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("Task is running");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyTask task = new MyTask();
+        Thread t1 = new Thread(task);
+        t1.start();
+    }
+}
+
+
+Which one should you prefer?
+------------------------------
+Usually: Runnable because Java supports single inheritance.
+  class MyTask extends SomeOtherClass implements Runnable { 
+  }
+
+This is possible, whereas: 
+      class MyTask extends Thread, SomeOtherClass
+is not possible.
+
+------------------
+-> start() vs run()
+-----------------
+
+class MyThread extends Thread {
+    @Override
+    public void run() {
+        System.out.println(Thread.currentThread().getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) 
+        MyThread t1 = new MyThread();
+        t1.start(); --------->// Thread 0
+        t1.run();------------>// main
+    }
+}
+
+start() -> creates a new thread.
+run()-> simply normal method call
+
+
+start()
+   ↓
+Creates new thread
+   ↓
+JVM calls run()
+
+
+run()
+   ↓
+Normal method call
+   ↓
+No new thread
+
+---------------
+->Thread Name 
+--------------
+class MyTask implements Runnable {
+    @Override
+    public void run() {
+        System.out.println(
+            "Running: " + Thread.currentThread().getName()
+        );
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Thread t1 = new Thread(new MyTask(), "Worker-1");
+        t1.start();
+    }
+}
+
+OUTPUT: Running: Worker-1
+
+we can also change the name this way
+      t1.setName("Payment-Thread");
+
+
+----------
+-> sleep()
+----------
+class MyTask implements Runnable {
+    @Override
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(i);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Thread t1 = new Thread(new MyTask());
+        t1.start();
+    }
+}
+
+OUTPUT:
+    1
+    2
+    3
+    4
+    5
+
+--------------
+-> join()
+------------
+class Demo extends Thread {
+    @Override
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("Child Thread: " + i);
+        }
+    }
+}
+
+class Main{
+    public static void main(String[] args) {
+        Demo t1 = new Demo();
+        t1.start();
+        System.out.println("Main Thread Finished");
+    }
+}
+Here, main and t1 execute independently.
+OUTPUT:
+      Child Thread: 1
+      Child Thread: 2
+      Main Thread Finished
+      Child Thread: 3
+      Child Thread: 4
+      Child Thread: 5
+
+class Main{
+    public static void main(String[] args) throws InterruptedException {
+        Demo t1 = new Demo();
+        t1.start();
+        t1.join();   // Main thread waits for t1
+        System.out.println("Main Thread Finished");
+    }
+}
+OUTPUT:
+      Child Thread: 1
+      Child Thread: 2
+      Child Thread: 3
+      Child Thread: 4
+      Child Thread: 5
+      Main Thread Finished
+
+
+Real-world example
+------------------
+Suppose you have:
+    Step 1: Download file
+    Step 2: Process file
+    Step 3: Save result
+
+class DownloadTask extends Thread {
+    @Override
+    public void run() {
+        System.out.println("Downloading file...");
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        System.out.println("Download completed");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        DownloadTask download = new DownloadTask();
+            download.start();
+            download.join();  // Wait for download
+        System.out.println("Now processing file...");
+        System.out.println("File processing completed");
+    }
+}
+
+Output:
+      Downloading file...
+      Download completed
+      Now processing file...
+      File processing completed
+
+Without join():
+      Downloading file...
+      Now processing file...
+      File processing completed
+      Download completed
+
+
+--------------------
+-> Multiple Threads
+--------------------
+class Task implements Runnable {
+    private String name;
+
+    Task(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(
+                name + " : " + i
+            );
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Thread t1 = new Thread(new Task("Thread-1"));
+        Thread t2 = new Thread(new Task("Thread-2"));
+              t1.start();
+              t2.start();
+    }
+}
+
+Possible OUTPUT:
+          Thread-1 : 1
+          Thread-2 : 1
+          Thread-1 : 2
+          Thread-1 : 3
+          Thread-2 : 2
+          Thread-2 : 3
+          ...
+
+
+-----------------
+-> Race Condition
+------------------
+A race condition happens when multiple threads access and modify 
+the same shared data at the same time, and the final result depends
+on which thread executes first.
+
+class Counter {
+    int count = 0;
+
+    void increment() {
+        count++;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        Counter counter = new Counter();
+        Thread t1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                counter.increment();
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                counter.increment();
+            }
+        });
+
+        t1.start();
+        t2.start();
+
+        t1.join();
+        t2.join();
+        System.out.println(counter.count);
+    }
+}
+
+any value less <=2000
+OUTPUT: 
+1811
+
+Excpected OUtput:
+2000
+
+solution: first
+----------------
+class Counter {
+    int count = 0;
+
+    synchronized void increment() {
+        count++;
+    }
+}
+
+solution: second
+----------------
+class Counter {
+    AtomicInteger count = new AtomicInteger(0);
+
+    void increment() {
+        count.incrementAndGet();
+    }
+}
+
+then:
+    System.out.println(counter.count.get());
