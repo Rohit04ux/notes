@@ -5,13 +5,27 @@ Decorators
 Decorators in TypeScript are a feature that lets you modify the behavior of classes, methods, properties, or parameters
 
 Their are 4 types of decorators
+--------------------------------
+    1. class decorator
+    2. property decorator
+    3. method decorator
+    4. parameter decorator
 
-1. class decorator
-2. property decorator
-3. method decorator
-4. parameter decorator
+
+                 DECORATORS
+                     │
+       ┌─────────────┼─────────────┐
+       ↓             ↓             ↓
+    Class          Property      Method
+    @Component     @Input()      @HostListener()                                     
+                     ↓
+                  Parameter
+                  @Inject()
 
 
+-----------------
+Angular Commands
+-----------------
 ng serve
 ng build
 ng test
@@ -53,7 +67,7 @@ Angular Project
 |    |      └── app.routes.ts
 |    |      └── app.spec.ts
 │    |
-|    ├── index.html--------→ Main HTML-------------------->first page to load in browser
+|    ├── index.html--------→ Main HTML--------------------> first page to load in browser
 |    ├── main.ts-----------→ Starting point
 |    └── styles.css--------→ Global CSS
 |
@@ -83,6 +97,9 @@ app.ts
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
+export class UserComponent {----------------->Data + Logic
+  selectedUser=DUMMY_USERS[randomIndex];
+}
 
         @Component
            ↓
@@ -92,6 +109,8 @@ app.ts
         template ───────→ HTML
         style ──────────→ CSS
         class ──────────→ Data + Logic
+
+
 
 
 Inject Component
@@ -110,6 +129,77 @@ AppComponent
              ↓
          LoginComponent
 
+
+----------------------------------
+Create component using Angular CLI
+----------------------------------
+ng generate component user
+            or
+ng g c user
+
+
+And you will see the following files getting created
+      CREATE src/app/user/user.spec.ts ---> Used for automated testing, delete for now(We will discuss in my latter lecture)
+      CREATE src/app/user/user.ts
+      CREATE src/app/user/user.css
+      CREATE src/app/user/user.html
+
+
+---------------------------------------------
+-> Data Binding (Ways to Data Transfer)
+---------------------------------------------
+
+                                 DATA BINDING
+                                      │
+                   ┌──────────────────┼─────────────────┐
+                   ↓                  ↓                 ↓
+               TS → HTML          HTML → TS          TS ↔ HTML
+                   │                  │                 │
+            Interpolation       Event Binding     Two-Way Binding
+                   │
+           Property Binding
+
+-----------------------------------------------------------------------
+| Binding              | Direction   |  Syntax  |      Example        |
+| -------------------- | ----------- | -------- | ------------------- |
+| Interpolation        | TS → HTML   |  {{ }}   |  {{name}}           |
+| Property Binding     | TS → HTML   |   [ ]    |  [src]="imageUrl"   |
+| Event Binding        | HTML → TS   |   ( )    |  (click)="save()"   |
+| Two-Way Binding      | TS ↔ HTML   |  [( )]   |  [(ngModel)]="name" |
+-----------------------------------------------------------------------
+
+
+Data Interpolation: Data from Typescript -> html
+-------------------
+            Interpolation
+             {{ name }}
+                 ↓
+            Display as text
+
+
+Property Binding: Data from Typescript -> html
+------------------
+              [src]="imageUrl"
+                     ↓
+            Bind to DOM property
+
+
+
+
+----------------------------------
+AppComponent TREE STRUCTURE
+----------------------------------
+      index.html
+      │
+      └── <app-root>
+            │
+            └── AppComponent
+                  │
+                  ├── HeaderComponent
+                  │     └── <app-header>
+                  │
+                  └── UserComponent
+                        └── <app-user>
 
 
 
