@@ -1,0 +1,158 @@
+#####################
+Decorators 
+######################
+
+Decorators in TypeScript are a feature that lets you modify the behavior of classes, methods, properties, or parameters
+
+Their are 4 types of decorators
+
+1. class decorator
+2. property decorator
+3. method decorator
+4. parameter decorator
+
+
+ng serve
+ng build
+ng test
+
+
+my-app/
+│
+├── node_modules/
+│
+├── public/
+│
+├── src/
+│   ├── app/
+│   │   ├── app.component.ts
+│   │   ├── app.component.html
+│   │   ├── app.component.css
+│   │   └── app.config.ts
+│   │
+│   ├── index.html
+│   ├── main.ts
+│   └── styles.css
+│
+├── angular.json
+├── package.json
+├── package-lock.json
+├── tsconfig.json
+└── README.md
+
+----------------------------------------
+Angular Project
+│
+├── public--------→ Static files
+├── src
+│    ├──> app---------------------→ Application code
+│    |      ├── app.config.ts
+│    |      ├── app.ts
+│    |      ├── app.html
+│    |      └── app.css
+|    |      └── app.routes.ts
+|    |      └── app.spec.ts
+│    |
+|    ├── index.html--------→ Main HTML-------------------->first page to load in browser
+|    ├── main.ts-----------→ Starting point
+|    └── styles.css--------→ Global CSS
+|
+├── package.json  → Dependencies
+├── angular.json  → Angular CLI config
+└── tsconfig.json → TypeScript config
+
+-----------------------
+-> Component in Angular
+-----------------------
+components-> 3 types of file
+
+UserComponent
+-------------
+      |
+      |----> TypeScript → Logic & Data
+      |----> HTML       → UI
+      +----> CSS        → Styling
+
+
+app.ts
+--------
+@Component--------------->Decorator
+({
+  selector: 'app-root',
+  imports: [HeaderComponent],
+  templateUrl: './app.html',
+  styleUrl: './app.css'
+})
+
+        @Component
+           ↓
+        Metadata
+           ↓
+        selector ───────→ <app-user>
+        template ───────→ HTML
+        style ──────────→ CSS
+        class ──────────→ Data + Logic
+
+
+Inject Component
+----------------
+index.html
+     |
+     | <app-root>
+     ↓
+AppComponent
+     |
+     |── <app-header>
+     |       ↓
+     |   HeaderComponent
+     |
+     └── <app-login>
+             ↓
+         LoginComponent
+
+
+
+
+Angular Component
+│
+├── 1. What is a Component?
+├── 2. Component structure
+├── 3. @Component decorator
+├── 4. Selector
+├── 5. Template
+├── 6. Styles
+├── 7. Component class
+│
+├── 8. Data Binding ⭐
+│   ├── Interpolation
+│   ├── Property binding
+│   ├── Event binding
+│   └── Two-way binding
+│
+├── 9. Communication between Components ⭐⭐⭐
+│   ├── @Input()
+│   ├── @Output()
+│   ├── EventEmitter
+│   └── Service-based communication
+│
+├── 10. Lifecycle Hooks ⭐⭐
+│   ├── ngOnInit()
+│   ├── ngOnChanges()
+│   ├── ngDoCheck()
+│   ├── ngAfterViewInit()
+│   └── ngOnDestroy()
+│
+├── 11. View / Content concepts
+│   ├── ViewChild
+│   └── ContentChild
+│
+├── 12. Standalone Components ⭐⭐⭐
+│   ├── imports
+│   ├── standalone architecture
+│   └── bootstrapApplication()
+│
+└── 13. Change Detection ⭐⭐
+    ├── Default
+    └── OnPush
+
+
