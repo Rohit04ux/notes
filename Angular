@@ -202,6 +202,74 @@ AppComponent TREE STRUCTURE
                         └── <app-user>
 
 
+-------------------------------
+Signals (Angular 16 and Above)
+-------------------------------
+Option 1: zone.js is a library (Angular 2) that helps Angular know when 
+          something has changed so it can automatically update the UI.
+        
+                    Button Click / HTTP Response / Timer
+                                    ↓
+                                 Zone.js
+                                    ↓
+                          Angular Change Detection
+                                    ↓
+                           Checks component tree
+
+
+Option 2: Think of a signal as a variable that Angular automatically tracks.
+          When the signal value changes, Angular knows exactly what needs to be 
+          updated in the UI.
+
+                        count signal changed
+                                ↓
+           Angular knows which component/template uses count
+                                ↓
+                   Updates only that part of the UI
+
+In the context of UI updates and change detection, Signals are generally more
+efficient than the traditional Zone.js-based approach.
+
+
+Signals
+   ├── signal()
+   ├── Reading a signal
+   ├── set()
+   ├── update()
+   ├── computed()
+   └── effect()
+
+
+/*------------------------ with signal-------------------- */
+user.ts
+----------
+import { Component,signal,computed } from '@angular/core';
+
+const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length);
+
+export class UserComponent {
+  selectedUser=signal(DUMMY_USERS[randomIndex]); // reactive state
+
+  onSelectedUser(){
+    const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length);
+    this.selectedUser.set(DUMMY_USERS[randomIndex]);
+  }
+
+  imagePath=computed(()=> 'users/' + this.selectedUser().avatar);
+}
+
+user.html
+---------
+<div>
+    <button (click)="onSelectedUser()">     <!-- Event Binding -->
+        <img 
+            [src]="imagePath()"
+            [alt]="selectedUser().name"
+        />
+        <span>{{ selectedUser().name }}</span>
+    </button>
+</div>
+-----------------------------------------------------------------
 
 Angular Component
 │
@@ -219,30 +287,39 @@ Angular Component
 │   ├── Event binding
 │   └── Two-way binding
 │
-├── 9. Communication between Components ⭐⭐⭐
+├── 9. Signals ⭐⭐⭐
+│   ├── signal()
+│   ├── Reading a signal
+│   ├── set()
+│   ├── update()
+│   ├── computed()
+│   └── effect()
+│
+├── 10. Communication between Components ⭐⭐⭐
 │   ├── @Input()
 │   ├── @Output()
 │   ├── EventEmitter
 │   └── Service-based communication
 │
-├── 10. Lifecycle Hooks ⭐⭐
+├── 11. Lifecycle Hooks ⭐⭐
 │   ├── ngOnInit()
 │   ├── ngOnChanges()
 │   ├── ngDoCheck()
 │   ├── ngAfterViewInit()
 │   └── ngOnDestroy()
 │
-├── 11. View / Content concepts
+├── 12. View / Content concepts
 │   ├── ViewChild
 │   └── ContentChild
 │
-├── 12. Standalone Components ⭐⭐⭐
+├── 13. Standalone Components ⭐⭐⭐
 │   ├── imports
-│   ├── standalone architecture
+│   ├── Standalone architecture
 │   └── bootstrapApplication()
 │
-└── 13. Change Detection ⭐⭐
+└── 14. Change Detection ⭐⭐
     ├── Default
-    └── OnPush
+    ├── OnPush
+    └── Signals + Change Detection
 
 
