@@ -61,8 +61,8 @@ Angular Project
 ├── src
 │    ├──> app---------------------→ Application code
 │    |      ├── app.config.ts
-│    |      ├── app.ts
 │    |      ├── app.html
+│    |      ├── app.ts
 │    |      └── app.css
 |    |      └── app.routes.ts
 |    |      └── app.spec.ts
@@ -78,7 +78,7 @@ Angular Project
 -----------------------
 -> Component in Angular
 -----------------------
-components-> 3 types of file
+components-> 3 types of files
 
 UserComponent
 -------------
@@ -269,6 +269,34 @@ user.html
         <span>{{ selectedUser().name }}</span>
     </button>
 </div>
+
+
+
+------------------------------------
+ Communication between Components 
+-------------------------------------
+   ├── @Input()
+   ├── @Output()
+   ├── EventEmitter
+   └── Service-based communication
+
+@Input
+--------
+            Parent Component
+                  |
+                  |  data (@Input)
+                  ↓
+            Child Component
+
+
+@Output
+---------
+            Child Component
+                  |
+                  |  data (@Output)
+                  ↓
+            Parent Component
+
 -----------------------------------------------------------------
 
 Angular Component
