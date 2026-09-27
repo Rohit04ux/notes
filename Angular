@@ -26,6 +26,7 @@ Their are 4 types of decorators
 -----------------
 Angular Commands
 -----------------
+ng new first-angular-app
 ng serve
 ng build
 ng test
@@ -287,6 +288,94 @@ user.html
                   |  data (@Input)
                   ↓
             Child Component
+
+src
+ |-> app(folder)
+         |-> app.css
+         |-> app.html
+         |-> app.ts
+         |-> child(folder)
+                |-> child.css
+                |->child.html
+                |-> child.ts
+
+                 app.ts
+        ┌─────────────────────┐
+        │ userName = 'Rohit'  │  
+        └──────────┬──────────┘
+                   │
+                   │
+                   ↓
+                app.html
+        ┌─────────────────────────┐
+        │ <app-child              │
+        │   [name]="userName">    │
+        │ </app-child>            │
+        └──────────┬──────────────┘
+                   │
+                   │ name = "Rohit"
+                   ↓
+                child.ts
+        ┌─────────────────────────┐
+        │ @Input() name!: string; │
+        └──────────┬──────────────┘
+                   │
+                   ↓
+              child.html
+        ┌─────────────────────────┐
+        │ Hello {{ name }}        │
+        └─────────────────────────┘
+                   │
+                   ↓
+             Hello Rohit
+
+app.ts
+---------
+user = {
+  name: 'Rohit',
+  email: 'rohit@gmail.com'
+};
+app.html
+--------
+ <app-child [user]="user"> </app-child>    
+child.ts
+-------
+@Input() user!: {
+  name: string;
+  email: string;
+};
+child.html
+----------
+<h2>Hello {{ user.name }}</h2>
+<h2>Your email id is {{ user.email }}</h2>
+                 │
+                 ↓
+             Hello Rohit
+        Your email id is rohit@gmail.com
+
+
+     Data ->  parent.ts   -> child.ts   
+1. String -> name = 'Rohit'; 
+          -> @Input() name!: string;
+2. Number -> age=23; 
+          -> @Input() age!:number
+3. Boolean-> isLogged=true;
+          -> @Input() isLoggedIn!:boolean;
+4. Object -> user={name:'Rohit',email:'rohit@gmail.com'}; 
+          -> @Input() user@:{name:string,email:string;};
+5. Array-> users=['Rohit','Rahul','Amit']; 
+        -> @Input() users!:string[];
+6. Array of Objects
+    users = [
+      { id: 1, name: 'Rohit' },
+      { id: 2, name: 'Rahul' },
+      { id: 3, name: 'Amit' }
+    ];
+
+    @Input() users!: {
+      id: number;
+      name: string;
+    }[];
 
 
 @Output
