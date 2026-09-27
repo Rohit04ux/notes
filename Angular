@@ -395,7 +395,7 @@ child.html
         │ sendMessage() {                 │
         │   this.messageEvent.emit(       │
         │     'Hello Parent!'             │
-        │   );                             │
+        │   );                            │
         │ }                               │
         └──────────────┬──────────────────┘
                        │
@@ -444,27 +444,67 @@ child.html
                  Hello Parent!
 
 
-
+------------------------------------------
+-> Older Angular syntax Vs Modern Angular
+------------------------------------------
+-------------------------------------------------------------
+| Purpose      | Older syntax              | Modern Angular |
+| ------------ | ------------------------- | -------------- |
+| Loop         | `*ngFor`                  | `@for`         |
+| If condition | `*ngIf`                   | `@if`          |
+| Else         | `else` with `ng-template` | `@else`        |
+| Switch       | `*ngSwitch`               | `@switch`      |
+| Case         | `*ngSwitchCase`           | `@case`        |
+| Default      | `*ngSwitchDefault`        | `@default`     |
+| Empty loop   | —                         | `@empty`       |
+-------------------------------------------------------------
 
 -----------------------------------------------------------------
 
 Angular Component
 │
 ├── 1. What is a Component?
-├── 2. Component structure
-├── 3. @Component decorator
+│
+├── 2. Component Structure
+│   ├── Component class
+│   ├── Template
+│   ├── Styles
+│   └── Metadata
+│
+├── 3. @Component Decorator
+│   ├── selector
+│   ├── template / templateUrl
+│   ├── styles / styleUrl
+│   └── imports
+│
 ├── 4. Selector
+│   ├── Element selector
+│   ├── Attribute selector
+│   └── Class selector
+│
 ├── 5. Template
+│
 ├── 6. Styles
-├── 7. Component class
 │
-├── 8. Data Binding ⭐
+├── 7. Component Class
+│
+├── 8. Data Binding ⭐⭐⭐
 │   ├── Interpolation
-│   ├── Property binding
-│   ├── Event binding
-│   └── Two-way binding
+│   ├── Property Binding
+│   ├── Event Binding
+│   └── Two-way Binding
 │
-├── 9. Signals ⭐⭐⭐
+├── 9. Template Control Flow ⭐⭐⭐
+│   ├── @if
+│   ├── @else
+│   ├── @else if
+│   ├── @for
+│   ├── @empty
+│   ├── @switch
+│   ├── @case
+│   └── @default
+│
+├── 10. Signals ⭐⭐⭐
 │   ├── signal()
 │   ├── Reading a signal
 │   ├── set()
@@ -472,31 +512,42 @@ Angular Component
 │   ├── computed()
 │   └── effect()
 │
-├── 10. Communication between Components ⭐⭐⭐
-│   ├── @Input()
-│   ├── @Output()
+├── 11. Component Communication ⭐⭐⭐
+│   ├── Parent → Child
+│   │   └── @Input / input()
+│   │
+│   ├── Child → Parent
+│   │   └── @Output / output()
+│   │
 │   ├── EventEmitter
 │   └── Service-based communication
 │
-├── 11. Lifecycle Hooks ⭐⭐
+├── 12. Lifecycle Hooks ⭐⭐
 │   ├── ngOnInit()
 │   ├── ngOnChanges()
 │   ├── ngDoCheck()
 │   ├── ngAfterViewInit()
+│   ├── ngAfterViewChecked()
 │   └── ngOnDestroy()
 │
-├── 12. View / Content concepts
+├── 13. View / Content Concepts ⭐⭐
 │   ├── ViewChild
-│   └── ContentChild
+│   ├── ViewChildren
+│   ├── ContentChild
+│   └── ContentChildren
 │
-├── 13. Standalone Components ⭐⭐⭐
+├── 14. Standalone Components ⭐⭐⭐
+│   ├── standalone architecture
 │   ├── imports
-│   ├── Standalone architecture
 │   └── bootstrapApplication()
 │
-└── 14. Change Detection ⭐⭐
-    ├── Default
-    ├── OnPush
-    └── Signals + Change Detection
-
-
+├── 15. Change Detection ⭐⭐
+│   ├── Default
+│   ├── OnPush
+│   └── Signals + Change Detection
+│
+└── 16. Directives ⭐⭐⭐
+    ├── Attribute Directives
+    ├── Structural Directives
+    ├── Custom Directives
+    └── Built-in Directives
