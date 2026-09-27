@@ -386,6 +386,66 @@ child.html
                   ↓
             Parent Component
 
+
+                 child.ts
+        ┌─────────────────────────────────┐
+        │ @Output() messageEvent =        │
+        │   new EventEmitter<string>();   │
+        │                                 │
+        │ sendMessage() {                 │
+        │   this.messageEvent.emit(       │
+        │     'Hello Parent!'             │
+        │   );                             │
+        │ }                               │
+        └──────────────┬──────────────────┘
+                       │
+                       │ Child emits event
+                       │ "Hello Parent!"
+                       ↓
+                 child.html
+        ┌───────────────────────────────┐
+        │ <button (click)="sendMessage()">│
+        │   Send Message                │
+        │ </button>                     │
+        └──────────────┬────────────────┘
+                       │
+                       │ click
+                       ↓
+              @Output() event
+                       │
+                       │ messageEvent
+                       ↓
+                 app.html
+        ┌──────────────────────────────────┐
+        │ <app-child                       │
+        │   (messageEvent)="receiveMessage(│
+        │      $event)">                   │
+        │ </app-child>                     │
+        │                                  │
+        │ {{ message }}                    │
+        └──────────────┬───────────────────┘
+                       │
+                       │ $event = "Hello Parent!"
+                       ↓
+                    app.ts
+        ┌─────────────────────────────────┐
+        │ message = '';                   │
+        │                                 │
+        │ receiveMessage(message: string) │
+        │ {                               │
+        │   this.message = message;       │
+        │ }                               │
+        └──────────────┬──────────────────┘
+                       │
+                       ↓
+                 {{ message }}
+                       │
+                       ↓
+                 Hello Parent!
+
+
+
+
 -----------------------------------------------------------------
 
 Angular Component
