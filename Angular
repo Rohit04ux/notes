@@ -520,94 +520,240 @@ export interface T{
 
 
 
-
-Angular Component
+Angular
 │
-├── 1. What is a Component?
+├── 1. What is Angular?
+│   ├── Framework vs Library
+│   ├── Angular architecture
+│   └── Angular application flow
 │
-├── 2. Component Structure
-│   ├── Component class
-│   ├── Template
-│   ├── Styles
-│   └── Metadata
+├── 2. Angular Project Structure
+│   ├── app.ts
+│   ├── app.html
+│   ├── app.css
+│   ├── app.config.ts
+│   ├── app.routes.ts
+│   └── main.ts
 │
-├── 3. @Component Decorator
-│   ├── selector
-│   ├── template / templateUrl
-│   ├── styles / styleUrl
-│   └── imports
+├── 3. Component ⭐⭐⭐
+│   ├── What is a Component?
+│   ├── Component Structure
+│   │   ├── Component class
+│   │   ├── Template
+│   │   ├── Styles
+│   │   └── Metadata
+│   │
+│   └── @Component Decorator
+│       ├── selector
+│       ├── template / templateUrl
+│       ├── styles / styleUrl
+│       └── imports
 │
-├── 4. Selector
+├── 4. Selectors
 │   ├── Element selector
 │   ├── Attribute selector
 │   └── Class selector
 │
-├── 5. Template
+├── 5. Templates
+│   ├── Template syntax
+│   ├── Expressions
+│   ├── Interpolation
+│   ├── Property binding
+│   ├── Event binding
+│   └── Two-way binding
 │
-├── 6. Styles
-│
-├── 7. Component Class
-│
-├── 8. Data Binding ⭐⭐⭐
+├── 6. Data Binding ⭐⭐⭐
 │   ├── Interpolation
 │   ├── Property Binding
 │   ├── Event Binding
 │   └── Two-way Binding
 │
-├── 9. Template Control Flow ⭐⭐⭐
+├── 7. Template Control Flow ⭐⭐⭐
 │   ├── @if
-│   ├── @else
 │   ├── @else if
+│   ├── @else
 │   ├── @for
 │   ├── @empty
 │   ├── @switch
 │   ├── @case
 │   └── @default
 │
-├── 10. Signals ⭐⭐⭐
+├── 8. Signals ⭐⭐⭐
 │   ├── signal()
-│   ├── Reading a signal
+│   ├── Reading signals
 │   ├── set()
 │   ├── update()
 │   ├── computed()
 │   └── effect()
 │
-├── 11. Component Communication ⭐⭐⭐
+├── 9. Component Communication ⭐⭐⭐
 │   ├── Parent → Child
-│   │   └── @Input / input()
+│   │   ├── @Input()
+│   │   └── input()
 │   │
 │   ├── Child → Parent
-│   │   └── @Output / output()
+│   │   ├── @Output()
+│   │   └── output()
 │   │
 │   ├── EventEmitter
 │   └── Service-based communication
 │
+├── 10. Dependency Injection ⭐⭐⭐
+│   ├── What is Dependency Injection?
+│   ├── inject()
+│   ├── Providers
+│   ├── InjectionToken
+│   └── Provider scopes
+│
+├── 11. Services ⭐⭐⭐
+│   ├── What is a Service?
+│   ├── @Injectable()
+│   ├── providedIn: 'root'
+│   ├── Creating services
+│   ├── Sharing data between components
+│   └── Business logic in services
+│
 ├── 12. Lifecycle Hooks ⭐⭐
-│   ├── ngOnInit()
 │   ├── ngOnChanges()
+│   ├── ngOnInit()
 │   ├── ngDoCheck()
+│   ├── ngAfterContentInit()
+│   ├── ngAfterContentChecked()
 │   ├── ngAfterViewInit()
 │   ├── ngAfterViewChecked()
 │   └── ngOnDestroy()
 │
-├── 13. View / Content Concepts ⭐⭐
+├── 13. View & Content Queries ⭐⭐
 │   ├── ViewChild
 │   ├── ViewChildren
 │   ├── ContentChild
 │   └── ContentChildren
 │
-├── 14. Standalone Components ⭐⭐⭐
-│   ├── standalone architecture
-│   ├── imports
-│   └── bootstrapApplication()
+├── 14. Directives ⭐⭐⭐
+│   ├── What is a Directive?
+│   ├── Attribute Directives
+│   ├── Built-in Directives
+│   │   ├── ngClass
+│   │   ├── ngStyle
+│   │   ├── ngModel
+│   │   └── etc.
+│   ├── Custom Attribute Directives
+│   └── Host binding / Host listener
 │
-├── 15. Change Detection ⭐⭐
-│   ├── Default
+├── 15. Pipes ⭐⭐⭐
+│   ├── What is a Pipe?
+│   ├── Built-in Pipes
+│   │   ├── date
+│   │   ├── currency
+│   │   ├── number
+│   │   ├── percent
+│   │   ├── uppercase
+│   │   ├── lowercase
+│   │   ├── json
+│   │   └── async
+│   ├── Pipe parameters
+│   ├── Chaining pipes
+│   └── Custom Pipes
+│
+├── 16. Forms ⭐⭐⭐
+│   ├── Template-driven Forms
+│   │   ├── ngForm
+│   │   ├── ngModel
+│   │   └── Validation
+│   │
+│   └── Reactive Forms
+│       ├── FormControl
+│       ├── FormGroup
+│       ├── FormArray
+│       ├── Validators
+│       ├── Custom Validators
+│       └── FormBuilder
+│
+├── 17. Routing ⭐⭐⭐
+│   ├── Router
+│   ├── Routes
+│   ├── routerLink
+│   ├── router-outlet
+│   ├── Route Parameters
+│   ├── Query Parameters
+│   ├── Nested Routes
+│   ├── Lazy Loading
+│   ├── Route Guards
+│   └── Navigation
+│
+├── 18. HTTP & REST API ⭐⭐⭐
+│   ├── HttpClient
+│   ├── GET
+│   ├── POST
+│   ├── PUT
+│   ├── PATCH
+│   ├── DELETE
+│   ├── Request Headers
+│   ├── Query Parameters
+│   ├── Error Handling
+│   └── HTTP Interceptors
+│
+├── 19. RxJS ⭐⭐⭐
+│   ├── Observable
+│   ├── Observer
+│   ├── Subscription
+│   ├── Subject
+│   ├── BehaviorSubject
+│   ├── Operators
+│   │   ├── map
+│   │   ├── filter
+│   │   ├── tap
+│   │   ├── switchMap
+│   │   ├── mergeMap
+│   │   ├── concatMap
+│   │   ├── exhaustMap
+│   │   ├── debounceTime
+│   │   └── catchError
+│   └── Observable ↔ Signal
+│
+├── 20. Change Detection ⭐⭐
+│   ├── What is Change Detection?
+│   ├── Default strategy
 │   ├── OnPush
-│   └── Signals + Change Detection
+│   ├── Signals + Change Detection
+│   └── Zone-based vs Zoneless
 │
-└── 16. Directives ⭐⭐⭐
-    ├── Attribute Directives
-    ├── Structural Directives
-    ├── Custom Directives
-    └── Built-in Directives
+├── 21. Standalone Components ⭐⭐⭐
+│   ├── Standalone architecture
+│   ├── imports
+│   ├── Providers
+│   ├── bootstrapApplication()
+│   └── app.config.ts
+│
+├── 22. Advanced Component Concepts ⭐⭐
+│   ├── Host elements
+│   ├── Host bindings
+│   ├── Host listeners
+│   ├── Dynamic components
+│   ├── ng-content
+│   ├── Content projection
+│   └── Component composition
+│
+├── 23. State Management ⭐⭐
+│   ├── Component state
+│   ├── Shared service state
+│   ├── Signals
+│   ├── RxJS state
+│   └── NgRx
+│
+├── 24. Angular Architecture ⭐⭐⭐
+│   ├── Components
+│   ├── Services
+│   ├── Models / Interfaces
+│   ├── API layer
+│   ├── Routing
+│   ├── Guards
+│   ├── Interceptors
+│   └── Feature-based structure
+│
+└── 25. Testing ⭐⭐
+    ├── Unit Testing
+    ├── Component Testing
+    ├── Service Testing
+    ├── HTTP Testing
+    └── Angular TestBed
