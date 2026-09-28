@@ -461,6 +461,62 @@ child.html
 
 -----------------------------------------------------------------
 
+-----------------
+-> file.model.ts
+-----------------
+A model defines the structure/shape of a data object.
+
+"A model file defines the expected structure of application data.
+When we receive JSON from an API, we can use the corresponding
+TypeScript interface or type to provide type safety when working
+with that data."
+
+
+src
+ |-> app(folder)
+         |-> app.css
+         |-> app.html
+         |-> app.ts
+         |
+         |-> tasks(folder)
+         |       |-> tasks.css
+         |       |-> tasks.html
+         |       |-> tasks.ts
+         |       |-> tasks.model.ts    
+         |
+         |-> user(folder)
+                        |-> user.css
+                        |-> user.html
+                        |-> user.ts
+                        |-> user.model.ts
+
+user.model.ts
+--------------
+export interface User {
+  id: string;
+  name: string;
+  avatar: string;
+}
+
+user.ts
+----------
+import { User } from './user.model';
+
+
+task.model.ts
+-------------
+export interface T{
+  id:string,
+  userId:string,
+  title:string,
+  summary:string,
+  dueDate:string
+}
+
+
+
+
+
 Angular Component
 │
 ├── 1. What is a Component?
