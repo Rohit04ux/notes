@@ -184,6 +184,10 @@ Property Binding: Data from Typescript -> html
                      ↓
             Bind to DOM property
 
+Property & event Binding: 
+------------------------
+two-way binding=> data goes backend -> backend to frontend
+ngModel - use-> import FormsModule -in .ts file
 
 
 
