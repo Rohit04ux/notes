@@ -518,8 +518,82 @@ export interface T{
 }
 
 
+----------------------------
+-> Pipe in Angular
+----------------------------
+A Pipe in Angular is a feature used to transform and format data in the template
+without modifying the original data.
+
+Angular Pipes
+│
+├── Built-in Pipes
+│   ├── uppercase
+│   ├── lowercase
+│   ├── date
+│   ├── currency
+│   ├── number
+│   └── json
+│
+└── Custom Pipes
+    └── Created by developers
 
 
+src
+ |-> app(folder)
+         |-> app.css
+         |-> app.html
+         |-> app.ts ------------------>(imports: [UpperCasePipe,DatePipe,CurrencyPipe,PercentPipe,DecimalPipe,ReversePipe])
+         |-> reverse.pipe.ts
+
+app.ts
+------
+export class App {
+  value:string = 'angular'
+  today:Date = new Date();
+  amount:number=1500;
+  marks:number=0.85;
+
+  customValue:string='angular';
+}
+
+
+reverse.pipe.ts
+----------------
+@Pipe({
+    name: 'reverse',
+    standalone:true
+})
+export class ReversePipe implements PipeTransform{
+    transform(value:string): string {
+        if(!value) return '';
+        return value.split('').reverse().join('');
+    }
+}
+
+
+app.html
+---------
+<!-- Built-in pipes without parameters -->
+<p>{{value | uppercase}}</p>
+<p>{{marks | percent}}</p>
+
+
+<!-- Built-in pipes with parameters -->
+<p>{{today | date:'dd/MM/yyyy'}}</p>
+<p>{{amount | currency:'INR'}}</p>
+
+
+           <!-- Pipe chaining -->
+<!-- Multiple pipes can be applied to the same value -->
+<p>{{today | date:'fullDate' | uppercase}}</p>
+
+
+            <!-- Custom pipe -->
+<!-- Custom pipe created by the developer -->
+<p>{{value | reverse}}</p>
+
+
+-------------------------------------------------------------------------------------------------
 Angular
 │
 ├── 1. What is Angular?
