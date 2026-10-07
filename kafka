@@ -1,0 +1,28 @@
+
+D:\Kafka\kafka_2.12-3.9.2\ ---->open cmd on that folder
+	|
+bin\windows\kafka-storage.bat random-uuid ------> paste
+	|
+3prTs1b9QT6GePlywNsDAg-------->random uuid generated
+
+
+bin\windows\kafka-storage.bat format -t <uuid> -c config\server.properties
+	|
+bin\windows\kafka-storage.bat format -t 3prTs1b9QT6GePlywNsDAg -c config\server.properties
+
+
+3. Start Kafka
+bin\windows\kafka-server-start.bat config\server.properties
+
+
+🔹 Verify Kafka
+bin\windows\kafka-topics.bat --list --bootstrap-server localhost:9092
+
+
+
+🔹 Create Topic
+bin\windows\kafka-topics.bat --create ^
+--topic order-events ^
+--bootstrap-server localhost:9092 ^
+--partitions 1 ^
+--replication-factor 1
