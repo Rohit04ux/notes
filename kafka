@@ -26,3 +26,9 @@ bin\windows\kafka-topics.bat --create ^
 --bootstrap-server localhost:9092 ^
 --partitions 1 ^
 --replication-factor 1
+
+
+🔹 Test Producer
+bin\windows\kafka-console-producer.bat --topic order-events --bootstrap-server localhost:9092
+🔹 Test Consumer
+bin\windows\kafka-console-consumer.bat --topic order-events --from-beginning --bootstrap-server localhost:9092
